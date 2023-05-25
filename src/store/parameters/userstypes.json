@@ -1,0 +1,14 @@
+[
+  {
+    "type": 1,
+    "name": "Administrador"
+  },
+  {
+    "type": 2,
+    "name": "Técnico"
+  },
+  {
+    "type": 3,
+    "name": "Cliente"
+  }
+]

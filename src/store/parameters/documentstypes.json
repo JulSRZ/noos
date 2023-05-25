@@ -1,0 +1,18 @@
+[
+  {
+    "id": "TI",
+    "name": "Tarjeta de Identidad"
+  },
+  {
+    "id": "CC",
+    "name": "Cédula de Ciudadanía"
+  },
+  {
+    "id": "PAS",
+    "name": "Pasaporte"
+  },
+  {
+    "id": "CE",
+    "name": "Cédula de Extranjería"
+  }
+]
