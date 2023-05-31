@@ -1,5 +1,5 @@
 <template>
-  <div class="row justify-content-lg-center">
+  <div class="row">
     <create-update-component/>
   </div>
 </template>

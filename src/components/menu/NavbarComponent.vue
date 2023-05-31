@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     async createUser() {
-      const colRef = collection(db, 'users');
+      /*const colRef = collection(db, 'users');
 
       const dataObject = {
         name: 'julian',
@@ -63,7 +63,7 @@ export default {
 
       const docRef = await addDoc(colRef, dataObject);
 
-      console.log('Documents was created with Id: ', docRef.id);
+      console.log('Documents was created with Id: ', docRef.id);*/
     },
     changeAdmin(event) {
       /*if (this.$store.state.userdata.data.rol === 1) {

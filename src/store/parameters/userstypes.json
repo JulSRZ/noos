@@ -5,10 +5,18 @@
   },
   {
     "type": 2,
-    "name": "Técnico"
+    "name": "Financiero"
   },
   {
     "type": 3,
-    "name": "Cliente"
+    "name": "Docente"
+  },
+  {
+    "type": 4,
+    "name": "Acudiente"
+  },
+  {
+    "type": 5,
+    "name": "Estudiante"
   }
 ]
