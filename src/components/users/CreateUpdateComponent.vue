@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <div class="card my-3 shadow-lg p-3 mb-1 bg-white rounded" style="max-width: 45rem;">
+  <div style="max-width: 80%">
+    <div class="table-responsive shadow-lg p-3 mb-5 bg-white rounded">
+      <div class="card" style="align-content: center">
       <div class="card-body">
         <h5 class="card-title">
           <router-link class="back" :to="{ name: 'users' }" title="Regresar" v-if="adminuser">
@@ -130,6 +131,8 @@
         </div>
       </div>
     </div>
+    </div>
+    
     <div class="col align-self-end" v-if="error">
       <div class="alert alert-danger shadow-lg p-3 mb-5 rounded my-float" role="alert">
         <h4 class="alert-heading">{{ this.erroralert.title }}</h4>
@@ -150,6 +153,7 @@
 <script>
 import doclist from "@/store/parameters/documentstypes.json";
 import userlist from "@/store/parameters/userstypes.json";
+import { myCollections } from "@/store/constants/firebaseCollections.js";
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '@/firebase/init';
 
@@ -231,7 +235,6 @@ export default {
   },
   methods: {
     checkPass() {
-      console.log('im into check pass', this.pass, '-', this.confpass)
       if (this.pass === this.confpass) {
         this.signup();
       } else {
@@ -241,11 +244,13 @@ export default {
       }
     },
     async signup() {
-      console.log('im into signup', this.user)
-      const colRef = collection(db, 'users');
-      const docRef = await addDoc(colRef, this.user);
-
-      console.log('Documents was created with Id: ', docRef.id);
+      const userCollection = collection(db, myCollections.USER_COLLECTION);
+      await addDoc(userCollection, this.user)
+      .then ((user) => {
+        console.log(user);
+        this.success = true;
+        this.cleanForm();
+      });
 
       /* firebase.auth().languageCode = "es";
        firebase

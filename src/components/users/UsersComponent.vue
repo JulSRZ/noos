@@ -36,9 +36,10 @@
               y estudiantes que posee el sistema.
             </p>
             <hr>
-            <a class="btn btn-outline-dark" style="color: #879f2d;">
+            <router-link class="btn btn-outline-dark" style="color:
+             #879f2d;" :to="{name: 'manageusers'}">
               Entrar
-            </a>
+            </router-link>
           </div>
         </div>
       </div>

@@ -36,8 +36,6 @@
 </template>
 
 <script>
-import { addDoc, collection } from 'firebase/firestore';
-import { db } from '@/firebase/init';
 
 /*eslint-disable */
 //import firebase from "firebase/compat";
@@ -52,19 +50,6 @@ export default {
     };
   },
   methods: {
-    async createUser() {
-      /*const colRef = collection(db, 'users');
-
-      const dataObject = {
-        name: 'julian',
-        cel: '123456789',
-        address: 'Av siempre viva 743'
-      };
-
-      const docRef = await addDoc(colRef, dataObject);
-
-      console.log('Documents was created with Id: ', docRef.id);*/
-    },
     changeAdmin(event) {
       /*if (this.$store.state.userdata.data.rol === 1) {
         this.adminuser = true;
@@ -81,7 +66,7 @@ export default {
     },
   },
   created() {
-    this.createUser();
+    
   },
   beforeCreate(event) {
     /*firebase.auth().onAuthStateChanged((user) => {
