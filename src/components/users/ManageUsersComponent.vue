@@ -37,21 +37,19 @@
             </thead>
             <tbody>
               <tr v-for="u in getlist" v-bind:key="u.doc">
-                <td>{{ u.tdoc }}</td>
+                <td>{{ u.tdoc.id }} - {{ u.tdoc.name }}</td>
                 <td>{{ u.doc }}</td>
                 <td>{{ u.name }}</td>
                 <td>{{ u.email }}</td>
                 <td>{{ u.address }}</td>
                 <td>{{ u.cel }}</td>
-                <td v-if="u.rol == 1">Administrador</td>
-                <td v-if="u.rol == 2">Técnico</td>
-                <td v-if="u.rol == 3">Cliente</td>
+                <td>{{ u.role.name }} </td>
                 <td v-if="u.uid != $store.state.userdata.data.uid" class="text-center">
                   <a title="Editar Usuario" class="edit" @click="openEdit(u)">
-                    <font-awesome-icon icon="user-edit" />
+                    <fa icon="user-edit" />
                   </a>
                   <a class="delete mx-4" title="Eliminar Usuario" @click="delUser(u)">
-                    <font-awesome-icon icon="user-minus" />
+                    <fa icon="user-minus" />
                   </a>
                 </td>
                 <td v-else>
@@ -124,11 +122,11 @@ export default {
       this.userslist = [];
       const userCollection = collection(db, myCollections.USER_COLLECTION)
       let list = await getDocs(userCollection)
-      .then((usersList => {
-        usersList.forEach((user) => {
-                this.userslist.push(user.data());
-              })
-      }));
+        .then((usersList => {
+          usersList.forEach((user) => {
+            this.userslist.push(user.data());
+          })
+        }));
       console.log(list, 'list')
       /*const query = firebase.firestore().collection('users');
       query.get()

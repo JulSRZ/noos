@@ -1,22 +1,22 @@
 [
   {
-    "type": 1,
+    "id": 1,
     "name": "Administrador"
   },
   {
-    "type": 2,
+    "id": 2,
     "name": "Financiero"
   },
   {
-    "type": 3,
+    "id": 3,
     "name": "Docente"
   },
   {
-    "type": 4,
+    "id": 4,
     "name": "Acudiente"
   },
   {
-    "type": 5,
+    "id": 5,
     "name": "Estudiante"
   }
 ]

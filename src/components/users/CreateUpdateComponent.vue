@@ -19,8 +19,8 @@
                     <span class="input-group-text">
                       <fa icon="list-alt" />
                     </span>
-                    <select class="form-select form-select-sm" id="docType" v-model="user.tdoc" required>
-                      <option v-for="doc in doctypes" v-bind:key="doc.id" :value="doc.id">
+                    <select class="form-select" id="docType" v-model="user.tdoc" required>
+                      <option v-for="doc in doctypes" v-bind:key="doc.id" :value="doc">
                         {{ doc.name }}
                       </option>
                     </select>
@@ -43,7 +43,7 @@
                     <span class="input-group-text">
                       <fa icon="user" />
                     </span>
-                    <input type="text" class="form-control form-control-sm" id="username" autocomplete="off"
+                    <input type="text" class="form-control" id="username" autocomplete="off"
                       v-model="user.name" required>
                   </div>
               </div>
@@ -53,7 +53,7 @@
                     <span class="input-group-text">
                       <fa icon="envelope" />
                     </span>
-                    <input type="email" class="form-control form-control-sm" id="email" placeholder="name@correo.com"
+                    <input type="email" class="form-control" id="email" placeholder="name@correo.com"
                       autocomplete="off" v-model="user.email" required>
                   </div>
               </div>
@@ -65,7 +65,7 @@
                     <span class="input-group-text">
                       <fa icon="phone-square" />
                     </span>
-                    <input type="tel" class="form-control form-control-sm" id="cel" autocomplete="off" maxlength="10"
+                    <input type="tel" class="form-control" id="cel" autocomplete="off" maxlength="10"
                       v-model="user.cel" required>
                   </div>
               </div>
@@ -92,7 +92,7 @@
                     <span class="input-group-text">
                       <fa icon="unlock" />
                     </span>
-                    <input type="password" class="form-control form-control-sm" id="pass" autocomplete="off" minlength="6"
+                    <input type="password" class="form-control" id="pass" autocomplete="off" minlength="6"
                       v-model="pass" required>
                   </div>
               </div>
@@ -102,7 +102,7 @@
                     <span class="input-group-text">
                       <fa icon="lock" />
                     </span>
-                    <input type="password" class="form-control form-control-sm" id="confpass" autocomplete="off"
+                    <input type="password" class="form-control" id="confpass" autocomplete="off"
                       minlength="6" v-model="confpass" required>
                   </div>
               </div>
@@ -114,9 +114,9 @@
                     <span class="input-group-text">
                       <fa icon="list-alt" />
                     </span>
-                    <select class="form-select form-select-sm" v-model="user.rol" required>
-                      <option v-for="user in usertypes" v-bind:key="user.type" :value="user.type">
-                        {{ user.name }}
+                    <select class="form-select" v-model="user.role" required>
+                      <option v-for="userType in usertypes" v-bind:key="userType.id" :value="userType">
+                        {{ userType.name }}
                       </option>
                     </select>
                   </div>
@@ -175,11 +175,17 @@ export default {
       user: {
         name: "",
         email: "",
-        tdoc: "",
+        tdoc: {
+          id: "",
+          name: ""
+        },
         doc: "",
         cel: "",
         address: "",
-        rol: 3,
+        role: {
+          id: 1,
+          name: ""
+        },
         uid: "",
       },
     };
