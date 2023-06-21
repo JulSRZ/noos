@@ -6,9 +6,9 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-//import '@/firebase/init';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
+
 
 library.add(fas);
 

@@ -37,14 +37,14 @@
             </thead>
             <tbody>
               <tr v-for="u in getlist" v-bind:key="u.doc">
-                <td>{{ u.tdoc.id }} - {{ u.tdoc.name }}</td>
-                <td>{{ u.doc }}</td>
-                <td>{{ u.name }}</td>
-                <td>{{ u.email }}</td>
-                <td>{{ u.address }}</td>
-                <td>{{ u.cel }}</td>
-                <td>{{ u.role.name }} </td>
-                <td v-if="u.uid != $store.state.userdata.data.uid" class="text-center">
+                <td>{{ u.data().tdoc.id }} - {{ u.data().tdoc.name }}</td>
+                <td>{{ u.data().doc }}</td>
+                <td>{{ u.data().name }}</td>
+                <td>{{ u.data().email }}</td>
+                <td>{{ u.data().address }}</td>
+                <td>{{ u.data().cel }}</td>
+                <td>{{ u.data().role.name }} </td>
+                <td v-if="u.data().uid != $store.state.userdata.data.uid" class="text-center">
                   <a title="Editar Usuario" class="edit" @click="openEdit(u)">
                     <fa icon="user-edit" />
                   </a>
@@ -77,9 +77,8 @@
 </template>
 
 <script>
-import { myCollections } from "@/store/constants/firebaseCollections.js";
-import { getDocs, collection } from 'firebase/firestore';
-import { db } from '@/firebase/init';
+import UserServices from '@/services/user/UsersServices.js';
+import Swal from 'sweetalert2';
 
 export default {
   name: "ManageUsersComponent",
@@ -100,7 +99,7 @@ export default {
   },
   computed: {
     getlist() {
-      return this.userslist.filter((item) => item.email.toLowerCase().includes(this.search.toLowerCase()));
+      return this.userslist.filter((item) => item.data().email.toLowerCase().includes(this.search.toLowerCase()));
     },
   },
   watch: {
@@ -120,14 +119,12 @@ export default {
   methods: {
     async loadData() {
       this.userslist = [];
-      const userCollection = collection(db, myCollections.USER_COLLECTION)
-      let list = await getDocs(userCollection)
+      UserServices.getAll()
         .then((usersList => {
           usersList.forEach((user) => {
-            this.userslist.push(user.data());
+            this.userslist.push(user);
           })
-        }));
-      console.log(list, 'list')
+        }));;
       /*const query = firebase.firestore().collection('users');
       query.get()
             .then((data) => {
@@ -161,7 +158,28 @@ export default {
       $('#editUserModal')
           .modal('show');*/
     },
-    delUser(user) {
+    delUser(doc) {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: 'DimGray',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          UserServices.delete(doc.id)
+            .then(() => {
+              Swal.fire(
+                'Deleted!',
+                'The user has been deleted',
+                'success'
+              )
+              .then(() => this.loadData());
+            });
+        }
+      })
       /*console.log(user.uid);
       console.log(user.email);
       admin.auth().getUser(user.uid)

@@ -2,18 +2,18 @@
   <div style="max-width: 80%">
     <div class="table-responsive shadow-lg p-3 mb-5 bg-white rounded">
       <div class="card" style="align-content: center">
-      <div class="card-body">
-        <h5 class="card-title">
-          <router-link class="back" :to="{ name: 'users' }" title="Regresar" v-if="adminuser">
-            <fa icon="arrow-circle-left" />
-          </router-link>
-          {{ titlelb }}
-        </h5>
-        <h6 class="card-subtitle mb-2 text-muted">Recuerde que <i class="req">*</i> son campos obligatorios</h6>
         <div class="card-body">
-          <form @submit.prevent="checkPass">
-            <div class="row mb-2">
-              <div class="col-sm">
+          <h5 class="card-title">
+            <router-link class="back" :to="{ name: 'users' }" title="Regresar" v-if="adminuser">
+              <fa icon="arrow-circle-left" />
+            </router-link>
+            {{ titlelb }}
+          </h5>
+          <h6 class="card-subtitle mb-2 text-muted">Recuerde que <i class="req">*</i> son campos obligatorios</h6>
+          <div class="card-body">
+            <form @submit.prevent="checkPass">
+              <div class="row mb-2">
+                <div class="col-sm">
                   <label class="form-label" for="docType">Tipo de Documento</label> <i class="req">*</i>
                   <div class="input-group">
                     <span class="input-group-text">
@@ -25,51 +25,50 @@
                       </option>
                     </select>
                   </div>
-              </div>
-              <div class="col-sm">
-                <label class="form-label" for="doc">Documento de Identidad</label> <i class="req">*</i>
-                <div class="input-group input-group-sm">
-                  <span class="input-group-text">
-                    <fa icon="address-card" />
-                  </span>
-                  <input type="text" class="form-control" id="doc" autocomplete="off" v-model="user.doc" required>
+                </div>
+                <div class="col-sm">
+                  <label class="form-label" for="doc">Documento de Identidad</label> <i class="req">*</i>
+                  <div class="input-group input-group-sm">
+                    <span class="input-group-text">
+                      <fa icon="address-card" />
+                    </span>
+                    <input type="text" class="form-control" id="doc" autocomplete="off" v-model="user.doc" required>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-sm">
+              <div class="row mb-2">
+                <div class="col-sm">
                   <label class="form-label" for="username">Nombre</label> <i class="req">*</i>
                   <div class="input-group">
                     <span class="input-group-text">
                       <fa icon="user" />
                     </span>
-                    <input type="text" class="form-control" id="username" autocomplete="off"
-                      v-model="user.name" required>
+                    <input type="text" class="form-control" id="username" autocomplete="off" v-model="user.name" required>
                   </div>
-              </div>
-              <div class="col-sm">
+                </div>
+                <div class="col-sm">
                   <label class="form-label" for="email">E-mail</label> <i class="req">*</i>
                   <div class="input-group">
                     <span class="input-group-text">
                       <fa icon="envelope" />
                     </span>
-                    <input type="email" class="form-control" id="email" placeholder="name@correo.com"
-                      autocomplete="off" v-model="user.email" required>
+                    <input type="email" class="form-control" id="email" placeholder="name@correo.com" autocomplete="off"
+                      v-model="user.email" required>
                   </div>
+                </div>
               </div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-sm">
+              <div class="row mb-2">
+                <div class="col-sm">
                   <label class="form-label" for="cel">Celular</label> <i class="req">*</i>
                   <div class="input-group">
                     <span class="input-group-text">
                       <fa icon="phone-square" />
                     </span>
-                    <input type="tel" class="form-control" id="cel" autocomplete="off" maxlength="10"
-                      v-model="user.cel" required>
+                    <input type="tel" class="form-control" id="cel" autocomplete="off" maxlength="10" v-model="user.cel"
+                      required>
                   </div>
-              </div>
-              <div class="col-sm">
+                </div>
+                <div class="col-sm">
                   <label class="form-label" for="dir">Dirección</label> <i class="req">*</i>
                   <!--a id="infoDirPop" tabindex="0" class="btn btn-sm btn-link infocol"
                        role="button" data-toggle="popover" data-trigger="focus"
@@ -83,32 +82,32 @@
                     <input type="text" class="form-control form-control-sm" id="dir"
                       placeholder="Calle 1 # 2 - 3 Apto:123" autocomplete="off" v-model="user.address" required>
                   </div>
+                </div>
               </div>
-            </div>
-            <div class="row mb-2">
-              <div class="col-sm">
+              <div class="row mb-2">
+                <div class="col-sm">
                   <label class="form-label" for="pass">Contraseña</label> <i class="req">*</i>
                   <div class="input-group">
                     <span class="input-group-text">
                       <fa icon="unlock" />
                     </span>
-                    <input type="password" class="form-control" id="pass" autocomplete="off" minlength="6"
-                      v-model="pass" required>
+                    <input type="password" class="form-control" id="pass" autocomplete="off" minlength="6" v-model="pass"
+                      required>
                   </div>
-              </div>
-              <div class="col-sm">
+                </div>
+                <div class="col-sm">
                   <label class="form-label" for="confpass">Confirmar Contraseña</label> <i class="req">*</i>
                   <div class="input-group">
                     <span class="input-group-text">
                       <fa icon="lock" />
                     </span>
-                    <input type="password" class="form-control" id="confpass" autocomplete="off"
-                      minlength="6" v-model="confpass" required>
+                    <input type="password" class="form-control" id="confpass" autocomplete="off" minlength="6"
+                      v-model="confpass" required>
                   </div>
+                </div>
               </div>
-            </div>
-            <div class="row justify-content-lg-center" v-if="adminuser">
-              <div class="col-sm">
+              <div class="row justify-content-lg-center" v-if="adminuser">
+                <div class="col-sm">
                   <label class="form-label">Tipo de Usuario</label> <i class="req">*</i>
                   <div class="input-group">
                     <span class="input-group-text">
@@ -120,19 +119,19 @@
                       </option>
                     </select>
                   </div>
+                </div>
               </div>
-            </div>
-            <hr>
-            <button class="btn btn-outline-success" type="submit">
-              <fa v-if="adminuser" icon="user-plus" />
-              {{ buttonlb }}
-            </button>
-          </form>
+              <hr>
+              <button class="btn btn-outline-success" type="submit">
+                <fa v-if="adminuser" icon="user-plus" />
+                {{ buttonlb }}
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-    </div>
-    
+
     <div class="col align-self-end" v-if="error">
       <div class="alert alert-danger shadow-lg p-3 mb-5 rounded my-float" role="alert">
         <h4 class="alert-heading">{{ this.erroralert.title }}</h4>
@@ -151,11 +150,10 @@
 </template>
   
 <script>
+import UserServices from '@/services/user/UsersServices.js';
 import doclist from "@/store/parameters/documentstypes.json";
 import userlist from "@/store/parameters/userstypes.json";
-import { myCollections } from "@/store/constants/firebaseCollections.js";
-import { addDoc, collection } from 'firebase/firestore';
-import { db } from '@/firebase/init';
+import Swal from 'sweetalert2';
 
 export default {
   name: "CreateUpdateUserComponent",
@@ -250,13 +248,16 @@ export default {
       }
     },
     async signup() {
-      const userCollection = collection(db, myCollections.USER_COLLECTION);
-      await addDoc(userCollection, this.user)
-      .then ((user) => {
-        console.log(user);
-        this.success = true;
-        this.cleanForm();
-      });
+      UserServices.create(this.user)
+        .then(() => {
+          Swal.fire({
+            title: 'Created!',
+            text: "The user has been created",
+            icon: 'success',
+            confirmButtonColor: '#42b983'
+          });
+          this.cleanForm();
+        });
 
       /* firebase.auth().languageCode = "es";
        firebase
