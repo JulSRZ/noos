@@ -1,5 +1,5 @@
 import { myCollections } from "@/store/constants/firebaseCollections.js";
-import { doc, getDocs, addDoc, deleteDoc, collection } from 'firebase/firestore';
+import { doc, getDocs, addDoc, deleteDoc, updateDoc, collection } from 'firebase/firestore';
 import { db } from '@/firebase/init';
 
 const userCollection = collection(db, myCollections.USER_COLLECTION)
@@ -13,13 +13,12 @@ class UserServices {
     return await addDoc(userCollection, user);
   }
 
-  update(key, value) {
-    return userCollection.child(key).update(value);
+  async update(user) {
+    return await updateDoc(doc(db, myCollections.USER_COLLECTION, user.id), user);
   }
 
-  async delete(id) {
-    //return await deleteDoc(userCollection, doc.id);
-    return await deleteDoc(doc(db, myCollections.USER_COLLECTION, id));
+  async delete(key) {
+    return await deleteDoc(doc(db, myCollections.USER_COLLECTION, key));
   }
 }
 

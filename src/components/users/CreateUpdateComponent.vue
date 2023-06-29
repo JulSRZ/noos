@@ -1,173 +1,159 @@
 <template>
-  <div style="max-width: 80%">
-    <div class="table-responsive shadow-lg p-3 mb-5 bg-white rounded">
-      <div class="card" style="align-content: center">
-        <div class="card-body">
-          <h5 class="card-title">
-            <router-link class="back" :to="{ name: 'users' }" title="Regresar" v-if="adminuser">
-              <fa icon="arrow-circle-left" />
-            </router-link>
-            {{ titlelb }}
-          </h5>
-          <h6 class="card-subtitle mb-2 text-muted">Recuerde que <i class="req">*</i> son campos obligatorios</h6>
-          <div class="card-body">
-            <form @submit.prevent="checkPass">
-              <div class="row mb-2">
-                <div class="col-sm">
-                  <label class="form-label" for="docType">Tipo de Documento</label> <i class="req">*</i>
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <fa icon="list-alt" />
-                    </span>
-                    <select class="form-select" id="docType" v-model="user.tdoc" required>
-                      <option v-for="doc in doctypes" v-bind:key="doc.id" :value="doc">
-                        {{ doc.name }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="col-sm">
-                  <label class="form-label" for="doc">Documento de Identidad</label> <i class="req">*</i>
-                  <div class="input-group input-group-sm">
-                    <span class="input-group-text">
-                      <fa icon="address-card" />
-                    </span>
-                    <input type="text" class="form-control" id="doc" autocomplete="off" v-model="user.doc" required>
-                  </div>
-                </div>
+  <div class="card shadow-lg bg-white rounded" style="align-content: center">
+    <div class="card-body">
+      <h5 class="card-title" v-if="!editUser">
+        <router-link class="back" :to="{ name: 'users' }" title="Regresar">
+          <fa icon="arrow-circle-left" />
+        </router-link>
+        {{ titlelb }}
+      </h5>
+      <h6 class="card-subtitle mb-2 text-muted">Recuerde que <i class="req">*</i> son campos obligatorios</h6>
+      <div class="card-body">
+        <form @submit.prevent="checkPass">
+          <div class="row mb-2">
+            <div class="col-sm">
+              <label class="form-label" for="docType">Tipo de Documento</label> <i class="req">*</i>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <fa icon="list-alt" />
+                </span>
+                <select class="form-select" id="docType" v-model="user.tdoc" required :disabled="editUser == true">
+                  <option v-for="doc in doctypes" v-bind:key="doc.id" :value="doc">
+                    {{ doc.name }}
+                  </option>
+                </select>
               </div>
-              <div class="row mb-2">
-                <div class="col-sm">
-                  <label class="form-label" for="username">Nombre</label> <i class="req">*</i>
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <fa icon="user" />
-                    </span>
-                    <input type="text" class="form-control" id="username" autocomplete="off" v-model="user.name" required>
-                  </div>
-                </div>
-                <div class="col-sm">
-                  <label class="form-label" for="email">E-mail</label> <i class="req">*</i>
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <fa icon="envelope" />
-                    </span>
-                    <input type="email" class="form-control" id="email" placeholder="name@correo.com" autocomplete="off"
-                      v-model="user.email" required>
-                  </div>
-                </div>
+            </div>
+            <div class="col-sm">
+              <label class="form-label" for="doc">Documento de Identidad</label> <i class="req">*</i>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <fa icon="address-card" />
+                </span>
+                <input type="text" class="form-control" id="doc" autocomplete="off" v-model="user.doc" required
+                  :disabled="editUser == true">
               </div>
-              <div class="row mb-2">
-                <div class="col-sm">
-                  <label class="form-label" for="cel">Celular</label> <i class="req">*</i>
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <fa icon="phone-square" />
-                    </span>
-                    <input type="tel" class="form-control" id="cel" autocomplete="off" maxlength="10" v-model="user.cel"
-                      required>
-                  </div>
-                </div>
-                <div class="col-sm">
-                  <label class="form-label" for="dir">Dirección</label> <i class="req">*</i>
-                  <!--a id="infoDirPop" tabindex="0" class="btn btn-sm btn-link infocol"
-                       role="button" data-toggle="popover" data-trigger="focus"
-                       style="color: #6c757d">
-                      <fa icon="info-circle"/>
-                    </a-->
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <fa icon="map-marker-alt" />
-                    </span>
-                    <input type="text" class="form-control form-control-sm" id="dir"
-                      placeholder="Calle 1 # 2 - 3 Apto:123" autocomplete="off" v-model="user.address" required>
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col-sm">
-                  <label class="form-label" for="pass">Contraseña</label> <i class="req">*</i>
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <fa icon="unlock" />
-                    </span>
-                    <input type="password" class="form-control" id="pass" autocomplete="off" minlength="6" v-model="pass"
-                      required>
-                  </div>
-                </div>
-                <div class="col-sm">
-                  <label class="form-label" for="confpass">Confirmar Contraseña</label> <i class="req">*</i>
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <fa icon="lock" />
-                    </span>
-                    <input type="password" class="form-control" id="confpass" autocomplete="off" minlength="6"
-                      v-model="confpass" required>
-                  </div>
-                </div>
-              </div>
-              <div class="row justify-content-lg-center" v-if="adminuser">
-                <div class="col-sm">
-                  <label class="form-label">Tipo de Usuario</label> <i class="req">*</i>
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <fa icon="list-alt" />
-                    </span>
-                    <select class="form-select" v-model="user.role" required>
-                      <option v-for="userType in usertypes" v-bind:key="userType.id" :value="userType">
-                        {{ userType.name }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <hr>
-              <button class="btn btn-outline-success" type="submit">
-                <fa v-if="adminuser" icon="user-plus" />
-                {{ buttonlb }}
-              </button>
-            </form>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="col align-self-end" v-if="error">
-      <div class="alert alert-danger shadow-lg p-3 mb-5 rounded my-float" role="alert">
-        <h4 class="alert-heading">{{ this.erroralert.title }}</h4>
-        <label>{{ this.erroralert.message }}</label>
-      </div>
-    </div>
-    <div class="col align-self-end" v-if="success">
-      <div class="alert alert-success shadow-lg rounded my-float" role="alert">
-        <h4 class="alert-heading">Listo!</h4>
-        <label>Estás registrado correctamente.</label>
-        <hr>
-        <label class="mb-0">Hemos enviado un correo electrónico para tu verificación.</label>
+          <div class="row mb-2">
+            <div class="col-sm">
+              <label class="form-label" for="username">Nombre</label> <i class="req">*</i>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <fa icon="user" />
+                </span>
+                <input type="text" class="form-control" id="username" autocomplete="off" v-model="user.name" required>
+              </div>
+            </div>
+            <div class="col-sm">
+              <label class="form-label" for="email">E-mail</label> <i class="req">*</i>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <fa icon="envelope" />
+                </span>
+                <input type="email" class="form-control" id="email" placeholder="name@correo.com" autocomplete="off"
+                  v-model="user.email" required>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-2">
+            <div class="col-sm">
+              <label class="form-label" for="cel">Celular</label> <i class="req">*</i>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <fa icon="phone-square" />
+                </span>
+                <input type="tel" class="form-control" id="cel" autocomplete="off" maxlength="10" v-model="user.cel"
+                  required>
+              </div>
+            </div>
+            <div class="col-sm">
+              <label class="form-label" for="dir">Dirección</label> <i class="req">*</i>
+              <a id="infoDirPop" tabindex="0" class="btn btn-sm btn-link infocol" role="button" data-toggle="popover"
+                data-trigger="focus" style="color: #6c757d">
+                <fa icon="info-circle" />
+              </a>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <fa icon="map-marker-alt" />
+                </span>
+                <input type="text" class="form-control" id="dir" placeholder="Calle 1 # 2 - 3 Apto:123" autocomplete="off"
+                  v-model="user.address" required>
+              </div>
+            </div>
+          </div>
+          <div class="row mb-2" v-if="!editUser">
+            <div class="col-sm">
+              <label class="form-label" for="pass">Contraseña</label> <i class="req">*</i>
+              <a id="infoConPop" tabindex="0" class="btn btn-sm btn-link infocol" role="button" data-toggle="popover"
+                data-trigger="focus" style="color: #6c757d">
+                <fa icon="info-circle" />
+              </a>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <fa icon="unlock" />
+                </span>
+                <input type="password" class="form-control" id="pass" autocomplete="off" minlength="6" v-model="pass"
+                  required>
+              </div>
+            </div>
+            <div class="col-sm">
+              <label class="form-label" for="confpass">Confirmar Contraseña</label> <i class="req">*</i>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <fa icon="lock" />
+                </span>
+                <input type="password" class="form-control" id="confpass" autocomplete="off" minlength="6"
+                  v-model="confpass" required>
+              </div>
+            </div>
+          </div>
+          <div class="row justify-content-lg-center">
+            <div class="col-sm">
+              <label class="form-label">Tipo de Usuario</label> <i class="req">*</i>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <fa icon="list-alt" />
+                </span>
+                <select class="form-select" v-model="user.role" required>
+                  <option v-for="userType in usertypes" v-bind:key="userType.id" :value="userType">
+                    {{ userType.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <button class="btn btn-outline-success" type="submit">
+            <fa v-if="adminuser" icon="user-plus" />
+            <fa icon="plus" v-if="!editUser" />
+            <fa icon="edit" v-else />
+            {{ buttonlb }}
+          </button>
+        </form>
       </div>
     </div>
   </div>
 </template>
   
 <script>
-import UserServices from '@/services/user/UsersServices.js';
+import UserServices from '@/common/services/user/UsersServices.js';
 import doclist from "@/store/parameters/documentstypes.json";
 import userlist from "@/store/parameters/userstypes.json";
 import Swal from 'sweetalert2';
+import * as bootstrap from 'bootstrap';
 
 export default {
   name: "CreateUpdateUserComponent",
+  props: {
+    userdata: {},
+  },
   data() {
     return {
-      erroralert: {
-        title: "",
-        message: "",
-      },
       titlelb: "Registro de Usuario",
       buttonlb: "Registrarme",
       adminuser: false,
-      success: false,
-      error: false,
+      editUser: false,
       pass: "",
       confpass: "",
       user: {
@@ -196,102 +182,84 @@ export default {
       return userlist.map((user) => user);
     }
   },
-  watch: {
-    success(val) {
-      setTimeout(() => {
-        if (val) this.success = false;
-        this.$router.push({ name: 'home' });
-        location.reload();
-      }, 4000);
-    },
-    error(val) {
-      setTimeout(() => {
-        if (val) this.error = false;
-      }, 3000);
-    },
-  },
   created() {
-    //if (this.$store.state.userdata.data.rol === 1) {
-    this.adminuser = true;
     this.buttonlb = "Agregar Usuario";
-    this.titlelb = "Agregar un Usuario"
-    //}
+    this.titlelb = "Agregar un Usuario";
   },
   mounted() {
-    /*const popover = new Popover('.popover-dismiss', {
-      trigger: 'focus'
-    });*/
+    new bootstrap.Popover('#infoDirPop', {
+      container: 'body',
+      delay: { "show": 200, "hide": 200 },
+      title: 'Parámetros Dirección',
+      content: 'Por favor ingrese su dirección completa, incluyendo apartamento y/o torre.',
+      animation: true,
+      trigger: 'focus',
+      customClass: 'custom-popover'
+    })
 
-    // eslint-disable-next-line no-undef
-    /* $('#infoConPop').popover({
-       container: 'body',
-       delay: {"show": 200, "hide": 200},
-       title: 'Parámetros Contraseña',
-       content: 'Debe tener mínimo 6 caracteres.'
-     });
-     // eslint-disable-next-line no-undef
-     $('#infoDirPop').popover({
-       container: 'body',
-       delay: {"show": 200, "hide": 200},
-       title: 'Parámetros Dirección',
-       content: 'Por favor ingrese su dirección completa, incluyendo apartamento y/o torre.'
-     });*/
+    new bootstrap.Popover('#infoConPop', {
+      container: 'body',
+      delay: { "show": 200, "hide": 200 },
+      title: 'Parámetros Contraseña',
+      content: 'Debe tener mínimo 6 caracteres.',
+      animation: true,
+      trigger: 'focus',
+      customClass: 'custom-popover'
+    })
+  },
+  watch: {
+    userdata: function (newValue) {
+      if (newValue) {
+        this.user = this.userdata;
+        this.editUser = true;
+        this.buttonlb = "Editar Usuario";
+      }
+    }
   },
   methods: {
     checkPass() {
       if (this.pass === this.confpass) {
-        this.signup();
+        this.send();
       } else {
         this.erroralert.title = "Contraseña no verificada";
         this.erroralert.message = "Por favor verifique que las contraseñas coincidan";
         this.error = true;
       }
     },
-    async signup() {
-      UserServices.create(this.user)
-        .then(() => {
-          Swal.fire({
-            title: 'Created!',
-            text: "The user has been created",
-            icon: 'success',
-            confirmButtonColor: '#42b983'
-          });
-          this.cleanForm();
-        });
-
-      /* firebase.auth().languageCode = "es";
-       firebase
-           .auth()
-           .createUserWithEmailAndPassword(this.user.email, this.pass)
-           .then((user) => {
-             this.user.uid = user.user.uid;
-             firebase.firestore().collection('users').doc(user.user.uid).set(this.user);
-             // update user
-             user.user
-                 .updateProfile({
-                   displayName: this.user.name
-                 }).then(() => {
-               this.success = true;
-               this.cleanForm();
-             }).catch((error) => {
-               console.log(error);
-             });
- 
-             //send verification email
-             user.user
-                 .sendEmailVerification();
-           })
-           .catch(error => {
-             console.log("Failed!", error);
-             if (error.code === "auth/email-already-in-use") {
-               this.erroralert.title = "Ups!";
-               this.erroralert.message = "Este correo ya se encuentra registrado.";
-             } else {
-               this.erroralert.title = "Ups!";
-               this.erroralert.message = "Hubo un problema al hacer el registro, por favor intentalo de nuevo más tarde.";
-             }
-             this.error = true;
-           });*/
+    async send() {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: this.editUser ? 'You will edit the user' : 'You will add a new user',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#42b983',
+        cancelButtonColor: '#d33',
+        confirmButtonText: this.editUser ? 'Yes, edit it!' : 'Yes, create it!',
+        showLoaderOnConfirm: true
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await this.confirmSend().then(() => {
+            Swal.fire({
+              title: this.editUser ? 'Edited!' : 'Created!',
+              text: this.editUser ? 'The user has been edited' : 'The user has been created',
+              icon: 'success',
+              confirmButtonColor: '#42b983'
+            });
+            if (this.editUser)
+              this.$emit('updateDone');
+            else
+              this.cleanForm();
+          })
+        }
+      });
+    },
+    async confirmSend() {
+      return new Promise(resolve => {
+        if (this.editUser)
+          UserServices.update(this.user).then(() => resolve());
+        else
+          UserServices.create(this.user).then(() => resolve());
+      });
     },
     cleanForm() {
       this.user.name = "";
@@ -328,8 +296,8 @@ export default {
 
 .custom-popover {
   --bs-popover-max-width: 200px;
-  --bs-popover-border-color: var(--bs-primary);
-  --bs-popover-header-bg: var(--bs-primary);
+  --bs-popover-border-color: #879f2d;
+  --bs-popover-header-bg: #879f2d;
   --bs-popover-header-color: var(--bs-white);
   --bs-popover-body-padding-x: 1rem;
   --bs-popover-body-padding-y: .5rem;

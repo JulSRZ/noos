@@ -1,0 +1,211 @@
+[
+    {
+        "code": "K1",
+        "group": {
+            "id": "PRE",
+            "description": "Pre Jardin"
+        },
+        "description": "Kinder A"
+    },
+    {
+        "code": "K2",
+        "group": {
+            "id": "PRE",
+            "description": "Pre Jardin"
+        },
+        "description": "Kinder B"
+    },
+    {
+        "code": "T1",
+        "group": {
+            "id": "PRE",
+            "description": "Pre Jardin"
+        },
+        "description": "Transición A"
+    },
+    {
+        "code": "T2",
+        "group": {
+            "id": "PRE",
+            "description": "Pre Jardin"
+        },
+        "description": "Transición B"
+    },
+    {
+        "code": "P1",
+        "group": {
+            "id": "PRI",
+            "description": "Primaria"
+        },
+        "description": "Primero A"
+    },
+    {
+        "code": "P2",
+        "group": {
+            "id": "PRI",
+            "description": "Primaria"
+        },
+        "description": "Primero B"
+    },
+    {
+        "code": "S1",
+        "group": {
+            "id": "PRI",
+            "description": "Primaria"
+        },
+        "description": "Segundo A"
+    },
+    {
+        "code": "S2",
+        "group": {
+            "id": "PRI",
+            "description": "Primaria"
+        },
+        "description": "Segundo B"
+    },
+    {
+        "code": "T1",
+        "group": {
+            "id": "PRI",
+            "description": "Primaria"
+        },
+        "description": "Tercero A"
+    },
+    {
+        "code": "T2",
+        "group": {
+            "id": "PRI",
+            "description": "Primaria"
+        },
+        "description": "Tercero B"
+    },
+    {
+        "code": "C1",
+        "group": {
+            "id": "PRI",
+            "description": "Primaria"
+        },
+        "description": "Cuarto A"
+    },
+    {
+        "code": "C2",
+        "group": {
+            "id": "PRI",
+            "description": "Primaria"
+        },
+        "description": "Cuarto B"
+    },
+    {
+        "code": "Q1",
+        "group": {
+            "id": "PRI",
+            "description": "Primaria"
+        },
+        "description": "Quinto A"
+    },
+    {
+        "code": "Q2",
+        "group": {
+            "id": "PRI",
+            "description": "Primaria"
+        },
+        "description": "Quinto B"
+    },
+    {
+        "code": "X1",
+        "group": {
+            "id": "PRI",
+            "description": "Bachillerato"
+        },
+        "description": "Sexto A"
+    },
+    {
+        "code": "X2",
+        "group": {
+            "id": "PRI",
+            "description": "Bachillerato"
+        },
+        "description": "Sexto B"
+    },
+    {
+        "code": "P1",
+        "group": {
+            "id": "BAC",
+            "description": "Bachillerato"
+        },
+        "description": "Séptimo A"
+    },
+    {
+        "code": "P2",
+        "group": {
+            "id": "BAC",
+            "description": "Bachillerato"
+        },
+        "description": "Séptimo B"
+    },
+    {
+        "code": "O1",
+        "group": {
+            "id": "BAC",
+            "description": "Bachillerato"
+        },
+        "description": "Octavo A"
+    },
+    {
+        "code": "O2",
+        "group": {
+            "id": "BAC",
+            "description": "Bachillerato"
+        },
+        "description": "Octavo B"
+    },
+    {
+        "code": "N1",
+        "group": {
+            "id": "BAC",
+            "description": "Bachillerato"
+        },
+        "description": "Noveno A"
+    },
+    {
+        "code": "N2",
+        "group": {
+            "id": "BAC",
+            "description": "Bachillerato"
+        },
+        "description": "Noveno B"
+    },
+    {
+        "code": "D1",
+        "group": {
+            "id": "BAC",
+            "description": "Bachillerato"
+        },
+        "description": "Décimo A"
+    },
+    {
+        "code": "D2",
+        "group": {
+            "id": "BAC",
+            "description": "Bachillerato"
+        },
+        "description": "Décimo B"
+    },
+    {
+        "code": "Y1",
+        "group": {
+            "id": "BAC",
+            "description": "Bachillerato"
+        },
+        "description": "Once A"
+    },
+    {
+        "code": "Y2",
+        "group": {
+            "id": "BAC",
+            "description": "Bachillerato"
+        },
+        "description": "Once B"
+    }
+    
+]
