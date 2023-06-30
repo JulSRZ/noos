@@ -1,0 +1,14 @@
+[
+    {
+        "code": "PRE",
+        "description": "Pre Jardin"
+    },
+    {
+        "code": "PRI",
+        "description": "Primaria"
+    },
+    {
+        "code": "BAC",
+        "description": "Bachillerato"
+    }
+]

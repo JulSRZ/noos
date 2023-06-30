@@ -1,5 +1,5 @@
 import { myCollections } from "@/store/constants/firebaseCollections.js";
-import { doc, getDocs, addDoc, deleteDoc, updateDoc, collection } from 'firebase/firestore';
+import { doc, getDocs, addDoc, deleteDoc, updateDoc, collection, query, where, and, getDoc } from 'firebase/firestore';
 import { db } from '@/firebase/init';
 
 const userCollection = collection(db, myCollections.USER_COLLECTION)
@@ -7,6 +7,12 @@ const userCollection = collection(db, myCollections.USER_COLLECTION)
 class UserServices {
   async getAll() {
     return await getDocs(userCollection);
+  }
+
+  async getStudentByDoc(doc) {
+    //this.userCollection.whe
+    const q = query(userCollection, where('doc', '==', doc));
+    return await getDocs(q);
   }
 
   async create(user) {

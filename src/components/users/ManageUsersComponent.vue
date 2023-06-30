@@ -15,7 +15,7 @@
             <div class="col-md-4"></div>
             <div class="col-sm justify-content-lg-right">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Digita el correo electrónico del usuario"
+                <input type="text" class="form-control" placeholder="Digita el número de documento del usuario"
                   aria-label="Recipient's username" aria-describedby="basic-addon2" id="search" v-model="search">
                 <span class="input-group-text search">
                   <fa icon="search" />
@@ -35,6 +35,7 @@
                 <th scope="col">Dirección</th>
                 <th scope="col">Celular</th>
                 <th scope="col">Tipo</th>
+                <th scope="col">Curso</th>
                 <th scope="col">Acción</th>
               </tr>
             </thead>
@@ -47,12 +48,18 @@
                 <td>{{ u.address }}</td>
                 <td>{{ u.cel }}</td>
                 <td>{{ u.role.name }} </td>
+                <td> {{ u.role.id == 5 ? u.course.description : 'N/A' }} </td>
                 <td v-if="u.uid != $store.state.userdata.data.uid" class="text-center">
-                  <a title="Editar Usuario" class="edit" @click="openEdit(u)" data-bs-toggle="modal"
+                  <a v-if="u.role.id != 1 && u.role.id != 2" class="view mx-2"
+                    :title="u.role.id == 3 ? 'Ver Cursos' : u.role.id == 4 ? 'Ver Hijos' : 'Ver Padres'"
+                    @click="openView(u)">
+                    <fa icon="eye" />
+                  </a>
+                  <a class="edit mx-2" title="Editar Usuario" @click="openEdit(u)" data-bs-toggle="modal"
                     data-bs-target="#editUserModal">
                     <fa icon="user-edit" />
                   </a>
-                  <a class="delete mx-4" title="Eliminar Usuario" @click="delUser(u)">
+                  <a class="delete mx-2" title="Eliminar Usuario" @click="delUser(u)">
                     <fa icon="user-minus" />
                   </a>
                 </td>
@@ -76,10 +83,14 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <create-update-user-component :userdata="userdata" @updateDone="updateDone" />
+            <create-update-user-component :userdata="userdata" @updateDone="updateDone()" />
           </div>
         </div>
       </div>
+    </div>
+    <div class="modal fade" id="testModal" data-keyboard="true" tabindex="-1" role="dialog"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <manage-parents-component :parents="parentsView" :isViewOnly="true" @viewOnlyEvent="parentEvent()" />
     </div>
   </div>
 </template>
@@ -88,12 +99,14 @@
 import UserServices from '@/common/services/user/UsersServices.js';
 import Swal from 'sweetalert2';
 import CreateUpdateUserComponent from './CreateUpdateComponent.vue'
+import ManageParentsComponent from './ManageParentsComponent.vue';
 import * as bootstrap from 'bootstrap';
 
 export default {
   name: "ManageUsersComponent",
   components: {
-    CreateUpdateUserComponent
+    CreateUpdateUserComponent,
+    ManageParentsComponent
   },
 
   data() {
@@ -101,9 +114,11 @@ export default {
       userslist: [],
       titlelb: "",
       userdata: {},
+      parentsView: [],
       search: "",
       isUpdate: false,
-      modal: null
+      modal: null,
+      parentModal: null,
     };
   },
   created() {
@@ -111,11 +126,12 @@ export default {
   },
   computed: {
     getlist() {
-      return this.userslist.filter((item) => item.email.toLowerCase().includes(this.search.toLowerCase()));
+      return this.userslist.filter((item) => item.doc.toLowerCase().includes(this.search.toLowerCase()));
     },
   },
   mounted() {
-    this.modal = new bootstrap.Modal('#editUserModal', {})
+    this.modal = new bootstrap.Modal('#editUserModal', {});
+    this.parentModal = new bootstrap.Modal('#testModal', {});
   },
   methods: {
     async loadData() {
@@ -126,6 +142,18 @@ export default {
             this.userslist.push({ ...user.data(), id: user.id });
           });
         }));;
+    },
+    parentEvent() {
+      this.parentModal.hide();
+    },
+    viewOnlyEvent() {
+      this.parentModal.hide();
+    },
+    openView(user) {
+      console.log(user, 'user')
+      console.log(user.parents, 'user')
+      this.parentsView = [ ...user.parents ];
+      this.parentModal.show();
     },
     openEdit(user) {
       this.userdata = { ...user };
@@ -164,6 +192,11 @@ export default {
 <style scoped>
 .back {
   color: #879f2d;
+}
+
+.view {
+  color: dimgray;
+  cursor: pointer;
 }
 
 .edit {

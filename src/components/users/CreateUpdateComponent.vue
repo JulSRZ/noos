@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow-lg bg-white rounded" style="align-content: center">
+  <div class="card shadow-lg bg-white rounded">
     <div class="card-body">
       <h5 class="card-title" v-if="!editUser">
         <router-link class="back" :to="{ name: 'users' }" title="Regresar">
@@ -122,6 +122,36 @@
                 </select>
               </div>
             </div>
+            <div class="col-sm" v-if="user.role.id == 5">
+              <label class="form-label">Curso</label> <i class="req">*</i>
+              <div class="input-group">
+                <span class="input-group-text">
+                  <fa icon="graduation-cap" />
+                </span>
+                <select class="form-select" v-model="user.course" required>
+                  <option v-for="course in courses" v-bind:key="course.code" :value="course">
+                    {{ course.description }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm" v-if="user.role.id == 3 || user.role.id == 4">
+              <div class="d-grid gap-2 mt-4" style="max-width: 95%;">
+                <button type="button" class="btn btn-primary position-relative" @click="openModal(user.role.id)">
+                  <fa :icon="user.role.id == 3 ? 'graduation-cap' : 'people-group'" /> &nbsp;
+                  <span> {{ editUser ? (user.role.id == 3 ? 'Editar Cursos' : 'Editar Hijos') :
+                    (user.role.id == 3 ? 'Agregar Cursos' : 'Agregar Hijos') }} </span>
+                  <span v-if="user.role.id == 4"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ user?.parents ? user.parents.length : 0 }} Asignados
+                  </span>
+                  <span v-if="user.role.id == 3"
+                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                    {{ user?.courses ? user.courses.length : 0 }} Asignados
+                  </span>
+                </button>
+              </div>
+            </div>
           </div>
           <hr>
           <button class="btn btn-outline-success" type="submit">
@@ -134,44 +164,59 @@
       </div>
     </div>
   </div>
+  <manage-parents-component :parents="parentsList" :isViewOnly="false" :isEdit="editUser"
+    @parentEvent="parentEvent($event)" />
 </template>
   
 <script>
+import ManageParentsComponent from './ManageParentsComponent.vue';
 import UserServices from '@/common/services/user/UsersServices.js';
 import doclist from "@/store/parameters/documentstypes.json";
 import userlist from "@/store/parameters/userstypes.json";
+import coursesList from "@/store/parameters/courses.json";
 import Swal from 'sweetalert2';
 import * as bootstrap from 'bootstrap';
 
 export default {
-  name: "CreateUpdateUserComponent",
+  name: 'CreateUpdateUserComponent',
+  components: {
+    ManageParentsComponent
+  },
   props: {
     userdata: {},
   },
+  emits: ['updateDone'],
   data() {
     return {
-      titlelb: "Registro de Usuario",
-      buttonlb: "Registrarme",
+      titlelb: '',
+      buttonlb: '',
       adminuser: false,
       editUser: false,
-      pass: "",
-      confpass: "",
+      pass: '',
+      confpass: '',
+      parentModal: null,
+      updateDoneEmit: null,
       user: {
-        name: "",
-        email: "",
+        id: '',
+        name: '',
+        email: '',
         tdoc: {
-          id: "",
-          name: ""
+          id: '',
+          name: ''
         },
-        doc: "",
-        cel: "",
-        address: "",
+        doc: '',
+        cel: '',
+        address: '',
         role: {
           id: 1,
-          name: ""
+          name: ''
         },
-        uid: "",
+        uid: '',
+        course: {},
+        courses: [],
+        parents: []
       },
+      parentsList: []
     };
   },
   computed: {
@@ -180,6 +225,9 @@ export default {
     },
     usertypes() {
       return userlist.map((user) => user);
+    },
+    courses() {
+      return coursesList.map((course) => course);
     }
   },
   created() {
@@ -187,6 +235,10 @@ export default {
     this.titlelb = "Agregar un Usuario";
   },
   mounted() {
+    this.parentModal = new bootstrap.Modal('#parentsModal', {});
+
+    //this.updateDoneEmit = defineEmits(["updateDone"]);
+
     new bootstrap.Popover('#infoDirPop', {
       container: 'body',
       delay: { "show": 200, "hide": 200 },
@@ -211,12 +263,23 @@ export default {
     userdata: function (newValue) {
       if (newValue) {
         this.user = this.userdata;
+        this.parentsList = this.userdata.parents;
         this.editUser = true;
         this.buttonlb = "Editar Usuario";
       }
     }
   },
   methods: {
+    openModal(roleId) {
+      if (roleId == 4)
+        this.parentModal.show();
+    },
+    parentEvent(event) {
+      console.log(event, 'event confirm')
+      this.user.parents = event;
+      console.log(this.user.parents, 'user parents')
+      this.parentModal.hide();
+    },
     checkPass() {
       if (this.pass === this.confpass) {
         this.send();
@@ -246,6 +309,7 @@ export default {
               confirmButtonColor: '#42b983'
             });
             if (this.editUser)
+            //this.updateDoneEmit.$emit();
               this.$emit('updateDone');
             else
               this.cleanForm();
@@ -262,14 +326,14 @@ export default {
       });
     },
     cleanForm() {
-      this.user.name = "";
-      this.user.email = "";
-      this.pass = "";
-      this.confpass = "";
-      this.user.doc = "";
-      this.user.tdoc = "";
-      this.user.cel = "";
-      this.user.address = "";
+      this.user.name = '';
+      this.user.email = '';
+      this.pass = '';
+      this.confpass = '';
+      this.user.doc = '';
+      this.user.tdoc = '';
+      this.user.cel = '';
+      this.user.address = '';
     }
   }
 }
