@@ -10,7 +10,6 @@ class UserServices {
   }
 
   async getStudentByDoc(doc) {
-    //this.userCollection.whe
     const q = query(userCollection, where('doc', '==', doc));
     return await getDocs(q);
   }

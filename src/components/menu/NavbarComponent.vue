@@ -14,15 +14,15 @@
               <fa icon="users"/> Usuarios</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link mx-2" :to="{name: 'home'}">
+            <router-link class="nav-link mx-2" :to="{name: 'notes'}">
               <fa icon="book"/> Observador</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link mx-2" :to="{name: 'home'}">
-              <fa icon="newspaper"/> Novedades</router-link>
+            <router-link class="nav-link mx-2" :to="{name: 'homeworks'}">
+              <fa icon="newspaper"/> Tareas</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link mx-2" :to="{name: 'home'}">
+            <router-link class="nav-link mx-2" :to="{name: 'financial'}">
               <fa icon="money-bill-transfer"/> Financiero</router-link>
           </li>
         </ul>

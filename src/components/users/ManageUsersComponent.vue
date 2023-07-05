@@ -49,12 +49,12 @@
                 <td>{{ u.cel }}</td>
                 <td>{{ u.role.name }} </td>
                 <td> {{ u.role.id == 5 ? u.course.description : 'N/A' }} </td>
-                <td v-if="u.uid != $store.state.userdata.data.uid" class="text-center">
-                  <a v-if="u.role.id != 1 && u.role.id != 2" class="view mx-2"
+                <td class="text-center">
+                  <!--a v-if="u.role.id != 1 && u.role.id != 2" class="view mx-2"
                     :title="u.role.id == 3 ? 'Ver Cursos' : u.role.id == 4 ? 'Ver Hijos' : 'Ver Padres'"
                     @click="openView(u)">
                     <fa icon="eye" />
-                  </a>
+                  </a-->
                   <a class="edit mx-2" title="Editar Usuario" @click="openEdit(u)" data-bs-toggle="modal"
                     data-bs-target="#editUserModal">
                     <fa icon="user-edit" />
@@ -62,9 +62,6 @@
                   <a class="delete mx-2" title="Eliminar Usuario" @click="delUser(u)">
                     <fa icon="user-minus" />
                   </a>
-                </td>
-                <td v-else>
-                  Mi usuario
                 </td>
               </tr>
             </tbody>
@@ -88,10 +85,10 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="testModal" data-keyboard="true" tabindex="-1" role="dialog"
+    <!--div class="modal fade" id="testModal" data-keyboard="true" tabindex="-1" role="dialog"
       aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <manage-parents-component :parents="parentsView" :isViewOnly="true" @viewOnlyEvent="parentEvent()" />
-    </div>
+    </div-->
   </div>
 </template>
 
@@ -131,7 +128,7 @@ export default {
   },
   mounted() {
     this.modal = new bootstrap.Modal('#editUserModal', {});
-    this.parentModal = new bootstrap.Modal('#testModal', {});
+    //this.parentModal = new bootstrap.Modal('#testModal', {});
   },
   methods: {
     async loadData() {

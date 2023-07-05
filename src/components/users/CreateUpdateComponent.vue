@@ -155,9 +155,7 @@
           </div>
           <hr>
           <button class="btn btn-outline-success" type="submit">
-            <fa v-if="adminuser" icon="user-plus" />
-            <fa icon="plus" v-if="!editUser" />
-            <fa icon="edit" v-else />
+            <fa :icon="adminuser ? 'user-plus' : !editUser ? 'plus' : 'edit'" />
             {{ buttonlb }}
           </button>
         </form>
@@ -166,10 +164,13 @@
   </div>
   <manage-parents-component :parents="parentsList" :isViewOnly="false" :isEdit="editUser"
     @parentEvent="parentEvent($event)" />
+  <manage-courses-component :courses="user.courses" :isViewOnly="false" :isEdit="editUser"
+    @coursesEvent="courseEvent($event)"/>
 </template>
   
 <script>
 import ManageParentsComponent from './ManageParentsComponent.vue';
+import ManageCoursesComponent from './ManageCoursesComponent.vue';
 import UserServices from '@/common/services/user/UsersServices.js';
 import doclist from "@/store/parameters/documentstypes.json";
 import userlist from "@/store/parameters/userstypes.json";
@@ -180,7 +181,8 @@ import * as bootstrap from 'bootstrap';
 export default {
   name: 'CreateUpdateUserComponent',
   components: {
-    ManageParentsComponent
+    ManageParentsComponent,
+    ManageCoursesComponent
   },
   props: {
     userdata: {},
@@ -195,6 +197,7 @@ export default {
       pass: '',
       confpass: '',
       parentModal: null,
+      coursesModal: null,
       updateDoneEmit: null,
       user: {
         id: '',
@@ -236,6 +239,7 @@ export default {
   },
   mounted() {
     this.parentModal = new bootstrap.Modal('#parentsModal', {});
+    this.coursesModal = new bootstrap.Modal('#coursesModal', {});
 
     //this.updateDoneEmit = defineEmits(["updateDone"]);
 
@@ -273,12 +277,16 @@ export default {
     openModal(roleId) {
       if (roleId == 4)
         this.parentModal.show();
+      if (roleId == 3)
+        this.coursesModal.show();
     },
     parentEvent(event) {
-      console.log(event, 'event confirm')
       this.user.parents = event;
-      console.log(this.user.parents, 'user parents')
       this.parentModal.hide();
+    },
+    courseEvent(event) {
+      this.user.courses = event;
+      this.coursesModal.hide();
     },
     checkPass() {
       if (this.pass === this.confpass) {
@@ -309,7 +317,7 @@ export default {
               confirmButtonColor: '#42b983'
             });
             if (this.editUser)
-            //this.updateDoneEmit.$emit();
+              //this.updateDoneEmit.$emit();
               this.$emit('updateDone');
             else
               this.cleanForm();
