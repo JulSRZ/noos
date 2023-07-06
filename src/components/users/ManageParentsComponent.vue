@@ -157,13 +157,9 @@ export default {
         searhUser() {
             UserServices.getStudentByDoc(this.search)
                 .then((result) => {
-                    console.log(result, 'result');
-                    console.log(result.size, 'result size');
                     if (result.size > 0) {
                         result.forEach((student) => {
-                            console.log(student.data(), 'student');
                             this.userToAdd = student.data();
-                            console.log(student.data());
                         });
                     } else {
                         Swal.fire({

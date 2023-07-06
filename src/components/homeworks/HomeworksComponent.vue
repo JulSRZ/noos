@@ -5,7 +5,7 @@
           <div class="card shadow-lg p-3 mb-5 bg-white rounded text-center">
             <div class="card-header">
               <h5 class="card-title" style="color: #879f2d;">
-                <fa icon="user-plus"/>
+                <fa icon="check-to-slot"/>
                 Agregar Tarea
               </h5>
             </div>
@@ -25,7 +25,7 @@
           <div class="card shadow-lg p-3 mb-5 bg-white rounded text-center">
             <div class="card-header">
               <h5 class="card-title" style="color: #879f2d;">
-                <fa icon="users-cog"/>
+                <fa icon="list-check"/>
                 Administrar Tareas
               </h5>
             </div>

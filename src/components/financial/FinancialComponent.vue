@@ -16,7 +16,7 @@
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:
-               #879f2d;" :to="{name: 'adduser'}">
+               #879f2d;" :to="{name: 'addfinancial'}">
                 Entrar
               </router-link>
             </div>
@@ -27,7 +27,7 @@
             <div class="card-header">
               <h5 class="card-title" style="color: #879f2d;">
                 <fa icon="book"/>
-                Administrar Facturas
+                Administrar Estados de Cuenta
               </h5>
             </div>
             <div class="card-body">

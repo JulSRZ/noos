@@ -24,7 +24,7 @@
             </div>
           </div>
         </div>
-        <div class="card-body">
+        <div class="card-body" style="text-align: center;">
           <table class="table table-hover table-sm table-striped">
             <thead class="back">
               <tr>

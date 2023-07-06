@@ -1,171 +1,203 @@
 <template>
   <div class="card shadow-lg bg-white rounded">
     <div class="card-body">
-      <h5 class="card-title" v-if="!editUser">
+      <h4 class="card-title" v-if="!editUser">
         <router-link class="back" :to="{ name: 'users' }" title="Regresar">
           <fa icon="arrow-circle-left" />
-        </router-link>
+        </router-link> &nbsp;
         {{ titlelb }}
-      </h5>
-      <h6 class="card-subtitle mb-2 text-muted">Recuerde que <i class="req">*</i> son campos obligatorios</h6>
-      <div class="card-body">
-        <form @submit.prevent="checkPass">
-          <div class="row mb-2">
-            <div class="col-sm">
-              <label class="form-label" for="docType">Tipo de Documento</label> <i class="req">*</i>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <fa icon="list-alt" />
-                </span>
-                <select class="form-select" id="docType" v-model="user.tdoc" required :disabled="editUser == true">
-                  <option v-for="doc in doctypes" v-bind:key="doc.id" :value="doc">
-                    {{ doc.name }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="col-sm">
-              <label class="form-label" for="doc">Documento de Identidad</label> <i class="req">*</i>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <fa icon="address-card" />
-                </span>
-                <input type="text" class="form-control" id="doc" autocomplete="off" v-model="user.doc" required
-                  :disabled="editUser == true">
-              </div>
-            </div>
-          </div>
-          <div class="row mb-2">
-            <div class="col-sm">
-              <label class="form-label" for="username">Nombre</label> <i class="req">*</i>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <fa icon="user" />
-                </span>
-                <input type="text" class="form-control" id="username" autocomplete="off" v-model="user.name" required>
-              </div>
-            </div>
-            <div class="col-sm">
-              <label class="form-label" for="email">E-mail</label> <i class="req">*</i>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <fa icon="envelope" />
-                </span>
-                <input type="email" class="form-control" id="email" placeholder="name@correo.com" autocomplete="off"
-                  v-model="user.email" required>
+      </h4>
+      <h6 class="card-subtitle text-muted" style="text-align: center;">Recuerde que <i class="req">*</i> son campos
+        obligatorios</h6>
+      <form @submit.prevent="checkPass">
+        <div class="card-body">
+          <div class="row">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title card-title-noos">Información Personal</h5>
+                <div class="row">
+                  <div class="col-sm">
+                    <label class="form-label label-title" for="docType">Tipo de Documento</label> <i class="req">*</i>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <fa icon="list-alt" />
+                      </span>
+                      <select class="form-select" id="docType" v-model="user.tdoc" required :disabled="editUser == true">
+                        <option v-for="doc in doctypes" v-bind:key="doc.id" :value="doc">
+                          {{ doc.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <label class="form-label label-title" for="doc">Documento de Identidad</label> <i class="req">*</i>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <fa icon="address-card" />
+                      </span>
+                      <input type="text" class="form-control" id="doc" autocomplete="off" v-model="user.doc" required
+                        :disabled="editUser == true">
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <label class="form-label label-title" for="username">Nombre Completo</label> <i class="req">*</i>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <fa icon="user" />
+                      </span>
+                      <input type="text" class="form-control" id="username" autocomplete="off" v-model="user.name"
+                        required>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="row mb-2">
-            <div class="col-sm">
-              <label class="form-label" for="cel">Celular</label> <i class="req">*</i>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <fa icon="phone-square" />
-                </span>
-                <input type="tel" class="form-control" id="cel" autocomplete="off" maxlength="10" v-model="user.cel"
-                  required>
-              </div>
-            </div>
-            <div class="col-sm">
-              <label class="form-label" for="dir">Dirección</label> <i class="req">*</i>
-              <a id="infoDirPop" tabindex="0" class="btn btn-sm btn-link infocol" role="button" data-toggle="popover"
-                data-trigger="focus" style="color: #6c757d">
-                <fa icon="info-circle" />
-              </a>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <fa icon="map-marker-alt" />
-                </span>
-                <input type="text" class="form-control" id="dir" placeholder="Calle 1 # 2 - 3 Apto:123" autocomplete="off"
-                  v-model="user.address" required>
-              </div>
-            </div>
-          </div>
-          <div class="row mb-2" v-if="!editUser">
-            <div class="col-sm">
-              <label class="form-label" for="pass">Contraseña</label> <i class="req">*</i>
-              <a id="infoConPop" tabindex="0" class="btn btn-sm btn-link infocol" role="button" data-toggle="popover"
-                data-trigger="focus" style="color: #6c757d">
-                <fa icon="info-circle" />
-              </a>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <fa icon="unlock" />
-                </span>
-                <input type="password" class="form-control" id="pass" autocomplete="off" minlength="6" v-model="pass"
-                  required>
-              </div>
-            </div>
-            <div class="col-sm">
-              <label class="form-label" for="confpass">Confirmar Contraseña</label> <i class="req">*</i>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <fa icon="lock" />
-                </span>
-                <input type="password" class="form-control" id="confpass" autocomplete="off" minlength="6"
-                  v-model="confpass" required>
+
+          <div class="row mt-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title card-title-noos">Información de Contacto</h5>
+                <div class="row">
+                  <div class="col-sm">
+                    <label class="form-label label-title" for="email">E-mail</label> <i class="req">*</i>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <fa icon="envelope" />
+                      </span>
+                      <input type="email" class="form-control" id="email" placeholder="name@correo.com" autocomplete="off"
+                        v-model="user.email" required>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <label class="form-label label-title" for="cel">Celular</label> <i class="req">*</i>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <fa icon="phone-square" />
+                      </span>
+                      <input type="tel" class="form-control" id="cel" autocomplete="off" maxlength="10" v-model="user.cel"
+                        required>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <label class="form-label label-title" for="dir">Dirección</label> <i class="req">*</i>
+                    <a id="infoDirPop" tabindex="0" class="btn btn-sm btn-link infocol" role="button"
+                      data-toggle="popover" data-trigger="focus" style="color: #6c757d">
+                      <fa icon="info-circle" />
+                    </a>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <fa icon="map-marker-alt" />
+                      </span>
+                      <input type="text" class="form-control" id="dir" placeholder="Calle 1 # 2 - 3 Apto:123"
+                        autocomplete="off" v-model="user.address" required>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="row justify-content-lg-center">
-            <div class="col-sm">
-              <label class="form-label">Tipo de Usuario</label> <i class="req">*</i>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <fa icon="list-alt" />
-                </span>
-                <select class="form-select" v-model="user.role" required>
-                  <option v-for="userType in usertypes" v-bind:key="userType.id" :value="userType">
-                    {{ userType.name }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="col-sm" v-if="user.role.id == 5">
-              <label class="form-label">Curso</label> <i class="req">*</i>
-              <div class="input-group">
-                <span class="input-group-text">
-                  <fa icon="graduation-cap" />
-                </span>
-                <select class="form-select" v-model="user.course" required>
-                  <option v-for="course in courses" v-bind:key="course.code" :value="course">
-                    {{ course.description }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="col-sm" v-if="user.role.id == 3 || user.role.id == 4">
-              <div class="d-grid gap-2 mt-4" style="max-width: 95%;">
-                <button type="button" class="btn btn-primary position-relative" @click="openModal(user.role.id)">
-                  <fa :icon="user.role.id == 3 ? 'graduation-cap' : 'people-group'" /> &nbsp;
-                  <span> {{ editUser ? (user.role.id == 3 ? 'Editar Cursos' : 'Editar Hijos') :
-                    (user.role.id == 3 ? 'Agregar Cursos' : 'Agregar Hijos') }} </span>
-                  <span v-if="user.role.id == 4"
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {{ user?.parents ? user.parents.length : 0 }} Asignados
-                  </span>
-                  <span v-if="user.role.id == 3"
-                    class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    {{ user?.courses ? user.courses.length : 0 }} Asignados
-                  </span>
-                </button>
+
+          <div class="row mt-3" v-if="!this.editUser">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title card-title-noos">Seguridad</h5>
+                <div class="row">
+                  <div class="col-sm">
+                    <label class="form-label label-title" for="pass">Contraseña</label> <i class="req">*</i>
+                    <a id="infoConPop" tabindex="0" class="btn btn-sm btn-link infocol" role="button"
+                      data-toggle="popover" data-trigger="focus" style="color: #6c757d">
+                      <fa icon="info-circle" />
+                    </a>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <fa icon="unlock" />
+                      </span>
+                      <input type="password" class="form-control" id="pass" autocomplete="off" minlength="6"
+                        v-model="pass" required>
+                    </div>
+                  </div>
+                  <div class="col-sm">
+                    <label class="form-label label-title" for="confpass">Confirmar Contraseña</label> <i class="req">*</i>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <fa icon="lock" />
+                      </span>
+                      <input type="password" class="form-control" id="confpass" autocomplete="off" minlength="6"
+                        v-model="confpass" required>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <hr>
+
+          <div class="row mt-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title card-title-noos">Información del Role</h5>
+                <div class="row">
+                  <div class="col-sm">
+                    <label class="form-label label-title">Tipo de Usuario</label> <i class="req">*</i>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <fa icon="list-alt" />
+                      </span>
+                      <select class="form-select" v-model="user.role" required>
+                        <option v-for="userType in usertypes" v-bind:key="userType.id" :value="userType">
+                          {{ userType.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm" v-if="user.role.id == 5">
+                    <label class="form-label label-title">Curso</label> <i class="req">*</i>
+                    <div class="input-group">
+                      <span class="input-group-text">
+                        <fa icon="graduation-cap" />
+                      </span>
+                      <select class="form-select" v-model="user.course" required>
+                        <option v-for="course in courses" v-bind:key="course.code" :value="course">
+                          {{ course.description }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-sm" v-if="user.role.id == 3 || user.role.id == 4">
+                    <div class="d-grid gap-2 mt-4" style="max-width: 95%;">
+                      <button type="button" class="btn btn-primary position-relative" @click="openModal(user.role.id)">
+                        <fa :icon="user.role.id == 3 ? 'graduation-cap' : 'people-group'" /> &nbsp;
+                        <span> {{ editUser ? (user.role.id == 3 ? 'Editar Cursos' : 'Editar Hijos') :
+                          (user.role.id == 3 ? 'Agregar Cursos' : 'Agregar Hijos') }} </span>
+                        <span v-if="user.role.id == 4"
+                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                          {{ user?.parents ? user.parents.length : 0 }} Asignados
+                        </span>
+                        <span v-if="user.role.id == 3"
+                          class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                          {{ user?.courses ? user.courses.length : 0 }} Asignados
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer" style="background-color: white; text-align: center;">
           <button class="btn btn-outline-success" type="submit">
             <fa :icon="adminuser ? 'user-plus' : !editUser ? 'plus' : 'edit'" />
             {{ buttonlb }}
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
   <manage-parents-component :parents="parentsList" :isViewOnly="false" :isEdit="editUser"
     @parentEvent="parentEvent($event)" />
   <manage-courses-component :courses="user.courses" :isViewOnly="false" :isEdit="editUser"
-    @coursesEvent="courseEvent($event)"/>
+    @coursesEvent="courseEvent($event)" />
 </template>
   
 <script>
@@ -373,5 +405,15 @@ export default {
   --bs-popover-header-color: var(--bs-white);
   --bs-popover-body-padding-x: 1rem;
   --bs-popover-body-padding-y: .5rem;
+}
+
+.label-title {
+  color: dimgray;
+  font-size: small;
+}
+
+.card-title-noos {
+  font-weight: bolder;
+  color: #879f2d;
 }
 </style>

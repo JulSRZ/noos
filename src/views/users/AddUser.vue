@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-content-lg-center my-5">
-    <create-update-component/>
+    <create-update-component />
   </div>
 </template>
 
@@ -15,6 +15,4 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
