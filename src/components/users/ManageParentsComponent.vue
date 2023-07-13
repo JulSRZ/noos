@@ -159,7 +159,17 @@ export default {
                 .then((result) => {
                     if (result.size > 0) {
                         result.forEach((student) => {
-                            this.userToAdd = student.data();
+                            if (student.data().role.id === 5)
+                                this.userToAdd = student.data();
+                            else {
+                                Swal.fire({
+                                    title: 'Usuario No Estudiante',
+                                    text: "El usuario debe ser un estudiante!",
+                                    icon: 'warning',
+                                    confirmButtonColor: 'blue',
+                                    confirmButtonText: 'Ok'
+                                });
+                            }
                         });
                     } else {
                         Swal.fire({

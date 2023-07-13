@@ -133,12 +133,12 @@
               </div>
             </div>
           </div>
-          <div class="row mt-3" v-if="this.newBill?.attendant != null">
+          <div class="row mt-3" >
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title card-title-noos">Información de (los) Hijo(s)</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                  content.</p>
+                <manage-financial-student-component :students="newBill?.attendant?.parents" :reset="resetDetail"
+                  @detailReseted="resetDetailEvent()" />
               </div>
             </div>
           </div>
@@ -170,11 +170,11 @@
     
 <script>
 import UserServices from '@/common/services/user/UsersServices.js';
+import ManageFinancialStudentComponent from './components/ManageFinancialStudentComponent.vue'
 import doclist from "@/store/parameters/documentstypes.json";
 import userlist from "@/store/parameters/userstypes.json";
 import coursesList from "@/store/parameters/courses.json";
 import Swal from 'sweetalert2';
-import * as bootstrap from 'bootstrap';
 import { format } from 'date-fns';
 
 export default {
@@ -182,9 +182,13 @@ export default {
   props: {
     userdata: {},
   },
+  components: {
+    ManageFinancialStudentComponent,
+  },
   emits: ['updateDone'],
   data() {
     return {
+      parentTest: null,
       titlelb: '',
       buttonlb: '',
       adminuser: false,
@@ -194,6 +198,7 @@ export default {
       parentModal: null,
       coursesModal: null,
       updateDoneEmit: null,
+      resetDetail: false,
       newBill: {
         attendant: null,
         creationDate: null,
@@ -204,7 +209,8 @@ export default {
         },
         daysPastDue: 0,
         amountPastDue: 0,
-        totalAmount: 1500000
+        totalAmount: 1500000,
+        studentsBill: []
       },
       user: {
         id: '',
@@ -275,6 +281,7 @@ export default {
         }).then(async (result) => {
           if (result.isConfirmed) {
             this.newBill.attendant = null;
+            this.resetDetail = true;
             this.searchUser();
           }
         });
@@ -287,13 +294,24 @@ export default {
         .then((result) => {
           if (result.size > 0) {
             result.forEach((user) => {
-              this.newBill.attendant = user.data();
-              console.log(this.newBill?.attendant, 'patern')
+              if (user.data().role.id === 4) {
+                this.newBill.attendant = user.data();
+                console.log(this.newBill?.attendant, 'attendant')
+                console.log(this.newBill.attendant.parents, 'parents')
+              } else {
+                Swal.fire({
+                  title: 'Usuario No Acudiente',
+                  text: "El usuario debe ser un acudiente!",
+                  icon: 'warning',
+                  confirmButtonColor: 'blue',
+                  confirmButtonText: 'Ok'
+                });
+              }
             });
           } else {
             Swal.fire({
-              title: 'Estudiante No Encontrado',
-              text: "Este estudiante no fue encontrado en el sistema!",
+              title: 'Acudiente No Encontrado',
+              text: "Este acudiente no fue encontrado en el sistema!",
               icon: 'warning',
               confirmButtonColor: 'blue',
               confirmButtonText: 'Ok'
@@ -315,8 +333,12 @@ export default {
         if (result.isConfirmed) {
           this.search = '';
           this.newBill.attendant = null;
+          this.resetDetail = true;
         }
       });
+    },
+    resetDetailEvent() {
+      this.resetDetail = false;
     },
     openModal(roleId) {
       if (roleId == 4)
@@ -361,7 +383,6 @@ export default {
               confirmButtonColor: '#42b983'
             });
             if (this.editUser)
-              //this.updateDoneEmit.$emit();
               this.$emit('updateDone');
             else
               this.cleanForm();
@@ -433,12 +454,12 @@ export default {
   font-size: large;
 }
 
+.div-label {
+  margin-top: -10px;
+}
+
 .card-title-noos {
   font-weight: bolder;
   color: #879f2d;
-}
-
-.div-label {
-  margin-top: -10px;
 }
 </style>
