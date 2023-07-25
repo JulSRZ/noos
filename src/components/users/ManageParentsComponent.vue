@@ -188,7 +188,6 @@ export default {
         },
         addNewUser() {
             let item = this.list.find((item) => item.doc == this.userToAdd.doc)
-            console.log(item, 'temi')
             if (!item) {
                 this.list.push(this.userToAdd);
                 this.resetSearch();

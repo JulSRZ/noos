@@ -147,8 +147,6 @@ export default {
       this.parentModal.hide();
     },
     openView(user) {
-      console.log(user, 'user')
-      console.log(user.parents, 'user')
       this.parentsView = [ ...user.parents ];
       this.parentModal.show();
     },

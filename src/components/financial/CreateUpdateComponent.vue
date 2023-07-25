@@ -1,14 +1,14 @@
 <template>
   <div class="card shadow-lg bg-white rounded">
     <div class="card-body">
-      <h5 class="card-title" v-if="!editUser">
+      <h5 class="card-title" v-if="!editFinancial">
         <router-link class="back" :to="{ name: 'financial' }" title="Regresar">
           <fa icon="arrow-circle-left" />
         </router-link>
         {{ titlelb }}
       </h5>
       <h6 class="card-subtitle mb-2 text-muted">Recuerde que <i class="req">*</i> son campos obligatorios</h6>
-      <form @submit.prevent="checkPass">
+      <form @submit.prevent="send()">
         <div class="card-body">
           <div class="row">
             <div class="col-6">
@@ -69,7 +69,7 @@
                     <label class="form-label label-title">Monto de Mora</label>
                     <div class="div-label">
                       <label class="mx-2 label-data" type="text">
-                        {{ this.newBill?.amountPastDue }}
+                        $ {{ this.newBill?.amountPastDue }}
                       </label>
                     </div>
                   </div>
@@ -77,7 +77,7 @@
                     <label class="form-label label-title">Monto Total</label>
                     <div class="div-label">
                       <label class="mx-2 label-data" type="text">
-                        {{ this.newBill?.totalAmount }}
+                        $ {{ this.newBill?.totalAmount }}
                       </label>
                     </div>
                   </div>
@@ -133,12 +133,12 @@
               </div>
             </div>
           </div>
-          <div class="row mt-3" >
+          <div class="row mt-3">
             <div class="card">
               <div class="card-body">
                 <h5 class="card-title card-title-noos">Información de (los) Hijo(s)</h5>
                 <manage-financial-student-component :students="newBill?.attendant?.parents" :reset="resetDetail"
-                  @detailReseted="resetDetailEvent()" />
+                  @detailReseted="resetDetailEvent()" @saveFinancialStudent="saveFinancialStudent($event)" />
               </div>
             </div>
           </div>
@@ -158,8 +158,8 @@
           </div>
         </div>
         <div class="card-footer" style="background-color: white; text-align: center;">
-          <button class="btn btn-outline-success" style="text-align: center;" type="submit">
-            <fa :icon="adminuser ? 'user-plus' : !editUser ? 'plus' : 'edit'" />
+          <button class="btn btn-outline-success" style="text-align: center;" type="button" @click="send()">
+            <fa :icon="adminuser ? 'user-plus' : !editFinancial ? 'plus' : 'edit'" />
             {{ buttonlb }}
           </button>
         </div>
@@ -170,29 +170,27 @@
     
 <script>
 import UserServices from '@/common/services/user/UsersServices.js';
-import ManageFinancialStudentComponent from './components/ManageFinancialStudentComponent.vue'
-import doclist from "@/store/parameters/documentstypes.json";
-import userlist from "@/store/parameters/userstypes.json";
-import coursesList from "@/store/parameters/courses.json";
+import FinancialServices from '@/common/services/financial/FinancialServices.js';
+import ManageFinancialStudentComponent from './components/ManageFinancialStudentComponent.vue';
 import Swal from 'sweetalert2';
 import { format } from 'date-fns';
 
 export default {
   name: 'CreateUpdateFinancialComponent',
-  props: {
-    userdata: {},
-  },
   components: {
     ManageFinancialStudentComponent,
   },
   emits: ['updateDone'],
+  props: {
+    financialState: {}
+  },
   data() {
     return {
       parentTest: null,
       titlelb: '',
       buttonlb: '',
       adminuser: false,
-      editUser: false,
+      editFinancial: false,
       search: '',
       file: null,
       parentModal: null,
@@ -209,42 +207,10 @@ export default {
         },
         daysPastDue: 0,
         amountPastDue: 0,
-        totalAmount: 1500000,
+        totalAmount: 0,
         studentsBill: []
-      },
-      user: {
-        id: '',
-        name: '',
-        email: '',
-        tdoc: {
-          id: '',
-          name: ''
-        },
-        doc: '',
-        cel: '',
-        address: '',
-        role: {
-          id: 1,
-          name: ''
-        },
-        uid: '',
-        course: {},
-        courses: [],
-        parents: []
-      },
-      parentsList: []
+      }
     };
-  },
-  computed: {
-    doctypes() {
-      return doclist.map((doc) => doc);
-    },
-    usertypes() {
-      return userlist.map((user) => user);
-    },
-    courses() {
-      return coursesList.map((course) => course);
-    }
   },
   created() {
     this.buttonlb = "Agregar Factura";
@@ -254,15 +220,10 @@ export default {
     lastDate.setDate(lastDate.getDate() + 15);
     this.newBill.lastDatePayment = format(lastDate, 'dd/MM/yyyy');
   },
-  mounted() {
-  },
   watch: {
-    userdata: function (newValue) {
+    financialState: function (newValue) {
       if (newValue) {
-        this.user = this.userdata;
-        this.parentsList = this.userdata.parents;
-        this.editUser = true;
-        this.buttonlb = "Editar Factura";
+        console.log(newValue)
       }
     }
   },
@@ -296,8 +257,6 @@ export default {
             result.forEach((user) => {
               if (user.data().role.id === 4) {
                 this.newBill.attendant = user.data();
-                console.log(this.newBill?.attendant, 'attendant')
-                console.log(this.newBill.attendant.parents, 'parents')
               } else {
                 Swal.fire({
                   title: 'Usuario No Acudiente',
@@ -340,49 +299,34 @@ export default {
     resetDetailEvent() {
       this.resetDetail = false;
     },
-    openModal(roleId) {
-      if (roleId == 4)
-        this.parentModal.show();
-      if (roleId == 3)
-        this.coursesModal.show();
-    },
-    parentEvent(event) {
-      this.user.parents = event;
-      this.parentModal.hide();
-    },
-    courseEvent(event) {
-      this.user.courses = event;
-      this.coursesModal.hide();
-    },
-    checkPass() {
-      if (this.pass === this.confpass) {
-        this.send();
-      } else {
-        this.erroralert.title = "Contraseña no verificada";
-        this.erroralert.message = "Por favor verifique que las contraseñas coincidan";
-        this.error = true;
-      }
+    saveFinancialStudent(data) {
+      this.newBill.studentsBill = data;
+      this.newBill.totalAmount = 0;
+      this.newBill.studentsBill.forEach((studentBill) => {
+        this.newBill.totalAmount = Number.parseInt(this.newBill.totalAmount) + Number.parseInt(studentBill.total);
+      })
     },
     async send() {
+      console.log('send')
       Swal.fire({
         title: 'Are you sure?',
-        text: this.editUser ? 'You will edit the user' : 'You will add a new user',
+        text: this.editFinancial ? 'You will edit the financial state' : 'You will add a new financial state',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#42b983',
         cancelButtonColor: '#d33',
-        confirmButtonText: this.editUser ? 'Yes, edit it!' : 'Yes, create it!',
+        confirmButtonText: this.editFinancial ? 'Yes, edit it!' : 'Yes, create it!',
         showLoaderOnConfirm: true
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.confirmSend().then(() => {
             Swal.fire({
-              title: this.editUser ? 'Edited!' : 'Created!',
-              text: this.editUser ? 'The user has been edited' : 'The user has been created',
+              title: this.editFinancial ? 'Edited!' : 'Created!',
+              text: this.editFinancial ? 'The financial state has been edited' : 'The financial state has been created',
               icon: 'success',
               confirmButtonColor: '#42b983'
             });
-            if (this.editUser)
+            if (this.editFinancial)
               this.$emit('updateDone');
             else
               this.cleanForm();
@@ -392,21 +336,26 @@ export default {
     },
     async confirmSend() {
       return new Promise(resolve => {
-        if (this.editUser)
-          UserServices.update(this.user).then(() => resolve());
+        if (this.editFinancial)
+          FinancialServices.update(this.newBill).then(() => resolve());
         else
-          UserServices.create(this.user).then(() => resolve());
+          FinancialServices.create(this.newBill).then(() => resolve());
       });
     },
     cleanForm() {
-      this.user.name = '';
-      this.user.email = '';
-      this.pass = '';
-      this.confpass = '';
-      this.user.doc = '';
-      this.user.tdoc = '';
-      this.user.cel = '';
-      this.user.address = '';
+      this.newBill = {
+        attendant: null,
+        creationDate: null,
+        lastDatePayment: null,
+        state: {
+          code: 'P',
+          description: 'PENDIENTE'
+        },
+        daysPastDue: 0,
+        amountPastDue: 0,
+        totalAmount: 0,
+        studentsBill: []
+      };
     }
   }
 }

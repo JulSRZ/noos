@@ -1,5 +1,6 @@
 const myCollections = {
-  USER_COLLECTION: 'users'
+  USER_COLLECTION: 'users',
+  FINANCIAL_COLLECTION: 'financial'
 };
 
 export { myCollections };

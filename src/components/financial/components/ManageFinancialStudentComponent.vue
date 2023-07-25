@@ -6,7 +6,7 @@
                     <h5 class="card-title noos-card-title"> {{ student.studentName }} </h5>
                     <h6 class="card-subtitle mb-2 text-muted"> {{ student.studentCourse }} </h6>
                     <section class="card-button-section">
-                        <button class="btn btn-primary" type="button" @click="openDetailModal">
+                        <button class="btn btn-primary" type="button" @click="openDetailModal(student.financialItems)">
                             <fa class="card-button-icon" icon="sack-dollar" />
                             Administrar Cuenta
                         </button>
@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <detail-financial-student-component />
+    <detail-financial-student-component :financialDetails="this.currentFinancialItems" @saveDetails="saveDetails()"/>
 </template>
 
 <script>
@@ -39,7 +39,6 @@ export default {
     watch: {
         students: function (newValue) {
             if (newValue) {
-                console.log(newValue, 'new value')
                 newValue.forEach((value) => {
                     this.studentsBill.push({
                         studentyId: value.id,
@@ -63,15 +62,26 @@ export default {
     data() {
         return {
             detailModal: null,
-            studentsBill: []
+            studentsBill: [],
+            currentFinancialItems: []
         }
     },
     mounted() {
         this.detailModal = new bootstrap.Modal('#DetailFinancialModal', {});
     },
     methods: {
-        openDetailModal() {
+        openDetailModal(financialItems) {
+            this.currentFinancialItems = financialItems;
             this.detailModal.show();
+        },
+        saveDetails() {
+            this.studentsBill.forEach((bill) => {
+                bill.total = 0;
+                bill.financialItems.forEach((detail) => {
+                    bill.total = Number.parseInt(bill.total) + Number.parseInt(detail.amount);
+                });
+            });
+            this.$emit('saveFinancialStudent', this.studentsBill)
         }
     }
 }
