@@ -5,7 +5,7 @@
         <router-link class="back" :to="{ name: 'users' }" title="Regresar">
           <fa icon="arrow-circle-left" />
         </router-link> &nbsp;
-        {{ titlelb }}
+        <strong>{{ titlelb }}</strong>
       </h4>
       <h6 class="card-subtitle text-muted" style="text-align: center;">Recuerde que <i class="req">*</i> son campos
         obligatorios</h6>
@@ -201,8 +201,8 @@
 </template>
   
 <script>
-import ManageParentsComponent from './ManageParentsComponent.vue';
-import ManageCoursesComponent from './ManageCoursesComponent.vue';
+import ManageParentsComponent from './components/ManageParentsComponent.vue';
+import ManageCoursesComponent from './components/ManageCoursesComponent.vue';
 import UserServices from '@/common/services/user/UsersServices.js';
 import doclist from "@/store/parameters/documentstypes.json";
 import userlist from "@/store/parameters/userstypes.json";
@@ -349,7 +349,6 @@ export default {
               confirmButtonColor: '#42b983'
             });
             if (this.editUser)
-              //this.updateDoneEmit.$emit();
               this.$emit('updateDone');
             else
               this.cleanForm();

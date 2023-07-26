@@ -36,9 +36,20 @@ export default {
         reset: false
     },
     emit: ['detailReseted'],
+    data() {
+        return {
+            detailModal: null,
+            studentsBill: [],
+            currentFinancialItems: []
+        }
+    },
+    mounted() {
+        this.detailModal = new bootstrap.Modal('#DetailFinancialModal', {});
+    },
     watch: {
         students: function (newValue) {
             if (newValue) {
+                this.studentsBill = [];
                 newValue.forEach((value) => {
                     this.studentsBill.push({
                         studentyId: value.id,
@@ -58,16 +69,6 @@ export default {
             }
                 
         }
-    },
-    data() {
-        return {
-            detailModal: null,
-            studentsBill: [],
-            currentFinancialItems: []
-        }
-    },
-    mounted() {
-        this.detailModal = new bootstrap.Modal('#DetailFinancialModal', {});
     },
     methods: {
         openDetailModal(financialItems) {

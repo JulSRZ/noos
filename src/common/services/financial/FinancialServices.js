@@ -1,4 +1,4 @@
-import { myCollections } from "@/store/constants/firebaseCollections.js";
+import { myCollections } from "@/common/constants/firebaseCollections.js";
 import { doc, getDocs, addDoc, deleteDoc, updateDoc, collection, query, where, and, getDoc } from 'firebase/firestore';
 import { db } from '@/firebase/init';
 
@@ -9,8 +9,8 @@ class FinancialServices {
     return await getDocs(financialCollection);
   }
 
-  async getStudentByDoc(doc) {
-    const q = query(financialCollection, where('doc', '==', doc));
+  async getfinancialStateByID(id) {
+    const q = query(financialCollection, where('id', '==', id));
     return await getDocs(q);
   }
 

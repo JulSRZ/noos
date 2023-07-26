@@ -4,8 +4,8 @@
       <h5 class="card-title" v-if="!editFinancial">
         <router-link class="back" :to="{ name: 'financial' }" title="Regresar">
           <fa icon="arrow-circle-left" />
-        </router-link>
-        {{ titlelb }}
+        </router-link> &nbsp;
+        <strong>{{ titlelb }}</strong>
       </h5>
       <h6 class="card-subtitle mb-2 text-muted">Recuerde que <i class="req">*</i> son campos obligatorios</h6>
       <form @submit.prevent="send()">
@@ -172,6 +172,7 @@
 import UserServices from '@/common/services/user/UsersServices.js';
 import FinancialServices from '@/common/services/financial/FinancialServices.js';
 import ManageFinancialStudentComponent from './components/ManageFinancialStudentComponent.vue';
+import { CFinancialStates } from '@/common/constants/financialStates';
 import Swal from 'sweetalert2';
 import { format } from 'date-fns';
 
@@ -201,10 +202,7 @@ export default {
         attendant: null,
         creationDate: null,
         lastDatePayment: null,
-        state: {
-          code: 'P',
-          description: 'PENDIENTE'
-        },
+        state: CFinancialStates.PENDING_STATE,
         daysPastDue: 0,
         amountPastDue: 0,
         totalAmount: 0,
@@ -304,7 +302,7 @@ export default {
       this.newBill.totalAmount = 0;
       this.newBill.studentsBill.forEach((studentBill) => {
         this.newBill.totalAmount = Number.parseInt(this.newBill.totalAmount) + Number.parseInt(studentBill.total);
-      })
+      });
     },
     async send() {
       console.log('send')
@@ -347,10 +345,7 @@ export default {
         attendant: null,
         creationDate: null,
         lastDatePayment: null,
-        state: {
-          code: 'P',
-          description: 'PENDIENTE'
-        },
+        state: CFinancialStates.PENDING_STATE,
         daysPastDue: 0,
         amountPastDue: 0,
         totalAmount: 0,

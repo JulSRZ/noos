@@ -9,7 +9,7 @@
                 <router-link class="back" :to="{ name: 'users' }" title="Regresar">
                   <fa icon="arrow-circle-left" />
                 </router-link> &nbsp;
-                Administración de Usuarios
+                <strong>Administración de Usuarios</strong>
               </h5>
             </div>
             <div class="col-md-4"></div>
@@ -75,7 +75,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="staticBackdropLabel">
-              <fa icon="user-edit" /> &nbsp; Editar Usuario
+              <fa icon="user-edit" /> &nbsp; <strong>Editar Usuario</strong>
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
@@ -96,7 +96,7 @@
 import UserServices from '@/common/services/user/UsersServices.js';
 import Swal from 'sweetalert2';
 import CreateUpdateUserComponent from './CreateUpdateComponent.vue'
-import ManageParentsComponent from './ManageParentsComponent.vue';
+import ManageParentsComponent from './components/ManageParentsComponent.vue';
 import * as bootstrap from 'bootstrap';
 
 export default {
