@@ -13,6 +13,7 @@ import 'bootstrap';
 
 library.add(fas);
 
+
 createApp(App)
   .component('fa', FontAwesomeIcon)
   .use(money)

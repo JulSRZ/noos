@@ -25,7 +25,7 @@
           <div class="card shadow-lg p-3 mb-5 bg-white rounded text-center">
             <div class="card-header">
               <h5 class="card-title" style="color: #879f2d;">
-                <fa icon="clipboard"/>
+                <fa icon="book-open"/>
                 Administrar Observaciones
               </h5>
             </div>

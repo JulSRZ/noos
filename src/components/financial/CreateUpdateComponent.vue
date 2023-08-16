@@ -69,7 +69,7 @@
                     <label class="form-label label-title">Monto de Mora</label>
                     <div class="div-label">
                       <label class="mx-2 label-data" type="text">
-                        $ {{ this.newBill?.amountPastDue }}
+                        {{ maskMoneyAmount(this.newBill?.amountPastDue || 0) }}
                       </label>
                     </div>
                   </div>
@@ -77,7 +77,7 @@
                     <label class="form-label label-title">Monto Total</label>
                     <div class="div-label">
                       <label class="mx-2 label-data" type="text">
-                        $ {{ this.newBill?.totalAmount }}
+                        {{ maskMoneyAmount(this.newBill?.totalAmount) }}
                       </label>
                     </div>
                   </div>
@@ -204,7 +204,6 @@ export default {
         lastDatePayment: null,
         state: CFinancialStates.PENDING_STATE,
         daysPastDue: 0,
-        amountPastDue: 0,
         totalAmount: 0,
         studentsBill: []
       }
@@ -222,6 +221,8 @@ export default {
     financialState: function (newValue) {
       if (newValue) {
         console.log(newValue)
+        this.editUser = true;
+        this.buttonlb = "Editar Factura";
       }
     }
   },
@@ -275,6 +276,16 @@ export default {
             });
           }
         });
+    },
+    maskMoneyAmount(number) {
+      const numberFormat = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'COP',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+
+      return numberFormat.format(parseFloat(number));
     },
     reset() {
       Swal.fire({
@@ -347,7 +358,6 @@ export default {
         lastDatePayment: null,
         state: CFinancialStates.PENDING_STATE,
         daysPastDue: 0,
-        amountPastDue: 0,
         totalAmount: 0,
         studentsBill: []
       };

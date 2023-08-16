@@ -55,9 +55,9 @@
                                 <td>{{ fState.attendant.email }}</td>
                                 <td>{{ fState.creationDate }}</td>
                                 <td>{{ fState.lastDatePayment }}</td>
-                                <td>$ {{ fState.amountPastDue }}</td>
-                                <td>$ {{ fState.totalAmount }}</td>
-                                <td>$ {{ getTotalAmount(fState) }}</td>
+                                <td>{{ maskMoneyAmount(fState.amountPastDue || 0) }}</td>
+                                <td>{{ maskMoneyAmount(fState.totalAmount) }}</td>
+                                <td>{{ maskMoneyAmount(getTotalAmount(fState)) }}</td>
                                 <td>
                                     <span :class="getStateClass(fState.state)">
                                         {{ fState.state.description }}
@@ -87,11 +87,12 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="staticBackdropLabel">
-                            <fa icon="user-edit" /> &nbsp; <strong>Editar Usuario</strong>
+                            <fa icon="user-edit" /> &nbsp; <strong>Editar Estado de Cuenta</strong>
                         </h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <create-update-financial-component :financialState="financialData" />
                         <!--create-update-user-component :userdata="financialData" @updateDone="updateDone()" /-->
                         <pre> {{ financialData || JSON }}</pre>
                     </div>
@@ -103,7 +104,7 @@
   
 <script>
 import FinancialServices from '@/common/services/financial/FinancialServices.js';
-import CreateUpdateUserComponent from './CreateUpdateComponent.vue'
+import CreateUpdateFinancialComponent from './CreateUpdateComponent.vue'
 import { CFinancialStates } from '@/common/constants/financialStates';
 import * as bootstrap from 'bootstrap';
 import Swal from 'sweetalert2';
@@ -112,7 +113,7 @@ import moment from 'moment';
 export default {
     name: "ManageFinancialStateComponent",
     components: {
-        CreateUpdateUserComponent,
+        CreateUpdateFinancialComponent,
     },
 
     data() {
@@ -153,19 +154,23 @@ export default {
             let today = new Date();
             let lastDatePayment = new Date(moment(String(fState.lastDatePayment)).format('DD/MM/yyyy'));
             if ((Date.parse(today) > lastDatePayment) && fState.state.code !== CFinancialStates.PAID_STATE.code) {
-                let difference = today.getDate() - lastDatePayment.getDate();
+                const timeDiff = today.getTime() - lastDatePayment.getTime();
+                const difference = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
                 let amount = ((0.15 * Number.parseInt(fState.totalAmount)) / 360) * difference;
-                console.log(fState.amountPastDue, 'fState.amountPastDue')
-                if (amount > Number.parseInt(fState.amountPastDue)) {
-                    fState.amountPastDue = Math.trunc(amount);
-                    fState.state = CFinancialStates.LATE_STATE;
-                    console.log('entre a amount != fstate')
-                }
-                    
-                //newState = { fState, lastDatePayment: Math.trunc(amount) };
-                console.log(true, fState)
-            } else console.log(false)
+                fState.amountPastDue = Math.trunc(amount);
+                fState.state = CFinancialStates.LATE_STATE;
+            }
             return fState;
+        },
+        maskMoneyAmount(number) {
+            const numberFormat = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            });
+
+            return numberFormat.format(parseFloat(number));
         },
         parentEvent() {
             this.parentModal.hide();
@@ -235,15 +240,15 @@ export default {
         getStateClass(state) {
             switch (state.code) {
                 case CFinancialStates.PENDING_STATE.code:
-                    return 'badge text-bg-primary';
+                    return 'badge rounded-pill text-bg-warning';
                 case CFinancialStates.PAID_STATE.code:
-                    return 'badge text-bg-success';
+                    return 'badge rounded-pill text-bg-success';
                 case CFinancialStates.LATE_STATE.code:
-                    return 'badge text-bg-danger';
+                    return 'badge rounded-pill text-bg-danger';
             }
         },
         getTotalAmount(fState) {
-            return fState.amountPastDue + fState.totalAmount;
+            return (fState.amountPastDue || 0) + fState.totalAmount;
         }
     }
 }
