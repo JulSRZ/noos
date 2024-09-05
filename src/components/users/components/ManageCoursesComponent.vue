@@ -85,7 +85,9 @@ export default {
         return {
             tmpList: [],
             list: [],
-            section: {},
+            section: {
+                code: 'ALL'
+            },
             course: {
                 code: 'ALL'
             }

@@ -10,7 +10,7 @@
       <h6 class="card-subtitle mb-2 text-muted">Recuerde que <i class="req">*</i> son campos obligatorios</h6>
       <form @submit.prevent="send()">
         <div class="card-body">
-          <div class="row">
+          <div class="row" v-if="!editFinancial">
             <div class="col-6">
               <div class="input-group">
                 <input type="text" class="form-control" maxlength="11" placeholder="Documento del Representante Legal"
@@ -157,7 +157,7 @@
             <h3 style="color: dimgray;">Debe buscar a un acudiente por el número de documento</h3>
           </div>
         </div>
-        <div class="card-footer" style="background-color: white; text-align: center;">
+        <div v-if="this.newBill?.attendant !== null" class="card-footer" style="background-color: white; text-align: center;">
           <button class="btn btn-outline-success" style="text-align: center;" type="button" @click="send()">
             <fa :icon="adminuser ? 'user-plus' : !editFinancial ? 'plus' : 'edit'" />
             {{ buttonlb }}
@@ -220,8 +220,10 @@ export default {
   watch: {
     financialState: function (newValue) {
       if (newValue) {
-        console.log(newValue)
-        this.editUser = true;
+        console.log(this.financialState , 'this.financialState')
+        this.newBill = this.financialState;
+        this.newBill.studentsBill = this.financialState.studentBill;
+        this.editFinancial = true;
         this.buttonlb = "Editar Factura";
       }
     }
@@ -318,20 +320,20 @@ export default {
     async send() {
       console.log('send')
       Swal.fire({
-        title: 'Are you sure?',
-        text: this.editFinancial ? 'You will edit the financial state' : 'You will add a new financial state',
+        title: 'Seguro?',
+        text: this.editFinancial ? 'Actualizaras el estado financiero' : 'Crearas el estado financiero',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#42b983',
         cancelButtonColor: '#d33',
-        confirmButtonText: this.editFinancial ? 'Yes, edit it!' : 'Yes, create it!',
+        confirmButtonText: this.editFinancial ? 'Si, actualizar!' : 'Si, crear!',
         showLoaderOnConfirm: true
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.confirmSend().then(() => {
             Swal.fire({
-              title: this.editFinancial ? 'Edited!' : 'Created!',
-              text: this.editFinancial ? 'The financial state has been edited' : 'The financial state has been created',
+              title: this.editFinancial ? 'Actualizado!' : 'Creado!',
+              text: this.editFinancial ? 'El estado financiero ha sido actualizado' : 'El estado financiero ha sido creado',
               icon: 'success',
               confirmButtonColor: '#42b983'
             });

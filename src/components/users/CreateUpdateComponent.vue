@@ -331,20 +331,20 @@ export default {
     },
     async send() {
       Swal.fire({
-        title: 'Are you sure?',
-        text: this.editUser ? 'You will edit the user' : 'You will add a new user',
+        title: 'Seguro?',
+        text: this.editUser ? 'Se actualizara el usuario' : 'Se agregara un nuevo usuario',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#42b983',
         cancelButtonColor: '#d33',
-        confirmButtonText: this.editUser ? 'Yes, edit it!' : 'Yes, create it!',
+        confirmButtonText: this.editUser ? 'Si, actualizarlo!' : 'Si, crearlo!',
         showLoaderOnConfirm: true
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.confirmSend().then(() => {
             Swal.fire({
-              title: this.editUser ? 'Edited!' : 'Created!',
-              text: this.editUser ? 'The user has been edited' : 'The user has been created',
+              title: this.editUser ? 'Actualizado!' : 'Creado!',
+              text: this.editUser ? 'El usuario ha sido actualizado' : 'El usuario ha sido creado',
               icon: 'success',
               confirmButtonColor: '#42b983'
             });
