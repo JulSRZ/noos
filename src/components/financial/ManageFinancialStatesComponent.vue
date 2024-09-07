@@ -64,20 +64,24 @@
                                     </span>
                                 </td>
                                 <td class="text-center">
-                                    <a class="edit mx-2" title="Editar Cuenta" @click="openEdit(fState)"
-                                        data-bs-toggle="modal" data-bs-target="#editUserModal">
-                                        <fa icon="pen-to-square" />
-                                    </a>
-                                    <a class="delete mx-2" title="Eliminar Cuenta" @click="delFinancialState(fState)">
-                                        <fa icon="trash-can" />
-                                    </a>
-                                    <a class="pay mx-2" title="Pagar Cuenta" @click="payFinancialState(fState)">
-                                        <fa icon="credit-card" />
-                                    </a>
+                                    <section v-if="fState.state.code !== 'PAID'">
+                                        <a class="edit mx-2" title="Editar Cuenta" @click="openEdit(fState, fState.studentsBill)"
+                                            data-bs-toggle="modal" data-bs-target="#editUserModal">
+                                            <fa icon="pen-to-square" />
+                                        </a>
+                                        <a class="delete mx-2" title="Eliminar Cuenta"
+                                            @click="delFinancialState(fState)">
+                                            <fa icon="trash-can" />
+                                        </a>
+                                        <a class="pay mx-2" title="Pagar Cuenta" @click="payFinancialState(fState)">
+                                            <fa icon="credit-card" />
+                                        </a>
+                                    </section>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
+                    
                 </div>
             </div>
         </div>
@@ -92,16 +96,15 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <create-update-financial-component :financialState="financialData" />
+                        <create-update-financial-component :financialState="financialData" @updateDone="updateDone()" />
                         <!--create-update-user-component :userdata="financialData" @updateDone="updateDone()" /-->
-                        <pre> {{ financialData || JSON }}</pre>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
-  
+
 <script>
 import FinancialServices from '@/common/services/financial/FinancialServices.js';
 import CreateUpdateFinancialComponent from './CreateUpdateComponent.vue'
@@ -182,8 +185,14 @@ export default {
             this.parentsView = [...user.parents];
             this.parentModal.show();
         },
-        openEdit(fState) {
-            this.financialData = { ...fState };
+        openEdit(fState, studentsBillData) {
+            // console.log(this.financialStatelist, 'financialStatelist')
+            console.log(fState, 'FState')
+            // console.log(studentsBillData, 'studentsBill')
+            this.financialData = {...fState};
+            // this.financialData.studentsBill = studentsBillData;
+            // console.log(this.financialData, 'this.financialData')
+
         },
         delFinancialState(doc) {
             Swal.fire({
@@ -238,6 +247,7 @@ export default {
             });
         },
         getStateClass(state) {
+            console.log(state.code, 'code')
             switch (state.code) {
                 case CFinancialStates.PENDING_STATE.code:
                     return 'badge rounded-pill text-bg-warning';
@@ -253,7 +263,7 @@ export default {
     }
 }
 </script>
-  
+
 <style scoped>
 .back {
     color: #879f2d;

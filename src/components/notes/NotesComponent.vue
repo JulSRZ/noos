@@ -15,7 +15,7 @@
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:
-               #879f2d;" :to="{name: 'adduser'}">
+               #879f2d;" :to="{name: 'add-notes'}">
                 Entrar
               </router-link>
             </div>
