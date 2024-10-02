@@ -105,6 +105,18 @@ const routes = [
     },
   },
   {
+    path: '/manage-notes',
+    name: 'manage-notes',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "ManageNotes" */ '../views/notes/ManageNotes.vue'),
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true,
+    },
+  },
+  {
     path: '/homeworks',
     name: 'homeworks',
     // route level code-splitting

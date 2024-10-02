@@ -311,6 +311,7 @@ export default {
       this.resetDetail = false;
     },
     saveFinancialStudent(data) {
+      console.log(data, 'DATA')
       this.newBill.studentsBill = data;
       this.newBill.totalAmount = 0;
       this.newBill.studentsBill.forEach((studentBill) => {
@@ -320,7 +321,7 @@ export default {
     async send() {
       console.log('send')
       Swal.fire({
-        title: 'Seguro?',
+        title: 'Espera!',
         text: this.editFinancial ? 'Actualizaras el estado financiero' : 'Crearas el estado financiero',
         icon: 'question',
         showCancelButton: true,

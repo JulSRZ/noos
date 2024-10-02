@@ -331,7 +331,7 @@ export default {
     },
     async send() {
       Swal.fire({
-        title: 'Seguro?',
+        title: 'Espera!',
         text: this.editUser ? 'Se actualizara el usuario' : 'Se agregara un nuevo usuario',
         icon: 'question',
         showCancelButton: true,

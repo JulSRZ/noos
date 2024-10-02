@@ -35,7 +35,7 @@
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:
-               #879f2d;" :to="{name: 'manageusers'}">
+               #879f2d;" :to="{name: 'manage-notes'}">
                 Entrar
               </router-link>
             </div>

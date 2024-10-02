@@ -9,7 +9,7 @@
                                 <router-link class="back" :to="{ name: 'financial' }" title="Regresar">
                                     <fa icon="arrow-circle-left" />
                                 </router-link> &nbsp;
-                                <strong>Administración de Estados Financieros</strong>
+                                <strong>Estados Financieros</strong>
                             </h5>
                         </div>
                         <div class="col-md-4"></div>

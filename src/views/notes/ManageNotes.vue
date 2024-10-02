@@ -1,16 +1,16 @@
 <template>
   <div class="row justify-content-lg-center my-5">
-    <manage-users-component/>
+    <manage-notes-component/>
   </div>
 </template>
 
 <script>
-import ManageUsersComponent from "../../components/users/ManageUsersComponent.vue";
+import ManageNotesComponent from "../../components/notes/ManageNotesComponent.vue";
 
 export default {
-  name: "ManageUsers",
+  name: "ManageNotes",
   components: {
-    ManageUsersComponent,
+    ManageNotesComponent,
   }
 }
 </script>

@@ -9,7 +9,7 @@
                 <router-link class="back" :to="{ name: 'users' }" title="Regresar">
                   <fa icon="arrow-circle-left" />
                 </router-link> &nbsp;
-                <strong>Usuarios</strong>
+                <strong>Observaciones</strong>
               </h5>
             </div>
             <div class="col-md-4"></div>
@@ -28,38 +28,25 @@
           <table class="table table-hover table-sm table-striped">
             <thead class="back">
               <tr>
-                <th scope="col">Tipo Documento</th>
-                <th scope="col">Documento</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Email</th>
-                <th scope="col">Dirección</th>
-                <th scope="col">Celular</th>
-                <th scope="col">Tipo</th>
+                <th scope="col">Sección</th>
                 <th scope="col">Curso</th>
+                <th scope="col">Título</th>
+                <th scope="col">Descripción</th>
                 <th scope="col">Acción</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="u in getlist" v-bind:key="u.doc">
-                <td>{{ u.tdoc.id }} - {{ u.tdoc.name }}</td>
-                <td>{{ u.doc }}</td>
-                <td>{{ u.name }}</td>
-                <td>{{ u.email }}</td>
-                <td>{{ u.address }}</td>
-                <td>{{ u.cel }}</td>
-                <td>{{ u.role.name }} </td>
-                <td> {{ u.role.id == 5 ? u.course.description : 'N/A' }} </td>
+              <tr v-for="n in getList" v-bind:key="n.id">
+                <td>{{ n.section }}</td>
+                <td>{{ n.course.description }}</td>
+                <td>{{ n.title }}</td>
+                <td>{{ n.description }}</td>
                 <td class="text-center">
-                  <!--a v-if="u.role.id != 1 && u.role.id != 2" class="view mx-2"
-                    :title="u.role.id == 3 ? 'Ver Cursos' : u.role.id == 4 ? 'Ver Hijos' : 'Ver Padres'"
-                    @click="openView(u)">
-                    <fa icon="eye" />
-                  </a-->
-                  <a class="edit mx-2" title="Editar Usuario" @click="openEdit(u)" data-bs-toggle="modal"
+                  <a class="edit mx-2" title="Editar Observación" @click="openEdit(n)" data-bs-toggle="modal"
                     data-bs-target="#editUserModal">
                     <fa icon="user-edit" />
                   </a>
-                  <a class="delete mx-2" title="Eliminar Usuario" @click="delUser(u)">
+                  <a class="delete mx-2" title="Eliminar Observación" @click="delNote(n)">
                     <fa icon="user-minus" />
                   </a>
                 </td>
@@ -85,30 +72,20 @@
         </div>
       </div>
     </div>
-    <!--div class="modal fade" id="testModal" data-keyboard="true" tabindex="-1" role="dialog"
-      aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <manage-parents-component :parents="parentsView" :isViewOnly="true" @viewOnlyEvent="parentEvent()" />
-    </div-->
   </div>
 </template>
 
 <script>
-import UserServices from '@/common/services/user/UsersServices.js';
+import NotesServices from '@/common/services/note/NotesServices.js';
 import Swal from 'sweetalert2';
-import CreateUpdateUserComponent from './CreateUpdateComponent.vue'
-import ManageParentsComponent from './components/ManageParentsComponent.vue';
 import * as bootstrap from 'bootstrap';
 
 export default {
-  name: "ManageUsersComponent",
-  components: {
-    CreateUpdateUserComponent,
-    ManageParentsComponent
-  },
-
+  name: "ManageNotesComponent",
+  components: {},
   data() {
     return {
-      userslist: [],
+      notesList: [],
       titlelb: "",
       userdata: {},
       parentsView: [],
@@ -122,8 +99,9 @@ export default {
     this.loadData();
   },
   computed: {
-    getlist() {
-      return this.userslist.filter((item) => item.doc.toLowerCase().includes(this.search.toLowerCase()));
+    getList() {
+      // return this.notesList.filter((item) => item.doc.toLowerCase().includes(this.search.toLowerCase()));
+      return this.notesList;
     },
   },
   mounted() {
@@ -132,11 +110,11 @@ export default {
   },
   methods: {
     async loadData() {
-      this.userslist = [];
-      UserServices.getAll()
-        .then((usersList => {
-          usersList.forEach((user) => {
-            this.userslist.push({ ...user.data(), id: user.id });
+      this.notesList = [];
+      NotesServices.getAll()
+        .then((notes => {
+          notes.forEach((note) => {
+            this.notesList.push({ ...note.data(), id: note.id });
           });
         }));;
     },
@@ -153,7 +131,7 @@ export default {
     openEdit(user) {
       this.userdata = { ...user };
     },
-    delUser(doc) {
+    delNote(doc) {
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -164,7 +142,7 @@ export default {
         confirmButtonText: 'Yes, delete it!'
       }).then((result) => {
         if (result.isConfirmed) {
-          UserServices.delete(doc.id)
+          NotesServices.delete(doc.id)
             .then(() => {
               Swal.fire(
                 'Deleted!',
