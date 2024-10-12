@@ -6,7 +6,7 @@
                     <div class="row mt-1 mb-1">
                         <div class="col-3">
                             <h5 class="card-title mt-2" style="align-content: flex-start;">
-                                <router-link class="back" :to="{ name: 'financial' }" title="Regresar">
+                                <router-link class="back" :to="{ path: 'financial' }" title="Regresar">
                                     <fa icon="arrow-circle-left" />
                                 </router-link> &nbsp;
                                 <strong>Estados Financieros</strong>

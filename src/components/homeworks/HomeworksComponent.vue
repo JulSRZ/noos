@@ -15,7 +15,7 @@
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:
-               #879f2d;" :to="{name: 'adduser'}">
+               #879f2d;" :to="{path: 'add-homework'}">
                 Entrar
               </router-link>
             </div>
@@ -35,7 +35,7 @@
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:
-               #879f2d;" :to="{name: 'manageusers'}">
+               #879f2d;" :to="{path: 'manage-homeworks'}">
                 Entrar
               </router-link>
             </div>

@@ -2,7 +2,7 @@
   <div class="card shadow-lg bg-white rounded">
     <div class="card-body">
       <h4 class="card-title" v-if="!editNote">
-        <router-link class="back" :to="{ path: 'notes' }" title="Regresar">
+        <router-link class="back" :to="{ path: 'homeworks' }" title="Regresar">
           <fa icon="arrow-circle-left" />
         </router-link> &nbsp;
         <strong>{{ titlelb }}</strong>
@@ -48,7 +48,7 @@
           <section class="row mt-3">
             <section class="card">
               <section class="card-body">
-                <h5 class="card-title card-title-noos">Observación</h5>
+                <h5 class="card-title card-title-noos">Tarea</h5>
                 <section class="col-sm">
                   <section class="col-sm">
                     <label class="form-label label-title" for="title">Titulo</label> <i class="req">*</i>
@@ -82,14 +82,14 @@
 </template>
 
 <script>
-import NotesServices from '@/common/services/note/NotesServices.js';
+import HomeworksServices from '@/common/services/homeworks/HomeworksServices.js';
 import coursesList from "@/store/parameters/courses.json";
 import Swal from 'sweetalert2';
 import * as bootstrap from 'bootstrap';
 import sectionsList from "@/store/parameters/sections.json";
 
 export default {
-  name: 'CreateUpdateNotesComponent',
+  name: 'CreateUpdateHomeworkComponent',
   props: {
     noteData: Object,
   },
@@ -137,8 +137,8 @@ export default {
     }
   },
   created() {
-    this.buttonlb = "Agregar observación";
-    this.titlelb = "Agregar una observación";
+    this.buttonlb = "Agregar tarea";
+    this.titlelb = "Agregar una tarea";
   },
   mounted() {
     this.parentModal = new bootstrap.Modal('#parentsModal', {});
@@ -150,7 +150,7 @@ export default {
         this.note = { ...newValue };
         this.section = newValue.section;
         this.course = newValue.course;
-        this.buttonlb = "Editar Observación";
+        this.buttonlb = "Editar tarea";
       }
     }
   },
@@ -163,7 +163,7 @@ export default {
     async send() {
       Swal.fire({
         title: 'Espera!',
-        text: this.editNote ? 'Se actualizará la observación' : 'Se agregará una nueva observación',
+        text: this.editNote ? 'Se actualizará la tarea' : 'Se agregará una nueva tarea',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#42b983',
@@ -175,7 +175,7 @@ export default {
           await this.confirmSend().then(() => {
             Swal.fire({
               title: this.editNote ? 'Actualizado!' : 'Creado!',
-              text: this.editNote ? 'La observación ha sido actualizada' : 'La observación ha sido creada',
+              text: this.editNote ? 'La tarea ha sido actualizada' : 'La tarea ha sido creada',
               icon: 'success',
               confirmButtonColor: '#42b983'
             });
@@ -190,9 +190,9 @@ export default {
     async confirmSend() {
       return new Promise(resolve => {
         if (this.editNote)
-          NotesServices.update(this.note).then(() => resolve());
+          HomeworksServices.update(this.note).then(() => resolve());
         else
-          NotesServices.create(this.note).then(() => resolve());
+          HomeworksServices.create(this.note).then(() => resolve());
       });
     },
     cleanForm() {

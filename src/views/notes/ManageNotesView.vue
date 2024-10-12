@@ -8,7 +8,7 @@
 import ManageNotesComponent from "../../components/notes/ManageNotesComponent.vue";
 
 export default {
-  name: "ManageNotes",
+  name: "ManageNotesView",
   components: {
     ManageNotesComponent,
   }

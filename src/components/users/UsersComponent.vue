@@ -16,7 +16,7 @@
             </p>
             <hr>
             <router-link class="btn btn-outline-dark" style="color:
-             #879f2d;" :to="{name: 'adduser'}">
+             #879f2d;" :to="{path: 'add-user'}">
               Entrar
             </router-link>
           </div>
@@ -37,7 +37,7 @@
             </p>
             <hr>
             <router-link class="btn btn-outline-dark" style="color:
-             #879f2d;" :to="{name: 'manageusers'}">
+             #879f2d;" :to="{path: 'manage-users'}">
               Entrar
             </router-link>
           </div>

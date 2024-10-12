@@ -14,31 +14,31 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "Users" */ '../views/users/Users.vue'),
+    component: () => import(/* webpackChunkName: "UsersView" */ '../views/users/UsersView.vue'),
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
     },
   },
   {
-    path: '/adduser',
-    name: 'adduser',
+    path: '/add-user',
+    name: 'add-user',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "adduser" */ '../views/users/AddUser.vue'),
+    component: () => import(/* webpackChunkName: "AddUserView" */ '../views/users/AddUserView.vue'),
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
     }
   },
   {
-    path: '/manageusers',
-    name: 'manageusers',
+    path: '/manage-users',
+    name: '/manage-users',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "ManageUsers" */ '../views/users/ManageUsers.vue'),
+    component: () => import(/* webpackChunkName: "ManageUsersView" */ '../views/users/ManageUsersView.vue'),
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
@@ -57,8 +57,8 @@ const routes = [
     },
   },
   {
-    path: '/addfinancial',
-    name: 'addfinancial',
+    path: '/add-financial',
+    name: 'add-financial',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -69,8 +69,8 @@ const routes = [
     }
   },
   {
-    path: '/managefinancialstates',
-    name: 'managefinancialstates',
+    path: '/manage-financial-states',
+    name: 'manage-financial-states',
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -98,7 +98,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "NotesView" */ '../views/notes/AddNotesView.vue'),
+    component: () => import(/* webpackChunkName: "AddNotesView" */ '../views/notes/AddNotesView.vue'),
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
@@ -110,7 +110,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "ManageNotes" */ '../views/notes/ManageNotes.vue'),
+    component: () => import(/* webpackChunkName: "ManageNotesView" */ '../views/notes/ManageNotesView.vue'),
     meta: {
       requiresAuth: true,
       requiresAdmin: true,
@@ -123,6 +123,30 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "HomeworksView" */ '../views/homeworks/HomeworksView.vue'),
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true,
+    },
+  },
+  {
+    path: '/add-homework',
+    name: 'add-homework',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "AddHomeworkView" */ '../views/homeworks/AddHomeworkView.vue'),
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true,
+    },
+  },
+  {
+    path: '/manage-homeworks',
+    name: 'manage-homeworks',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "ManageHomeworksView" */ '../views/homeworks/ManageHomeworksView.vue'),
     meta: {
       requiresAuth: true,
       requiresAdmin: true,

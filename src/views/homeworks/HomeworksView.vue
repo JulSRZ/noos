@@ -9,7 +9,7 @@
 import HomeworksComponent from '../../components/homeworks/HomeworksComponent.vue';
 
 export default {
-    name: 'Users',
+    name: 'HomeworksView',
     components: {
         HomeworksComponent,
     },

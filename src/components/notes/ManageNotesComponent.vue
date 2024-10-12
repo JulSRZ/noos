@@ -6,7 +6,7 @@
           <div class="row mt-1 mb-1">
             <div class="col-3">
               <h5 class="card-title mt-2" style="align-content: flex-start;">
-                <router-link class="back" :to="{ name: 'users' }" title="Regresar">
+                <router-link class="back" :to="{ path: 'notes' }" title="Regresar">
                   <fa icon="arrow-circle-left" />
                 </router-link> &nbsp;
                 <strong>Observaciones</strong>
@@ -37,7 +37,7 @@
             </thead>
             <tbody>
               <tr v-for="n in getList" v-bind:key="n.id">
-                <td>{{ n.section }}</td>
+                <td>{{ n.section.description }}</td>
                 <td>{{ n.course.description }}</td>
                 <td>{{ n.title }}</td>
                 <td>{{ n.description }}</td>

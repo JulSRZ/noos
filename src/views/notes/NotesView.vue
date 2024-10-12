@@ -9,7 +9,7 @@
 import NotesComponent from '../../components/notes/NotesComponent.vue';
 
 export default {
-    name: 'Users',
+    name: 'NotesView',
     components: {
         NotesComponent,
     },

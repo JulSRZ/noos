@@ -8,7 +8,7 @@
 import ManageUsersComponent from "../../components/users/ManageUsersComponent.vue";
 
 export default {
-  name: "ManageUsers",
+  name: "ManageUsersView",
   components: {
     ManageUsersComponent,
   }

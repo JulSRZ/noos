@@ -16,7 +16,7 @@
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:
-               #879f2d;" :to="{name: 'addfinancial'}">
+               #879f2d;" :to="{path: 'add-financial'}">
                 Entrar
               </router-link>
             </div>
@@ -36,7 +36,7 @@
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:
-               #879f2d;" :to="{name: 'managefinancialstates'}">
+               #879f2d;" :to="{path: 'manage-financial-states'}">
                 Entrar
               </router-link>
             </div>

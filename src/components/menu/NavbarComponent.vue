@@ -1,7 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Network of School</a>
+      <a class="navbar-brand" href="#">
+        <img src="../../assets/noos-logo.png" width="224" height="80"/>
+      </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
         aria-expanded="false" aria-label="Toggle navigation">
@@ -10,26 +12,22 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <router-link class="nav-link mx-2" :to="{name: 'users'}">
+            <router-link class="nav-link mx-2" :to="{path: 'users'}">
               <fa icon="users"/> Usuarios</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link mx-2" :to="{name: 'notes'}">
+            <router-link class="nav-link mx-2" :to="{path: 'notes'}">
               <fa icon="book"/> Observador</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link mx-2" :to="{name: 'homeworks'}">
+            <router-link class="nav-link mx-2" :to="{path: 'homeworks'}">
               <fa icon="newspaper"/> Tareas</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link mx-2" :to="{name: 'financial'}">
+            <router-link class="nav-link mx-2" :to="{path: 'financial'}">
               <fa icon="money-bill-transfer"/> Financiero</router-link>
           </li>
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </nav>

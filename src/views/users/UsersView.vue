@@ -9,7 +9,7 @@
 import UsersComponent from '../../components/users/UsersComponent.vue';
 
 export default {
-  name: 'Users',
+  name: 'UsersView',
   components: {
     UsersComponent,
   },

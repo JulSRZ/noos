@@ -2,7 +2,7 @@
   <div class="card shadow-lg bg-white rounded">
     <div class="card-body">
       <h5 class="card-title" v-if="!editFinancial">
-        <router-link class="back" :to="{ name: 'financial' }" title="Regresar">
+        <router-link class="back" :to="{ path: 'financial' }" title="Regresar">
           <fa icon="arrow-circle-left" />
         </router-link> &nbsp;
         <strong>{{ titlelb }}</strong>
