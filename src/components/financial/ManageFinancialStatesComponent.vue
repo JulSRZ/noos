@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body" style="text-align: center;">
+                <div class="card-body" style="text-align: center">
                     <table class="table table-hover table-sm table-striped">
                         <thead class="back">
                             <tr>
@@ -47,8 +47,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="fState in getlist" v-bind:key="fState.id">
-                                <td>{{ fState.id }}</td>
+                            <tr v-for="fState in getList" v-bind:key="fState.id">
+                                <td style="width: 100px;">
+                                    <div class="col-sm">
+                                        <label
+                                            style="max-width: 50px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top:5px" >
+                                            {{ fState.id }}
+                                        </label>
+                                        <fa class="icon-copy" icon="copy" />
+                                    </div>
+                                </td>
                                 <td>{{ fState.attendant.tdoc.name }}</td>
                                 <td>{{ fState.attendant.doc }}</td>
                                 <td>{{ fState.attendant.name }}</td>
@@ -65,8 +73,9 @@
                                 </td>
                                 <td class="text-center">
                                     <section v-if="fState.state.code !== 'PAID'">
-                                        <a class="edit mx-2" title="Editar Cuenta" @click="openEdit(fState, fState.studentsBill)"
-                                            data-bs-toggle="modal" data-bs-target="#editUserModal">
+                                        <a class="edit mx-2" title="Editar Cuenta"
+                                            @click="openEdit(fState, fState.studentsBill)" data-bs-toggle="modal"
+                                            data-bs-target="#editUserModal">
                                             <fa icon="pen-to-square" />
                                         </a>
                                         <a class="delete mx-2" title="Eliminar Cuenta"
@@ -81,7 +90,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    
+
                 </div>
             </div>
         </div>
@@ -97,7 +106,6 @@
                     </div>
                     <div class="modal-body">
                         <create-update-financial-component :financialState="financialData" @updateDone="updateDone()" />
-                        <!--create-update-user-component :userdata="financialData" @updateDone="updateDone()" /-->
                     </div>
                 </div>
             </div>
@@ -121,8 +129,8 @@ export default {
 
     data() {
         return {
-            financialStatelist: [],
-            titlelb: "",
+            financialStateList: [],
+            titleLabel: "",
             financialData: {},
             parentsView: [],
             search: "",
@@ -135,8 +143,8 @@ export default {
         this.loadData();
     },
     computed: {
-        getlist() {
-            return this.financialStatelist.filter((item) => item.attendant.doc.toLowerCase().includes(this.search.toLowerCase()));
+        getList() {
+            return this.financialStateList.filter((item) => item.attendant.doc.toLowerCase().includes(this.search.toLowerCase()));
         }
     },
     mounted() {
@@ -144,12 +152,12 @@ export default {
     },
     methods: {
         async loadData() {
-            this.financialStatelist = [];
+            this.financialStateList = [];
             FinancialServices.getAll()
                 .then((financialList => {
                     financialList.forEach((state) => {
                         const data = this.validatefinancialData(state.data());
-                        this.financialStatelist.push({ ...data, id: state.id });
+                        this.financialStateList.push({ ...data, id: state.id });
                     });
                 }));;
         },
@@ -169,8 +177,8 @@ export default {
             const numberFormat = new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: 'COP',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0,
             });
 
             return numberFormat.format(parseFloat(number));
@@ -187,9 +195,10 @@ export default {
         },
         openEdit(fState, studentsBillData) {
             // console.log(this.financialStatelist, 'financialStatelist')
-            console.log(fState, 'FState')
+            // console.log(fState, 'FState')
             // console.log(studentsBillData, 'studentsBill')
-            this.financialData = {...fState};
+            this.financialData = { ...fState };
+            this.modal.show();
             // this.financialData.studentsBill = studentsBillData;
             // console.log(this.financialData, 'this.financialData')
 
@@ -298,5 +307,11 @@ export default {
 .search {
     background-color: #6c757d;
     color: white;
+}
+
+.icon-copy {
+    color: dimgray;
+    position: relative;
+    margin-bottom: 7px;
 }
 </style>

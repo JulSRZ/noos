@@ -19,8 +19,7 @@
                   <section class="col-sm-4">
                     <label class="form-label" for="sectionList">Secciones <i class="req">*</i></label>
                     <div class="input-group">
-                      <select class="form-select" id="sectionList" v-model="section" required
-                        :disabled="editHomework == true">
+                      <select class="form-select" id="sectionList" v-model="section" required>
                         <option :value="{code: 'ALL', description: 'Todas'}" selected>Todas</option>
                         <option v-for="sect in getSections" :key="sect.code" :value="sect">
                           {{ sect.description }}
@@ -31,8 +30,7 @@
                   <section class="col-sm-4">
                     <label class="form-label" for="courseList">Cursos</label>
                     <div class="input-group">
-                      <select class="form-select" id="courseList" v-model="course" required
-                        :disabled="editHomework == true">
+                      <select class="form-select" id="courseList" v-model="course" required>
                         <option :value="{code: 'ALL', description: 'Todos'}" selected>Todos</option>
                         <option v-for="cour in getCourses" :key="cour.code" :value="cour">
                           {{ cour.description }}
