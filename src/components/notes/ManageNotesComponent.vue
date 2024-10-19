@@ -118,6 +118,7 @@ export default {
     },
     openEdit(note) {
       this.noteData = { ...note };
+      this.modal.show();
     },
     delNote(doc) {
       Swal.fire({

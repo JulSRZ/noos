@@ -1,11 +1,11 @@
 <template>
   <div class="card shadow-lg bg-white rounded">
     <div class="card-body">
-      <h4 class="card-title" v-if="!editNote">
+      <h4 class="card-title" v-if="!editHomework">
         <router-link class="back" :to="{ path: 'homeworks' }" title="Regresar">
           <fa icon="arrow-circle-left" />
         </router-link> &nbsp;
-        <strong>{{ titlelb }}</strong>
+        <strong>{{ titleLabel }}</strong>
       </h4>
       <h6 class="card-subtitle text-muted" style="text-align: center;">Recuerde que <i class="req">*</i> son campos
         obligatorios</h6>
@@ -20,8 +20,8 @@
                     <label class="form-label" for="sectionList">Secciones <i class="req">*</i></label>
                     <div class="input-group">
                       <select class="form-select" id="sectionList" v-model="section" required
-                        :disabled="editNote == true">
-                        <option value="ALL" selected>Todas</option>
+                        :disabled="editHomework == true">
+                        <option :value="{code: 'ALL', description: 'Todas'}" selected>Todas</option>
                         <option v-for="sect in getSections" :key="sect.code" :value="sect">
                           {{ sect.description }}
                         </option>
@@ -32,8 +32,8 @@
                     <label class="form-label" for="courseList">Cursos</label>
                     <div class="input-group">
                       <select class="form-select" id="courseList" v-model="course" required
-                        :disabled="editNote == true">
-                        <option value="ALL" selected>Todos</option>
+                        :disabled="editHomework == true">
+                        <option :value="{code: 'ALL', description: 'Todos'}" selected>Todos</option>
                         <option v-for="cour in getCourses" :key="cour.code" :value="cour">
                           {{ cour.description }}
                         </option>
@@ -72,8 +72,8 @@
         </section>
         <section class="card-footer" style="background-color: white; text-align: center;">
           <button class="btn btn-outline-success" type="submit">
-            <fa :icon="adminuser ? 'user-plus' : !editNote ? 'plus' : 'edit'" />
-            {{ buttonlb }}
+            <fa :icon="adminuser ? 'user-plus' : !editHomework ? 'plus' : 'edit'" />
+            {{ buttonLabel }}
           </button>
         </section>
       </form>
@@ -85,21 +85,20 @@
 import HomeworksServices from '@/common/services/homeworks/HomeworksServices.js';
 import coursesList from "@/store/parameters/courses.json";
 import Swal from 'sweetalert2';
-import * as bootstrap from 'bootstrap';
 import sectionsList from "@/store/parameters/sections.json";
 
 export default {
   name: 'CreateUpdateHomeworkComponent',
   props: {
-    homeworkData: {},
+    homeworkData: Object,
   },
   emits: ['updateDone'],
   data() {
     return {
-      titlelb: '',
-      buttonlb: '',
+      titleLabel: '',
+      buttonLabel: '',
       adminuser: false,
-      editNote: false,
+      editHomework: false,
       updateDoneEmit: null,
       note: {
         id: '',
@@ -116,7 +115,7 @@ export default {
       },
       section: {
         code: 'ALL',
-        description: 'Todos'
+        description: 'Todas'
       },
       course: {
         code: 'ALL',
@@ -135,16 +134,17 @@ export default {
     }
   },
   created() {
-    this.buttonlb = "Agregar tarea";
-    this.titlelb = "Agregar una tarea";
+    this.buttonLabel = "Agregar tarea";
+    this.titleLabel = "Agregar una tarea";
   },
   watch: {
-    noteData(newValue) {
+    homeworkData(newValue) {
       if (newValue) {
         this.note = { ...newValue };
         this.section = newValue.section;
         this.course = newValue.course;
-        this.buttonlb = "Editar tarea";
+        this.buttonLabel = "Editar tarea";
+        this.editHomework = true;
       }
     }
   },
@@ -157,23 +157,23 @@ export default {
     async send() {
       Swal.fire({
         title: 'Espera!',
-        text: this.editNote ? 'Se actualizará la tarea' : 'Se agregará una nueva tarea',
+        text: this.editHomework ? 'Se actualizará la tarea' : 'Se agregará una nueva tarea',
         icon: 'question',
         showCancelButton: true,
         confirmButtonColor: '#42b983',
         cancelButtonColor: '#d33',
-        confirmButtonText: this.editNote ? 'Sí, actualizarla!' : 'Sí, crearla!',
+        confirmButtonText: this.editHomework ? 'Sí, actualizarla!' : 'Sí, crearla!',
         showLoaderOnConfirm: true
       }).then(async (result) => {
         if (result.isConfirmed) {
           await this.confirmSend().then(() => {
             Swal.fire({
-              title: this.editNote ? 'Actualizado!' : 'Creado!',
-              text: this.editNote ? 'La tarea ha sido actualizada' : 'La tarea ha sido creada',
+              title: this.editHomework ? 'Actualizado!' : 'Creado!',
+              text: this.editHomework ? 'La tarea ha sido actualizada' : 'La tarea ha sido creada',
               icon: 'success',
               confirmButtonColor: '#42b983'
             });
-            if (this.editNote)
+            if (this.editHomework)
               this.$emit('updateDone');
             else
               this.cleanForm();
@@ -183,7 +183,7 @@ export default {
     },
     async confirmSend() {
       return new Promise(resolve => {
-        if (this.editNote)
+        if (this.editHomework)
           HomeworksServices.update(this.note).then(() => resolve());
         else
           HomeworksServices.create(this.note).then(() => resolve());
@@ -194,8 +194,8 @@ export default {
       this.note.description = '';
       this.note.section = '';
       this.note.course = '';
-      this.course.code = 'ALL';
-      this.section.code = 'ALL';
+      this.course = {code: 'ALL', description: 'Todos'};
+      this.section = {code: 'ALL', description: 'Todas'};
     }
   }
 }

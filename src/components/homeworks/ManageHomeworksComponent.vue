@@ -15,7 +15,7 @@
             <div class="col-md-4"></div>
             <div class="col-sm justify-content-lg-right">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Digita el número de documento del usuario"
+                <input type="text" class="form-control" placeholder="Digite una sección o curso"
                   aria-label="Recipient's username" aria-describedby="basic-addon2" id="search" v-model="search">
                 <span class="input-group-text search">
                   <fa icon="search" />
@@ -36,17 +36,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="n in getList" v-bind:key="n.id">
-                <td>{{ n.section.description ?? 'Todos' }}</td>
-                <td>{{ n.course.description ?? 'Todos' }}</td>
-                <td>{{ n.title }}</td>
-                <td>{{ n.description }}</td>
+              <tr v-for="h in getList" v-bind:key="h.id">
+                <td>{{ h.section.description ?? 'Todos' }}</td>
+                <td>{{ h.course.description ?? 'Todos' }}</td>
+                <td>{{ h.title }}</td>
+                <td>{{ h.description }}</td>
                 <td class="text-center">
-                  <a class="edit mx-2" title="Editar Observación" @click="openEdit(n)" data-bs-toggle="modal"
+                  <a class="edit mx-2" title="Editar Observación" @click="openEdit(h)" data-bs-toggle="modal"
                     data-bs-target="#editUserModal">
                     <fa icon="user-edit" />
                   </a>
-                  <a class="delete mx-2" title="Eliminar Observación" @click="delHomework(n)">
+                  <a class="delete mx-2" title="Eliminar Observación" @click="delHomework(h)">
                     <fa icon="user-minus" />
                   </a>
                 </td>
@@ -117,18 +117,9 @@ export default {
           });
         }));;
     },
-    parentEvent() {
-      this.parentModal.hide();
-    },
-    viewOnlyEvent() {
-      this.parentModal.hide();
-    },
-    // openView(homework) {
-      // this.parentsView = [ ...homework.parents ];
-      // this.parentModal.show();
-    // },
     openEdit(homework) {
       this.homeworkData = { ...homework };
+      this.modal.show();
     },
     delHomework(doc) {
       Swal.fire({
