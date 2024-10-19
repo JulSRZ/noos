@@ -1,16 +1,16 @@
 <template>
   <div class="row justify-content-lg-center my-5">
-    <create-update-component />
+    <create-update-notes-component />
   </div>
 </template>
 
 <script>
-import CreateUpdateComponent from "../../components/notes/CreateUpdateComponent.vue";
+import CreateUpdateNotesComponent from "../../components/notes/CreateUpdateComponent.vue";
 
 export default {
   name: "AddNotesView",
   components: {
-    CreateUpdateComponent,
+    CreateUpdateNotesComponent,
   }
 }
 </script>

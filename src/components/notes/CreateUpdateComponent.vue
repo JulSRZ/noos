@@ -21,7 +21,7 @@
                     <div class="input-group">
                       <select class="form-select" id="sectionList" v-model="section" required
                         :disabled="editNote == true">
-                        <option value="ALL" selected>Todas</option>
+                        <option :value="{code: 'ALL', description: 'Todas'}" selected>Todas</option>
                         <option v-for="sect in getSections" :key="sect.code" :value="sect">
                           {{ sect.description }}
                         </option>
@@ -33,7 +33,7 @@
                     <div class="input-group">
                       <select class="form-select" id="courseList" v-model="course" required
                         :disabled="editNote == true">
-                        <option value="ALL" selected>Todos</option>
+                        <option :value="{code: 'ALL', description: 'Todos'}" selected>Todos</option>
                         <option v-for="cour in getCourses" :key="cour.code" :value="cour">
                           {{ cour.description }}
                         </option>
@@ -85,13 +85,12 @@
 import NotesServices from '@/common/services/note/NotesServices.js';
 import coursesList from "@/store/parameters/courses.json";
 import Swal from 'sweetalert2';
-import * as bootstrap from 'bootstrap';
 import sectionsList from "@/store/parameters/sections.json";
 
 export default {
   name: 'CreateUpdateNotesComponent',
   props: {
-    noteData: Object,
+    noteData: {},
   },
   emits: ['updateDone'],
   data() {
@@ -100,8 +99,6 @@ export default {
       buttonlb: '',
       adminuser: false,
       editNote: false,
-      parentModal: null,
-      coursesModal: null,
       updateDoneEmit: null,
       note: {
         id: '',
@@ -118,7 +115,7 @@ export default {
       },
       section: {
         code: 'ALL',
-        description: 'Todos'
+        description: 'Todas'
       },
       course: {
         code: 'ALL',
@@ -140,10 +137,6 @@ export default {
     this.buttonlb = "Agregar observación";
     this.titlelb = "Agregar una observación";
   },
-  mounted() {
-    this.parentModal = new bootstrap.Modal('#parentsModal', {});
-    this.coursesModal = new bootstrap.Modal('#coursesModal', {});
-  },
   watch: {
     noteData(newValue) {
       if (newValue) {
@@ -151,6 +144,7 @@ export default {
         this.section = newValue.section;
         this.course = newValue.course;
         this.buttonlb = "Editar Observación";
+        this.editNote = true;
       }
     }
   },
@@ -200,8 +194,8 @@ export default {
       this.note.description = '';
       this.note.section = '';
       this.note.course = '';
-      this.course.code = 'ALL';
-      this.section.code = 'ALL';
+      this.course = {code: 'ALL', description: 'Todos'};
+      this.section = {code: 'ALL', description: 'Todas'};
     }
   }
 }

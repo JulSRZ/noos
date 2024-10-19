@@ -1,17 +1,17 @@
 <template>
   <div class="row justify-content-lg-center my-5">
-    <create-update-component />
+    <create-update-homework-component />
   </div>
 </template>
 
 
 <script>
-import CreateUpdateComponent from "../../components/users/CreateUpdateComponent.vue";
+import CreateUpdateHomeworkComponent from "../../components/users/CreateUpdateComponent.vue";
 
 export default {
   name: "AddUser",
   components: {
-    CreateUpdateComponent,
+    CreateUpdateHomeworkComponent,
   }
 }
 </script>

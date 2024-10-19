@@ -56,19 +56,19 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="editUserModal" data-keyboard="true" tabindex="-1" role="dialog"
+    <div class="modal fade" id="editHomeworkModal" data-keyboard="true" tabindex="-1" role="dialog"
       aria-labelledby="staticBackdropLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="staticBackdropLabel">
-              <fa icon="user-edit" /> &nbsp; <strong>Editar Usuario</strong>
+              <fa icon="user-edit" /> &nbsp; <strong>Editar Tarea</strong>
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <!-- <div class="modal-body">
-            <create-update-component :userdata="userdata" @updateDone="updateDone()" />
-          </div> -->
+          <div class="modal-body">
+            <create-update-homework-component :homeworkData="homeworkData" @updateDone="updateDone()" />
+          </div>
         </div>
       </div>
     </div>
@@ -77,23 +77,21 @@
 
 <script>
 import HomeworksServices from '@/common/services/homeworks/HomeworksServices.js';
-import CreateUpdateComponent from './CreateUpdateComponent.vue';
+import CreateUpdateHomeworkComponent from './CreateUpdateComponent.vue';
 import Swal from 'sweetalert2';
 import * as bootstrap from 'bootstrap';
 
 export default {
   name: "ManageHomeworksComponent",
   components: {
-    CreateUpdateComponent
+    CreateUpdateHomeworkComponent
   },
   data() {
     return {
       notesList: [],
-      titlelb: "",
-      userdata: {},
-      parentsView: [],
+      homeworkData: {},
       search: "",
-      isUpdate: false,
+      // isUpdate: false,
       modal: null,
       parentModal: null,
     };
@@ -103,13 +101,11 @@ export default {
   },
   computed: {
     getList() {
-      // return this.notesList.filter((item) => item.doc.toLowerCase().includes(this.search.toLowerCase()));
-      return this.notesList;
+      return this.notesList.filter((item) => item.section?.description?.toLowerCase().includes(this.search.toLowerCase()) || item.course?.description?.toLowerCase().includes(this.search.toLowerCase()));
     },
   },
   mounted() {
-    this.modal = new bootstrap.Modal('#editUserModal', {});
-    //this.parentModal = new bootstrap.Modal('#testModal', {});
+    this.modal = new bootstrap.Modal('#editHomeworkModal', {});
   },
   methods: {
     async loadData() {
@@ -127,12 +123,12 @@ export default {
     viewOnlyEvent() {
       this.parentModal.hide();
     },
-    openView(user) {
-      this.parentsView = [ ...user.parents ];
-      this.parentModal.show();
-    },
-    openEdit(user) {
-      this.userdata = { ...user };
+    // openView(homework) {
+      // this.parentsView = [ ...homework.parents ];
+      // this.parentModal.show();
+    // },
+    openEdit(homework) {
+      this.homeworkData = { ...homework };
     },
     delHomework(doc) {
       Swal.fire({

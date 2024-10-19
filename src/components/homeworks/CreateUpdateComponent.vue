@@ -91,7 +91,7 @@ import sectionsList from "@/store/parameters/sections.json";
 export default {
   name: 'CreateUpdateHomeworkComponent',
   props: {
-    noteData: Object,
+    homeworkData: {},
   },
   emits: ['updateDone'],
   data() {
@@ -100,8 +100,6 @@ export default {
       buttonlb: '',
       adminuser: false,
       editNote: false,
-      parentModal: null,
-      coursesModal: null,
       updateDoneEmit: null,
       note: {
         id: '',
@@ -139,10 +137,6 @@ export default {
   created() {
     this.buttonlb = "Agregar tarea";
     this.titlelb = "Agregar una tarea";
-  },
-  mounted() {
-    this.parentModal = new bootstrap.Modal('#parentsModal', {});
-    this.coursesModal = new bootstrap.Modal('#coursesModal', {});
   },
   watch: {
     noteData(newValue) {

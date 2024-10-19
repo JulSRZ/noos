@@ -15,7 +15,7 @@
             <div class="col-md-4"></div>
             <div class="col-sm justify-content-lg-right">
               <div class="input-group">
-                <input type="text" class="form-control" placeholder="Digita el número de documento del usuario"
+                <input type="text" class="form-control" placeholder="Digite una sección o curso"
                   aria-label="Recipient's username" aria-describedby="basic-addon2" id="search" v-model="search">
                 <span class="input-group-text search">
                   <fa icon="search" />
@@ -56,43 +56,43 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="editUserModal" data-keyboard="true" tabindex="-1" role="dialog"
+    <section class="modal fade" id="editNoteModal" data-keyboard="true" tabindex="-1" role="dialog"
       aria-labelledby="staticBackdropLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
+      <section class="modal-dialog modal-dialog-centered modal-lg">
+        <section class="modal-content">
+          <section class="modal-header">
             <h1 class="modal-title fs-5" id="staticBackdropLabel">
-              <fa icon="user-edit" /> &nbsp; <strong>Editar Usuario</strong>
+              <fa icon="user-edit" /> &nbsp; <strong>Editar observación</strong>
             </h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <create-update-user-component :userdata="userdata" @updateDone="updateDone()" />
-          </div>
-        </div>
-      </div>
-    </div>
+          </section>
+          <section class="modal-body">
+            <create-update-notes-component :noteData="noteData" @updateDone="updateDone()" />
+          </section>
+        </section>
+      </section>
+    </section>
   </div>
 </template>
 
 <script>
+import CreateUpdateNotesComponent from './CreateUpdateComponent.vue'
 import NotesServices from '@/common/services/note/NotesServices.js';
 import Swal from 'sweetalert2';
 import * as bootstrap from 'bootstrap';
 
 export default {
   name: "ManageNotesComponent",
-  components: {},
+  components: {
+    CreateUpdateNotesComponent,
+  },
   data() {
     return {
       notesList: [],
-      titlelb: "",
-      userdata: {},
-      parentsView: [],
+      noteData: {},
       search: "",
       isUpdate: false,
       modal: null,
-      parentModal: null,
     };
   },
   created() {
@@ -100,13 +100,11 @@ export default {
   },
   computed: {
     getList() {
-      // return this.notesList.filter((item) => item.doc.toLowerCase().includes(this.search.toLowerCase()));
-      return this.notesList;
+      return this.notesList.filter((item) => item.section?.description?.toLowerCase().includes(this.search.toLowerCase()) || item.course?.description?.toLowerCase().includes(this.search.toLowerCase()));
     },
   },
   mounted() {
-    this.modal = new bootstrap.Modal('#editUserModal', {});
-    //this.parentModal = new bootstrap.Modal('#testModal', {});
+    this.modal = new bootstrap.Modal('#editNoteModal', {});
   },
   methods: {
     async loadData() {
@@ -118,35 +116,26 @@ export default {
           });
         }));;
     },
-    parentEvent() {
-      this.parentModal.hide();
-    },
-    viewOnlyEvent() {
-      this.parentModal.hide();
-    },
-    openView(user) {
-      this.parentsView = [ ...user.parents ];
-      this.parentModal.show();
-    },
-    openEdit(user) {
-      this.userdata = { ...user };
+    openEdit(note) {
+      this.noteData = { ...note };
     },
     delNote(doc) {
       Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Espera!',
+        text: "No será posible revertir este cambio!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#d33',
         cancelButtonColor: 'DimGray',
-        confirmButtonText: 'Yes, delete it!'
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Eliminar!'
       }).then((result) => {
         if (result.isConfirmed) {
           NotesServices.delete(doc.id)
             .then(() => {
               Swal.fire(
-                'Deleted!',
-                'The user has been deleted',
+                'Eliminado!',
+                'La observación ha sido eliminada',
                 'success'
               )
                 .then(() => this.loadData());
