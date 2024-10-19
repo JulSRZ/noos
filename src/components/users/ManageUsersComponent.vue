@@ -40,7 +40,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="u in getlist" v-bind:key="u.doc">
+              <tr v-for="u in getList" v-bind:key="u.doc">
                 <td>{{ u.tdoc.id }} - {{ u.tdoc.name }}</td>
                 <td>{{ u.doc }}</td>
                 <td>{{ u.name }}</td>
@@ -80,7 +80,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <create-update-user-component :userdata="userdata" @updateDone="updateDone()" />
+            <create-update-user-component :userData="userData" @updateDone="updateDone()" />
           </div>
         </div>
       </div>
@@ -108,9 +108,9 @@ export default {
 
   data() {
     return {
-      userslist: [],
-      titlelb: "",
-      userdata: {},
+      usersList: [],
+      titleLabel: "",
+      userData: {},
       parentsView: [],
       search: "",
       isUpdate: false,
@@ -122,8 +122,8 @@ export default {
     this.loadData();
   },
   computed: {
-    getlist() {
-      return this.userslist.filter((item) => item.doc.toLowerCase().includes(this.search.toLowerCase()));
+    getList() {
+      return this.usersList.filter((item) => item.doc.toLowerCase().includes(this.search.toLowerCase()));
     },
   },
   mounted() {
@@ -132,11 +132,11 @@ export default {
   },
   methods: {
     async loadData() {
-      this.userslist = [];
+      this.usersList = [];
       UserServices.getAll()
         .then((usersList => {
           usersList.forEach((user) => {
-            this.userslist.push({ ...user.data(), id: user.id });
+            this.usersList.push({ ...user.data(), id: user.id });
           });
         }));;
     },
@@ -151,7 +151,7 @@ export default {
       this.parentModal.show();
     },
     openEdit(user) {
-      this.userdata = { ...user };
+      this.userData = { ...user };
     },
     delUser(doc) {
       Swal.fire({

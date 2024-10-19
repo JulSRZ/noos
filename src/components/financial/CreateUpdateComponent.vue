@@ -220,7 +220,6 @@ export default {
   watch: {
     financialState: function (newValue) {
       if (newValue) {
-        console.log(this.financialState , 'this.financialState')
         this.newBill = this.financialState;
         this.newBill.studentsBill = this.financialState.studentBill;
         this.editFinancial = true;
@@ -311,7 +310,6 @@ export default {
       this.resetDetail = false;
     },
     saveFinancialStudent(data) {
-      console.log(data, 'DATA')
       this.newBill.studentsBill = data;
       this.newBill.totalAmount = 0;
       this.newBill.studentsBill.forEach((studentBill) => {
@@ -319,7 +317,6 @@ export default {
       });
     },
     async send() {
-      console.log('send')
       Swal.fire({
         title: 'Espera!',
         text: this.editFinancial ? 'Actualizaras el estado financiero' : 'Crearas el estado financiero',

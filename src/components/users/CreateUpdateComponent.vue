@@ -5,7 +5,7 @@
         <router-link class="back" :to="{ path: 'users' }" title="Regresar">
           <fa icon="arrow-circle-left" />
         </router-link> &nbsp;
-        <strong>{{ titlelb }}</strong>
+        <strong>{{ titleLabel }}</strong>
       </h4>
       <h6 class="card-subtitle text-muted" style="text-align: center;">Recuerde que <i class="req">*</i> son campos
         obligatorios</h6>
@@ -124,7 +124,7 @@
                         <fa icon="lock" />
                       </span>
                       <input type="password" class="form-control" id="confpass" autocomplete="off" minlength="6"
-                        v-model="confpass" required>
+                        v-model="confPass" required>
                     </div>
                   </div>
                 </div>
@@ -187,8 +187,8 @@
         </div>
         <div class="card-footer" style="background-color: white; text-align: center;">
           <button class="btn btn-outline-success" type="submit">
-            <fa :icon="adminuser ? 'user-plus' : !editUser ? 'plus' : 'edit'" />
-            {{ buttonlb }}
+            <fa :icon="adminUser ? 'user-plus' : !editUser ? 'plus' : 'edit'" />
+            {{ buttonLabel }}
           </button>
         </div>
       </form>
@@ -217,17 +217,17 @@ export default {
     ManageCoursesComponent
   },
   props: {
-    userdata: {},
+    userData: {},
   },
   emits: ['updateDone'],
   data() {
     return {
-      titlelb: '',
-      buttonlb: '',
-      adminuser: false,
+      titleLabel: '',
+      buttonLabel: '',
+      adminUser: false,
       editUser: false,
       pass: '',
-      confpass: '',
+      confPass: '',
       parentModal: null,
       coursesModal: null,
       updateDoneEmit: null,
@@ -266,8 +266,8 @@ export default {
     }
   },
   created() {
-    this.buttonlb = "Agregar Usuario";
-    this.titlelb = "Agregar un Usuario";
+    this.buttonLabel = "Agregar Usuario";
+    this.titleLabel = "Agregar un Usuario";
   },
   mounted() {
     this.parentModal = new bootstrap.Modal('#parentsModal', {});
@@ -298,10 +298,10 @@ export default {
   watch: {
     userdata: function (newValue) {
       if (newValue) {
-        this.user = this.userdata;
-        this.parentsList = this.userdata.parents;
+        this.user = this.userData;
+        this.parentsList = this.userData.parents;
         this.editUser = true;
-        this.buttonlb = "Editar Usuario";
+        this.buttonLabel = "Editar Usuario";
       }
     }
   },
@@ -321,7 +321,7 @@ export default {
       this.coursesModal.hide();
     },
     checkPass() {
-      if (this.pass === this.confpass) {
+      if (this.pass === this.confPass) {
         this.send();
       } else {
         this.erroralert.title = "Contraseña no verificada";
@@ -368,7 +368,7 @@ export default {
       this.user.name = '';
       this.user.email = '';
       this.pass = '';
-      this.confpass = '';
+      this.confPass = '';
       this.user.doc = '';
       this.user.tdoc = '';
       this.user.cel = '';

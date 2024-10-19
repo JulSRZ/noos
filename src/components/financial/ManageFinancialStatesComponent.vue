@@ -9,7 +9,7 @@
                                 <router-link class="back" :to="{ path: 'financial' }" title="Regresar">
                                     <fa icon="arrow-circle-left" />
                                 </router-link> &nbsp;
-                                <strong>Estados Financieros</strong>
+                                <strong>Estados financieros</strong>
                             </h5>
                         </div>
                         <div class="col-md-4"></div>
@@ -50,8 +50,7 @@
                             <tr v-for="fState in getList" v-bind:key="fState.id">
                                 <td style="width: 100px;">
                                     <div class="col-sm">
-                                        <label
-                                            style="max-width: 50px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top:5px" >
+                                        <label style="max-width: 50px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top:5px" >
                                             {{ fState.id }}
                                         </label>
                                         <fa class="icon-copy" icon="copy" />
@@ -256,7 +255,6 @@ export default {
             });
         },
         getStateClass(state) {
-            console.log(state.code, 'code')
             switch (state.code) {
                 case CFinancialStates.PENDING_STATE.code:
                     return 'badge rounded-pill text-bg-warning';

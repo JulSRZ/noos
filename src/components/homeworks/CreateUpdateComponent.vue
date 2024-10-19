@@ -1,6 +1,6 @@
 <template>
-  <div class="card shadow-lg bg-white rounded">
-    <div class="card-body">
+  <section class="card shadow-lg bg-white rounded">
+    <section class="card-body">
       <h4 class="card-title" v-if="!editHomework">
         <router-link class="back" :to="{ path: 'homeworks' }" title="Regresar">
           <fa icon="arrow-circle-left" />
@@ -14,7 +14,7 @@
           <section class="row">
             <section class="card">
               <section class="card-body">
-                <h5 class="card-title card-title-noos">Información Curso(s)</h5>
+                <h5 class="card-title card-title-noos">Información curso(s)</h5>
                 <section class="row">
                   <section class="col-sm-4">
                     <label class="form-label" for="sectionList">Secciones <i class="req">*</i></label>
@@ -75,8 +75,8 @@
           </button>
         </section>
       </form>
-    </div>
-  </div>
+    </section>
+  </section>
 </template>
 
 <script>

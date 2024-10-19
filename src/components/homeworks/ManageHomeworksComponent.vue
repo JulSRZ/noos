@@ -43,7 +43,7 @@
                 <td>{{ h.description }}</td>
                 <td class="text-center">
                   <a class="edit mx-2" title="Editar Observación" @click="openEdit(h)" data-bs-toggle="modal"
-                    data-bs-target="#editUserModal">
+                    data-bs-target="#editHomeworkModal">
                     <fa icon="user-edit" />
                   </a>
                   <a class="delete mx-2" title="Eliminar Observación" @click="delHomework(h)">
