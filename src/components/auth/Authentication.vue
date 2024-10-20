@@ -13,74 +13,24 @@
 
 <script>
 import { auth, googleProvider } from "@/firebase/init";
-import { signInWithPopup, signOut, GoogleAuthProvider } from "firebase/auth";
-// import { Button } from 'bootstrap';
-
-//   import UserServices from '@/common/services/user/UsersServices.js';
+import {
+  signInWithPopup,
+  browserSessionPersistence,
+  setPersistence,
+} from "firebase/auth";
 
 export default {
   name: "AuthenticationComponent",
-  components: {
-    //   CreateUpdateUserComponent,
-    //   ManageParentsComponent
-  },
-
-  data() {
-    return {
-      currentUser: {},
-      // usersList: [],
-      // titleLabel: "",
-      // userData: {},
-      // parentsView: [],
-      // search: "",
-      // isUpdate: false,
-      // modal: null,
-      // parentModal: null,
-    };
-  },
-  created() {
-    this.loadData();
-  },
-  computed: {
-    //   getList() {
-    //     return this.usersList.filter((item) => item.doc.toLowerCase().includes(this.search.toLowerCase()));
-    //   },
-  },
-  mounted() {
-    //   this.modal = new bootstrap.Modal('#editUserModal', {});
-    //this.parentModal = new bootstrap.Modal('#testModal', {});
-  },
   methods: {
-    async loadData() {
-      this.currentUser = auth.currentUser;
-      console.log(this.currentUser, "CURRENT USER");
-    },
     googleSignIn() {
-      signInWithPopup(auth, googleProvider)
-        .then((result) => {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          const credential = GoogleAuthProvider.credentialFromResult(result);
-          const token = credential.accessToken;
-          console.log(token, "TOKEN");
-          // The signed-in user info.
-          const user = result.user;
-          console.log(user, "USER");
-
-          // IdP data available using getAdditionalUserInfo(result)
-          // ...
+      setPersistence(auth, browserSessionPersistence)
+        .then(() => {
+          signInWithPopup(auth, googleProvider);
         })
         .catch((error) => {
-          console.log(error, "CATCH ERROR");
-          // Handle Errors here.
           const errorCode = error.code;
           const errorMessage = error.message;
-          // The email of the user's account used.
-          const email = error.customData.email;
-          // The AuthCredential type that was used.
-          const credential = GoogleAuthProvider.credentialFromError(error);
-          // ...
         });
-      // this.parentModal.hide();
     },
   },
 };

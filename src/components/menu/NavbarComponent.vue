@@ -38,16 +38,31 @@
             >
           </li>
         </ul>
-        <section class="d-flex" role="search">
-          <button
-            class="btn btn-outline-light"
-            style="color: black; border: none; top: 18px; right: 0px; position: absolute"
-            type="button"
-            @click="googleSignOut"
-            tooltip="Cerrar sesión"
+        <section class="d-flex">
+          <section
+            style="color: black; border: none; top: -12px; right: -38px; position: absolute"
           >
-            <fa icon="sign-out" />
-          </button>
+            <div class="btn-group">
+              <button
+                class="btn btn-light custom-dropdown-toggle"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img class="profile-image" :src="sessionUser.photoURL" width="38" height="38" />
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" style="position: absolute; top: 58px; right: 34px">
+                <li>
+                  <a class="dropdown-item" href="#" @click="googleSignOut">
+                    <fa icon="user" width="12" height="12" /> <label style="margin-left: 4px"> Cuenta </label>
+                  </a>
+                  <li><hr class="dropdown-divider"></li>
+                  <a class="dropdown-item" href="#" @click="googleSignOut">
+                    <label style="margin-right: 4px"> Salir </label> <fa icon="sign-out" width="16" height="16" />
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </section>
         </section>
       </div>
     </div>
@@ -57,6 +72,7 @@
 <script>
 import { auth } from "@/firebase/init";
 import { signOut } from "firebase/auth";
+import { mapState } from "vuex";
 import Swal from "sweetalert2";
 
 export default {
@@ -71,6 +87,9 @@ export default {
       toastLiveExample: null,
     };
   },
+  computed: {
+    ...mapState(["sessionUser"]),
+  },
   methods: {
     googleSignOut() {
       Swal.fire({
@@ -83,17 +102,38 @@ export default {
         confirmButtonText: "Cerrarla!",
       }).then((result) => {
         if (result.isConfirmed) {
-          signOut(auth)
-            .then(() => {
-              Swal.fire(
-                "Sesión cerrada",
-                "La sesión ha sido cerrada de manera segura",
-                "success"
-              ).then(() => this.$router.push({ path: "/" }));
-            });
+          signOut(auth).then(() => {
+            Swal.fire(
+              "Sesión cerrada",
+              "La sesión ha sido cerrada de manera segura",
+              "success"
+            ).then(() => this.$router.push({ path: "/" }));
+          });
         }
       });
     },
   },
 };
 </script>
+
+<style scoped>
+.profile-image {
+  top: 18px;
+  right: 48px;
+  position: absolute;
+  border-radius: 50%;
+}
+
+.custom-dropdown-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.custom-dropdown-menu {
+  text-align: right;
+  min-width: auto;
+  width: auto;
+  padding: 4px 8px; 
+}
+</style>
