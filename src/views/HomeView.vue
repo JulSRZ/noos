@@ -12,7 +12,7 @@
         </strong>
       </div>
     </div>
-    <div class="row">
+    <div class="row" v-if="!sessionUser">
       <authentication-component />
     </div>
   </section>
@@ -20,27 +20,21 @@
 
 <script>
 import AuthenticationComponent from "../components/auth/Authentication.vue";
+import { mapState } from 'vuex';
+
 export default {
   name: "HomeView",
   components: {
     AuthenticationComponent,
   },
-
   data() {
-    return {
-    };
+    return {};
   },
   created() {
     //   this.loadData();
   },
   computed: {
-    //   getList() {
-    //     return this.usersList.filter((item) => item.doc.toLowerCase().includes(this.search.toLowerCase()));
-    //   },
-  },
-  mounted() {
-    //   this.modal = new bootstrap.Modal('#editUserModal', {});
-    //this.parentModal = new bootstrap.Modal('#testModal', {});
+    ...mapState(["sessionUser"]),
   },
   methods: {
     //   async loadData() {

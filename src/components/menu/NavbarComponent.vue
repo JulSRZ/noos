@@ -44,6 +44,10 @@
             style="color: black; border: none; top: 18px; right: 0px; position: absolute"
             type="button"
             @click="googleSignOut"
+            data-bs-toggle="tooltip"
+            data-bs-placement="left"
+            data-bs-custom-class="custom-tooltip"
+            data-bs-title="Cerrar sesión"
           >
             <fa icon="sign-out" />
           </button>
@@ -66,14 +70,11 @@ export default {
       adminuser: false,
       verifyuser: false,
       classm: "nav-link",
+      toastTrigger: null,
+      toastLiveExample: null,
     };
   },
   methods: {
-    changeAdmin(event) {
-      /*if (this.$store.state.userdata.data.rol === 1) {
-        this.adminuser = true;
-      }*/
-    },
     googleSignOut() {
       Swal.fire({
         title: "Desea cerrar sesión?",
@@ -92,34 +93,10 @@ export default {
                 "La sesión ha sido cerrada de manera segura",
                 "success"
               ).then(() => this.$router.push({ path: "/" }));
-            })
-            .catch((error) => {
-              // An error happened.
-              console.log(error, "SIGN OUT ERROR");
             });
         }
       });
     },
-  },
-  created() {},
-  beforeCreate(event) {
-    /*firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        firebase.firestore().collection('users').where('uid', '==', user.uid).get()
-            .then((data) => {
-              data.docs.forEach((d) => {
-                this.$store.state.userdata.data = d.data();
-                this.changeAdmin();
-              })
-            });
-        this.user = user;
-        if (user.emailVerified) {
-          this.classm = "nav-link";
-        }
-      } else {
-        this.user = null;
-      }
-    });*/
   },
 };
 </script>

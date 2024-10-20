@@ -1,5 +1,5 @@
 <template>
-  <section id="nav" class="container-fluid text-center">
+  <section id="nav" class="container-fluid">
     <navbar-component v-if="sessionUser !== null" />
     <router-view/>
   </section>
