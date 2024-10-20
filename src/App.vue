@@ -1,17 +1,24 @@
 <template>
-  <div id="nav" class="container-fluid">
-    <navbar-component/>
+  <section id="nav" class="container-fluid text-center">
+    <navbar-component v-if="sessionUser !== null" />
     <router-view/>
-  </div>
+  </section>
 </template>
 
 <script>
 import NavbarComponent from './components/menu/NavbarComponent.vue';
+import { mapState } from 'vuex';
 
 export default {
   components: {
     NavbarComponent,
   },
+  created() {
+    this.$store.dispatch('fetchSessionUser');
+  },
+  computed: {
+    ...mapState(['sessionUser']),
+  }
 };
 </script>
 

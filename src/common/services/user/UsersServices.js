@@ -1,5 +1,5 @@
 import { myCollections } from "@/common/constants/firebaseCollections.js";
-import { doc, getDocs, addDoc, deleteDoc, updateDoc, collection, query, where, and, getDoc } from 'firebase/firestore';
+import { doc, getDocs, addDoc, deleteDoc, updateDoc, collection, query, where } from 'firebase/firestore';
 import { db } from '@/firebase/init';
 
 const userCollection = collection(db, myCollections.USER_COLLECTION)

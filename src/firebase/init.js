@@ -3,6 +3,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
+import { GoogleAuthProvider } from "firebase/auth";
 //import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -24,4 +25,9 @@ initializeApp(firebaseConfig);
 
 export const db = getFirestore();
 export const auth = getAuth();
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+// googleProvider.setCustomParameters({
+//   'login_hint': 'juankcontreras00@gmail.com'
+// });
 //const analytics = getAnalytics(app);

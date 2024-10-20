@@ -1,17 +1,25 @@
-import { createStore } from 'vuex';
+import { createStore } from "vuex";
+import { auth } from "../firebase/init";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
-import userdata from "./modules/userdata";
-
-export default createStore({
+const store = createStore({
   state: {
-    userdata,
+    sessionUser: null,
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
+    setSessionUser(state, payload) {
+      state.sessionUser = payload;
+    },
   },
   actions: {
+    async fetchSessionUser({ commit }) {
+      onAuthStateChanged(auth, (user) => {
+        commit("setSessionUser", user);
+      });
+    },
   },
-  modules: {
-  },
+  modules: {},
 });
+
+export default store;
