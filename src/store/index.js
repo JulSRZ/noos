@@ -15,6 +15,7 @@ const store = createStore({
   actions: {
     async fetchSessionUser({ commit }) {
       onAuthStateChanged(auth, (user) => {
+        console.log(user, 'CURRENT USER')
         commit("setSessionUser", user);
       });
     },

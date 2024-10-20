@@ -52,7 +52,7 @@
               </button>
               <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" style="position: absolute; top: 58px; right: 34px">
                 <li>
-                  <a class="dropdown-item" href="#" @click="googleSignOut">
+                  <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#accountModal">
                     <fa icon="user" width="12" height="12" /> <label style="margin-left: 4px"> Cuenta </label>
                   </a>
                   <li><hr class="dropdown-divider"></li>
@@ -67,16 +67,49 @@
       </div>
     </div>
   </nav>
+  <div
+      class="modal fade"
+      id="accountModal"
+      data-keyboard="true"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-md">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">
+              <fa icon="user" /> &nbsp; <strong>Mi cuenta</strong>
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <user-account-component />
+          </div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script>
+import UserAccountComponent from './components/UserAccount.vue'
 import { auth } from "@/firebase/init";
 import { signOut } from "firebase/auth";
 import { mapState } from "vuex";
 import Swal from "sweetalert2";
+import * as bootstrap from "bootstrap";
 
 export default {
   name: "NavbarComponent",
+  components: {
+    UserAccountComponent
+  },
   data() {
     return {
       user: null,
@@ -86,6 +119,9 @@ export default {
       toastTrigger: null,
       toastLiveExample: null,
     };
+  },
+  mounted() {
+    this.modal = new bootstrap.Modal("#accountModal", {});
   },
   computed: {
     ...mapState(["sessionUser"]),
