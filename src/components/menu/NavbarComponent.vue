@@ -44,10 +44,7 @@
             style="color: black; border: none; top: 18px; right: 0px; position: absolute"
             type="button"
             @click="googleSignOut"
-            data-bs-toggle="tooltip"
-            data-bs-placement="left"
-            data-bs-custom-class="custom-tooltip"
-            data-bs-title="Cerrar sesión"
+            tooltip="Cerrar sesión"
           >
             <fa icon="sign-out" />
           </button>
