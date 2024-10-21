@@ -1,9 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
+      <router-link class="nav-link mx-2" :to="{ path: 'dashboard' }">
         <img src="../../assets/logo-noos.png" width="224" height="80" />
-      </a>
+      </router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -53,11 +53,11 @@
               <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" style="position: absolute; top: 58px; right: 34px">
                 <li>
                   <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#accountModal">
-                    <fa icon="user" width="12" height="12" /> <label style="margin-left: 4px"> Cuenta </label>
+                    <fa icon="user" width="12" height="12" style="color: #5C626C" /> <label style="margin-left: 4px; color: #5C626C"> Cuenta </label>
                   </a>
                   <li><hr class="dropdown-divider"></li>
                   <a class="dropdown-item" href="#" @click="googleSignOut">
-                    <label style="margin-right: 4px"> Salir </label> <fa icon="sign-out" width="16" height="16" />
+                    <label style="margin-right: 4px; color: dimgray; font-size: 14px"> Salir </label> <fa icon="sign-out" width="12" height="12" style="color: dimgray"/>
                   </a>
                 </li>
               </ul>
@@ -80,7 +80,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="staticBackdropLabel">
-              <fa icon="user" /> &nbsp; <strong>Mi cuenta</strong>
+              <fa icon="user" width="16" height="16"/> &nbsp; <strong>Mi cuenta</strong>
             </h1>
             <button
               type="button"
@@ -143,7 +143,7 @@ export default {
               "Sesión cerrada",
               "La sesión ha sido cerrada de manera segura",
               "success"
-            ).then(() => this.$router.push({ path: "/" }));
+            ).then(() => this.$router.push({ path: "login" }));
           });
         }
       });

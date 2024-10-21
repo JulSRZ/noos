@@ -13,11 +13,7 @@
 
 <script>
 import { auth, googleProvider } from "@/firebase/init";
-import {
-  signInWithPopup,
-  browserSessionPersistence,
-  setPersistence,
-} from "firebase/auth";
+import { signInWithPopup, browserSessionPersistence, setPersistence } from "firebase/auth";
 
 export default {
   name: "AuthenticationComponent",
@@ -25,7 +21,9 @@ export default {
     googleSignIn() {
       setPersistence(auth, browserSessionPersistence)
         .then(() => {
-          signInWithPopup(auth, googleProvider);
+          return signInWithPopup(auth, googleProvider).then(() =>
+            this.$router.push({ path: "dashboard" })
+          );
         })
         .catch((error) => {
           const errorCode = error.code;

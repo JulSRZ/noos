@@ -1,6 +1,6 @@
 import { createStore } from "vuex";
 import { auth } from "../firebase/init";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 
 const store = createStore({
   state: {

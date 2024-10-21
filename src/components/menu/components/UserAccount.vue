@@ -13,9 +13,13 @@
           <section class="col-3"><strong>Email</strong></section>
           <section class="col">{{sessionUser.email}}</section>
         </section>
-        <section class="row">
+        <section class="row" v-if="sessionUser.phoneNumber">
           <section class="col-3"><strong>Phone</strong></section>
           <section class="col">{{sessionUser.phoneNumber}}</section>
+        </section>
+        <section class="row">
+          <section class="col-3"><strong>Rol</strong></section>
+          <section class="col">{{'ROLE'}}</section>
         </section>
       </section>
     </section>

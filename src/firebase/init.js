@@ -27,7 +27,3 @@ export const db = getFirestore();
 export const auth = getAuth();
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-// googleProvider.setCustomParameters({
-//   'login_hint': 'juankcontreras00@gmail.com'
-// });
-//const analytics = getAnalytics(app);
