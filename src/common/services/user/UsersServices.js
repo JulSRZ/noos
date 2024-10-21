@@ -9,6 +9,11 @@ class UserServices {
     return await getDocs(userCollection);
   }
 
+  async getUserByUid(uid) {
+    const q = query(userCollection, where('uid', '==', uid));
+    return await getDocs(q);
+  }
+
   async getStudentByDoc(doc) {
     const q = query(userCollection, where('doc', '==', doc));
     return await getDocs(q);

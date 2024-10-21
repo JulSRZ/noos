@@ -1,5 +1,5 @@
 <template>
-  <section class="card shadow-lg bg-white rounded">
+  <section class="card shadow-lg bg-white rounded card-container">
     <section class="card-body">
       <h4 class="card-title" v-if="!editHomework">
         <router-link class="back" :to="{ path: 'homeworks' }" title="Regresar">
@@ -222,5 +222,9 @@ export default {
 .card-title-noos {
   font-weight: bolder;
   color: #879f2d;
+}
+
+.card-container {
+  width: 90%;
 }
 </style>

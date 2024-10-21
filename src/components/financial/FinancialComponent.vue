@@ -12,7 +12,7 @@
             </div>
             <div class="card-body">
               <p class="card-text">
-                Aquí pordrá agregar todas las facturas de cada acudiente según los hijos que tenga asignados.
+                Agregar todas las facturas de cada acudiente según los hijos que tenga asignados.
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:
@@ -32,7 +32,7 @@
             </div>
             <div class="card-body">
               <p class="card-text">
-                Aquí pordrá administrar todas las facturas de los padres según los hijos que tenga asignados.
+                Administrar todas las facturas de los padres según los hijos que tenga asignados.
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:

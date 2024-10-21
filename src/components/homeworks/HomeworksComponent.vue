@@ -11,7 +11,7 @@
             </div>
             <div class="card-body">
               <p class="card-text">
-                Aquí pordrá agregar todas todas las tareas de los estudiantes o del curso.
+                Agregar todas todas las tareas de los estudiantes o del curso.
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:
@@ -31,7 +31,7 @@
             </div>
             <div class="card-body">
               <p class="card-text">
-                Aquí pordrá administrar todas las tareas de los estudiantes o curso.
+                Administrar todas las tareas de los estudiantes o curso.
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:

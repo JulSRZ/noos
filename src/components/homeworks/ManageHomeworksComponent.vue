@@ -42,12 +42,12 @@
                 <td>{{ h.title }}</td>
                 <td>{{ h.description }}</td>
                 <td class="text-center">
-                  <a class="edit mx-2" title="Editar Observación" @click="openEdit(h)" data-bs-toggle="modal"
+                  <a class="edit mx-2" title="Editar tareas" @click="openEdit(h)" data-bs-toggle="modal"
                     data-bs-target="#editHomeworkModal">
-                    <fa icon="user-edit" />
+                    <fa icon="pen-to-square" />
                   </a>
-                  <a class="delete mx-2" title="Eliminar Observación" @click="delHomework(h)">
-                    <fa icon="user-minus" />
+                  <a class="delete mx-2" title="Eliminar tareas" @click="delHomework(h)">
+                    <fa icon="trash-can" />
                   </a>
                 </td>
               </tr>

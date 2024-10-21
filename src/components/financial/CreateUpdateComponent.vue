@@ -1,5 +1,5 @@
 <template>
-  <div class="card shadow-lg bg-white rounded">
+  <div class="card shadow-lg bg-white rounded card-container">
     <div class="card-body">
       <h5 class="card-title" v-if="!editFinancial">
         <router-link class="back" :to="{ path: 'financial' }" title="Regresar">
@@ -415,5 +415,9 @@ export default {
 .card-title-noos {
   font-weight: bolder;
   color: #879f2d;
+}
+
+.card-container {
+  width: 90%;
 }
 </style>

@@ -48,21 +48,23 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="u in getList" v-bind:key="u.doc">
-                <td>{{ u.tdoc.id }} - {{ u.tdoc.name }}</td>
-                <td>{{ u.doc }}</td>
-                <td>{{ u.name }}</td>
-                <td>{{ u.email }}</td>
-                <td>{{ u.address }}</td>
-                <td>{{ u.cel }}</td>
-                <td>{{ u.role.name }}</td>
-                <td>{{ u.role.id == 5 ? u.course.description : "N/A" }}</td>
+              <tr v-for="u in getList" v-bind:key="u.uid">
+                <td>{{ u?.tdoc?.id }} - {{ u?.tdoc?.name }}</td>
+                <td>{{ u?.doc }}</td>
+                <td>{{ u?.name }}</td>
+                <td>{{ u?.email }}</td>
+                <td>{{ u?.address }}</td>
+                <td>{{ u?.phone }}</td>
+                <td>{{ u?.role?.name }}</td>
+                <td>{{ u?.role?.id == 5 ? u?.course?.description : "N/A" }}</td>
                 <td class="text-center">
-                  <!--a v-if="u.role.id != 1 && u.role.id != 2" class="view mx-2"
+                  <!-- <a
+                    v-if="u.role.id != 1 && u.role.id != 2"
+                    class="view mx-2"
                     :title="u.role.id == 3 ? 'Ver Cursos' : u.role.id == 4 ? 'Ver Hijos' : 'Ver Padres'"
                     @click="openView(u)">
                     <fa icon="eye" />
-                  </a-->
+                  </a> -->
                   <a
                     class="edit mx-2"
                     title="Editar Usuario"
@@ -110,10 +112,21 @@
         </div>
       </div>
     </div>
-    <!--div class="modal fade" id="testModal" data-keyboard="true" tabindex="-1" role="dialog"
-      aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <manage-parents-component :parents="parentsView" :isViewOnly="true" @viewOnlyEvent="parentEvent()" />
-    </div-->
+    <div
+      class="modal fade"
+      id="testModal"
+      data-keyboard="true"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="staticBackdropLabel"
+      aria-hidden="true"
+    >
+      <manage-parents-component
+        :parents="parentsView"
+        :isViewOnly="true"
+        @viewOnlyEvent="parentEvent()"
+      />
+    </div>
   </div>
 </template>
 
@@ -148,14 +161,12 @@ export default {
   },
   computed: {
     getList() {
-      return this.usersList.filter((item) =>
-        item.doc.toLowerCase().includes(this.search.toLowerCase())
-      );
+      return this.usersList;
     },
   },
   mounted() {
     this.modal = new bootstrap.Modal("#editUserModal", {});
-    //this.parentModal = new bootstrap.Modal('#testModal', {});
+    this.parentModal = new bootstrap.Modal("#testModal", {});
   },
   methods: {
     async loadData() {

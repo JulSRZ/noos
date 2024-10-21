@@ -42,12 +42,12 @@
                 <td>{{ n.title }}</td>
                 <td>{{ n.description }}</td>
                 <td class="text-center">
-                  <a class="edit mx-2" title="Editar Observación" @click="openEdit(n)" data-bs-toggle="modal"
+                  <a class="edit mx-2" title="Editar observación" @click="openEdit(n)" data-bs-toggle="modal"
                     data-bs-target="#editNoteModal">
-                    <fa icon="user-edit" />
+                    <fa icon="pen-to-square" />
                   </a>
-                  <a class="delete mx-2" title="Eliminar Observación" @click="delNote(n)">
-                    <fa icon="user-minus" />
+                  <a class="delete mx-2" title="Eliminar observación" @click="delNote(n)">
+                    <fa icon="trash-can" />
                   </a>
                 </td>
               </tr>

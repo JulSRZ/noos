@@ -11,7 +11,7 @@
           </div>
           <div class="card-body">
             <p class="card-text">
-              Aquí pordrá agregar todos los usuarios administradores, docentes,
+              Agregar todos los usuarios administradores, docentes,
               padres y estudiantes que necesite para el sistema.
             </p>
             <hr>
@@ -32,7 +32,7 @@
           </div>
           <div class="card-body">
             <p class="card-text">
-              Aquí pordrá administrar todos los usuarios administradores, docentes, padres
+              Administrar todos los usuarios administradores, docentes, padres
               y estudiantes que posee el sistema.
             </p>
             <hr>

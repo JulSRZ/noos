@@ -14,6 +14,7 @@
 <script>
 import { auth, googleProvider } from "@/firebase/init";
 import { signInWithPopup, browserSessionPersistence, setPersistence } from "firebase/auth";
+import UserServices from "@/common/services/user/UsersServices.js";
 
 export default {
   name: "AuthenticationComponent",
@@ -21,14 +22,29 @@ export default {
     googleSignIn() {
       setPersistence(auth, browserSessionPersistence)
         .then(() => {
-          return signInWithPopup(auth, googleProvider).then(() =>
-            this.$router.push({ path: "dashboard" })
-          );
+          return signInWithPopup(auth, googleProvider).then((result) => {
+            const user = result.user;
+            this.createUser(user);
+          });
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
         });
+    },
+    async createUser(googleUser) {
+      const userByUid = await UserServices.getUserByUid(googleUser?.uid);
+      if (userByUid.empty) {
+        const user = {
+          uid: googleUser.uid,
+          name: googleUser.displayName,
+          email: googleUser.email,
+          phone: googleUser.phoneNumber,
+        };
+
+        await UserServices.create(user);
+      }
+      this.$router.push({ path: "dashboard" })
     },
   },
 };

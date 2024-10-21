@@ -16,7 +16,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-if="noosUser?.role">
           <li class="nav-item">
             <router-link class="nav-link mx-2" :to="{ path: 'users' }">
               <fa icon="users" /> Usuarios</router-link
@@ -40,7 +40,7 @@
         </ul>
         <section class="d-flex">
           <section
-            style="color: black; border: none; top: -12px; right: -38px; position: absolute"
+            style="color: black; border: none; top: -16px; right: -46px; position: absolute"
           >
             <div class="btn-group">
               <button
@@ -49,8 +49,9 @@
                 aria-expanded="false"
               >
                 <img class="profile-image" :src="sessionUser.photoURL" width="38" height="38" />
+                <span style="position: absolute; right: 52px; top: 54px; font-family: Arial; font-size: 14px; color: dimgray">{{sessionUser.displayName.split(' ')[0]}}</span>
               </button>
-              <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" style="position: absolute; top: 58px; right: 34px">
+              <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu" style="position: absolute; top: 58px; right: 42px">
                 <li>
                   <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#accountModal">
                     <fa icon="user" width="12" height="12" style="color: #5C626C" /> <label style="margin-left: 4px; color: #5C626C"> Cuenta </label>
@@ -124,7 +125,7 @@ export default {
     this.modal = new bootstrap.Modal("#accountModal", {});
   },
   computed: {
-    ...mapState(["sessionUser"]),
+    ...mapState(["sessionUser", "noosUser"]),
   },
   methods: {
     googleSignOut() {

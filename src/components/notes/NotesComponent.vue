@@ -11,7 +11,7 @@
             </div>
             <div class="card-body">
               <p class="card-text">
-                Aquí pordrá agregar todas todas las observaciones de los estudiantes.
+                Agregar todas todas las observaciones de los estudiantes.
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:
@@ -31,7 +31,7 @@
             </div>
             <div class="card-body">
               <p class="card-text">
-                Aquí pordrá administrar todas las observaciones de los estudiantes.
+                Administrar todas las observaciones de los estudiantes.
               </p>
               <hr>
               <router-link class="btn btn-outline-dark" style="color:
