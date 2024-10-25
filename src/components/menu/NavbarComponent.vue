@@ -17,22 +17,22 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0" v-if="noosUser?.role">
-          <li class="nav-item">
+          <li class="nav-item" v-if="noosUser?.role?.id === 1">
             <router-link class="nav-link mx-2" :to="{ path: 'users' }">
               <fa icon="users" /> Usuarios</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="noosUser?.role?.id !== 2">
             <router-link class="nav-link mx-2" :to="{ path: 'notes' }">
               <fa icon="book" /> Observador</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="noosUser?.role?.id !== 2">
             <router-link class="nav-link mx-2" :to="{ path: 'homeworks' }">
               <fa icon="newspaper" /> Tareas</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="noosUser?.role?.id !== 3 && noosUser?.role?.id !== 5">
             <router-link class="nav-link mx-2" :to="{ path: 'financial' }">
               <fa icon="money-bill-transfer" /> Financiero</router-link
             >
