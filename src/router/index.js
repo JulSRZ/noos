@@ -1,4 +1,3 @@
-/*eslint-disable */
 import { createRouter, createWebHistory } from "vue-router";
 import { isAuthenticated } from "../common/hooks/auth";
 import store from '../store';
@@ -153,7 +152,7 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach(async (to, next) => {
+router.beforeEach(async (to, form, next) => {
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
   const requiresRole = to.matched.some((record) => record.meta.requiresRole);
   const userAuthenticated = await isAuthenticated();
