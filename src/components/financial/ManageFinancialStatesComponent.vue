@@ -72,12 +72,12 @@
                                 </td>
                                 <td class="text-center">
                                     <section v-if="fState.state.code !== 'PAID'">
-                                        <a class="edit mx-2" title="Editar Cuenta"
+                                        <a v-if="noosUser?.role?.id === 2" class="edit mx-2" title="Editar Cuenta"
                                             @click="openEdit(fState, fState.studentsBill)" data-bs-toggle="modal"
                                             data-bs-target="#editUserModal">
                                             <fa icon="pen-to-square" />
                                         </a>
-                                        <a class="delete mx-2" title="Eliminar Cuenta"
+                                        <a v-if="noosUser?.role?.id === 2" class="delete mx-2" title="Eliminar Cuenta"
                                             @click="delFinancialState(fState)">
                                             <fa icon="trash-can" />
                                         </a>

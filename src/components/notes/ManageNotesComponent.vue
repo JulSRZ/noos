@@ -32,7 +32,7 @@
                 <th scope="col">Curso</th>
                 <th scope="col">Título</th>
                 <th scope="col">Descripción</th>
-                <th scope="col">Acción</th>
+                <th scope="col" v-if="noosUser?.role?.id === 3">Acción</th>
               </tr>
             </thead>
             <tbody>
@@ -41,7 +41,7 @@
                 <td>{{ n.course.description }}</td>
                 <td>{{ n.title }}</td>
                 <td>{{ n.description }}</td>
-                <td class="text-center">
+                <td class="text-center" v-if="noosUser?.role?.id === 3">
                   <a class="edit mx-2" title="Editar observación" @click="openEdit(n)" data-bs-toggle="modal"
                     data-bs-target="#editNoteModal">
                     <fa icon="pen-to-square" />
@@ -79,6 +79,7 @@
 import CreateUpdateNotesComponent from './CreateUpdateComponent.vue'
 import NotesServices from '@/common/services/note/NotesServices.js';
 import Swal from 'sweetalert2';
+import { mapState } from "vuex";
 import * as bootstrap from 'bootstrap';
 
 export default {
@@ -102,6 +103,7 @@ export default {
     getList() {
       return this.notesList.filter((item) => item.section?.description?.toLowerCase().includes(this.search.toLowerCase()) || item.course?.description?.toLowerCase().includes(this.search.toLowerCase()));
     },
+    ...mapState(["noosUser"]),
   },
   mounted() {
     this.modal = new bootstrap.Modal('#editNoteModal', {});
