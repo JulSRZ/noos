@@ -44,7 +44,7 @@ export default {
           const errorMessage = error.message;
         });
     },
-    microsoftSignIn() {
+    // microsoftSignIn() {
       // setPersistence(auth, browserSessionPersistence)
       //   .then(() => {
       //     return signInWithPopup(auth, microsoftProvider).then((result) => {
@@ -58,18 +58,20 @@ export default {
       //     const errorCode = error.code;
       //     const errorMessage = error.message;
       //   });
-    },
-    async createUser(user) {
-      const userByUid = await UserServices.getUserByUid(user?.uid);
-      console.log(user, "USERRRRR");
+    // },
+    async createUser(googleUser) {
+      const userByUid = await UserServices.getUserByUid(googleUser?.uid);
+      console.log(googleUser.uid, "USERRRRR");
+      console.log(userByUid.empty, "userByUid.empty");
       if (userByUid.empty) {
+        
         const user = {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          phone: user.phoneNumber,
+          uid: googleUser.uid,
+          name: googleUser.displayName,
+          email: googleUser.email,
+          phone: googleUser.phoneNumber,
         };
-
+        console.log(user, "userByUid.empty IF");
         await UserServices.create(user);
       }
       this.$router.push({ path: "dashboard" });
