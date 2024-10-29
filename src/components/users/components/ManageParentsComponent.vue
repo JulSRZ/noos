@@ -17,7 +17,7 @@
                                 <input type="text" class="form-control" placeholder="Documento del estudiante"
                                     aria-label="Recipient's username" aria-describedby="basic-addon2" id="search"
                                     v-model="search">
-                                <button class="input-group-text search" @click="searhUser()" title="Buscar Estudiante">
+                                <button class="input-group-text search" @click="searhUser()" title="Buscar estudiante">
                                     <fa icon="search" />
                                 </button>
                             </div>
@@ -34,7 +34,7 @@
                                     <a class="add mx-2" title="Agregar" @click="addNewUser()">
                                         <fa icon="thumbs-up" />
                                     </a>
-                                    <a class="delete mx-2" title="No Agregar" @click="resetSearch()">
+                                    <a class="delete mx-2" title="No agregar" @click="resetSearch()">
                                         <fa icon="thumbs-down" />
                                     </a>
                                 </div>
@@ -59,7 +59,7 @@
                                     <td>{{ u?.name }}</td>
                                     <td>{{ u?.course?.description }}</td>
                                     <td v-if="!isViewOnly" class="text-center">
-                                        <a class="delete mx-2" title="Eliminar Usuario" @click="removeUser(u)">
+                                        <a class="delete mx-2" title="Eliminar usuario" @click="removeUser(u)">
                                             <fa icon="user-minus" />
                                         </a>
                                     </td>
@@ -119,13 +119,13 @@ export default {
             } else {
                 if (this.isChanged) {
                     Swal.fire({
-                        title: 'Are you sure?',
-                        text: "This changes won't be save!",
+                        title: 'Seguro?',
+                        text: "Estos cambios no se guardaran!",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#d33',
                         cancelButtonColor: 'DimGray',
-                        confirmButtonText: 'Don\'t save it!'
+                        confirmButtonText: 'Continuar!'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             this.$emit('parentEvent', this.tmpList)
@@ -137,13 +137,13 @@ export default {
         },
         confirm() {
             Swal.fire({
-                title: 'Are you sure?',
-                text: "This changes will be save!",
+                title: 'Seguro?',
+                text: "Estos cambios seran guardados!",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#42b983',
                 cancelButtonColor: 'DimGray',
-                confirmButtonText: 'Yes, save it!'
+                confirmButtonText: 'Si, continuar!'
             }).then((result) => {
                 if (result.isConfirmed) {
                     this.$emit('parentEvent', this.list)

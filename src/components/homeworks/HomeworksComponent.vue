@@ -27,11 +27,11 @@
           <div class="card-header">
             <h5 class="card-title" style="color: #879f2d">
               <fa icon="list-check" />
-              Administrar Tareas
+              {{ getTitleByRole() }} tareas
             </h5>
           </div>
           <div class="card-body">
-            <p class="card-text">Administrar todas las tareas de los estudiantes o curso.</p>
+            <p class="card-text">{{ getTitleByRole() }} todas las tareas de los estudiantes o curso.</p>
             <hr />
             <router-link
               class="btn btn-outline-dark"
@@ -49,11 +49,18 @@
 
 <script>
 import { mapState } from "vuex";
+import store from "../../store/index";
+const noosUser = store.state.noosUser;
 
 export default {
   name: "HomeworksComponent",
   computed: {
     ...mapState(["noosUser"]),
+  },
+  methods: {
+    getTitleByRole() {
+      return noosUser?.role?.id === 4 ? "Visualizar" : "Administrar";
+    },
   },
 };
 </script>

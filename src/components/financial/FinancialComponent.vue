@@ -6,12 +6,13 @@
           <div class="card-header">
             <h5 class="card-title" style="color: #879f2d">
               <fa icon="file-invoice-dollar" />
-              Agregar Factura
+              Agregar estados de cuenta
             </h5>
           </div>
           <div class="card-body">
             <p class="card-text">
-              Agregar todas las facturas de cada acudiente según los hijos que tenga asignados.
+              Agregar todos los estados de cuenta de cada acudiente según los hijos que tenga
+              asignados.
             </p>
             <hr />
             <router-link
@@ -29,12 +30,13 @@
           <div class="card-header">
             <h5 class="card-title" style="color: #879f2d">
               <fa icon="book" />
-              Administrar Estados de Cuenta
+              {{ getTitleByRole() }} estados de cuenta
             </h5>
           </div>
           <div class="card-body">
             <p class="card-text">
-              Administrar todas las facturas de los padres según los hijos que tenga asignados.
+              {{ getTitleByRole() }} todos los estados de cuenta de los padres según los hijos que
+              tenga asignados.
             </p>
             <hr />
             <router-link
@@ -53,11 +55,18 @@
 
 <script>
 import { mapState } from "vuex";
+import store from "../../store/index";
+const noosUser = store.state.noosUser;
 
 export default {
   name: "FinancialComponent",
   computed: {
     ...mapState(["noosUser"]),
+  },
+  methods: {
+    getTitleByRole() {
+      return noosUser?.role?.id === 4 ? "Visualizar" : "Administrar";
+    },
   },
 };
 </script>

@@ -5,7 +5,7 @@
         <router-link class="back" :to="{ path: 'notes' }" title="Regresar">
           <fa icon="arrow-circle-left" />
         </router-link> &nbsp;
-        <strong>{{ titlelb }}</strong>
+        <strong>{{ titleLabel }}</strong>
       </h4>
       <h6 class="card-subtitle text-muted" style="text-align: center;">Recuerde que <i class="req">*</i> son campos
         obligatorios</h6>
@@ -14,10 +14,10 @@
           <section class="row">
             <section class="card">
               <section class="card-body">
-                <h5 class="card-title card-title-noos">Información Curso(s)</h5>
+                <h5 class="card-title card-title-noos">Información involucrados</h5>
                 <section class="row">
                   <section class="col-sm-4">
-                    <label class="form-label" for="sectionList">Secciones <i class="req">*</i></label>
+                    <label class="form-label" for="sectionList">Sección <i class="req">*</i></label>
                     <div class="input-group">
                       <select class="form-select" id="sectionList" v-model="section" required>
                         <option :value="{code: 'ALL', description: 'Todas'}" selected>Todas</option>
@@ -28,7 +28,7 @@
                     </div>
                   </section>
                   <section class="col-sm-4">
-                    <label class="form-label" for="courseList">Cursos</label>
+                    <label class="form-label" for="courseList">Curso</label>
                     <div class="input-group">
                       <select class="form-select" id="courseList" v-model="course" required>
                         <option :value="{code: 'ALL', description: 'Todos'}" selected>Todos</option>
@@ -36,6 +36,27 @@
                           {{ cour.description }}
                         </option>
                       </select>
+                    </div>
+                  </section>
+                  <section class="col-sm" >
+                    <div class="d-grid gap-2 mt-4" style="max-width: 95%">
+                      <button
+                        type="button"
+                        class="btn btn-primary position-relative"
+                        @click="openModal()"
+                      >
+                        <fa :icon="'people-group'" /> &nbsp;
+                        <span>
+                          {{
+                            editNote
+                              ? "Editar estudiantes"
+                              : "Agregar estudiantes"
+                          }}
+                        </span>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                          {{ note?.students ? note?.students.length : 0 }} Asignados
+                        </span>
+                      </button>
                     </div>
                   </section>
                 </section>
@@ -70,34 +91,46 @@
         </section>
         <section class="card-footer" style="background-color: white; text-align: center;">
           <button class="btn btn-outline-success" type="submit">
-            <fa :icon="adminuser ? 'user-plus' : !editNote ? 'plus' : 'edit'" />
-            {{ buttonlb }}
+            <fa :icon="!editNote ? 'plus' : 'edit'" />
+            {{ buttonLabel }}
           </button>
         </section>
       </form>
     </div>
   </div>
+  <manage-parents-component
+    :parents="studentsList"
+    :isViewOnly="false"
+    :isEdit="editNote"
+    @parentEvent="parentEvent($event)"
+  />
 </template>
 
 <script>
+import ManageParentsComponent from "../users/components/ManageParentsComponent.vue";
 import NotesServices from '@/common/services/note/NotesServices.js';
 import coursesList from "@/store/parameters/courses.json";
 import Swal from 'sweetalert2';
 import sectionsList from "@/store/parameters/sections.json";
+import * as bootstrap from "bootstrap";
 
 export default {
   name: 'CreateUpdateNotesComponent',
+  components: {
+    ManageParentsComponent,
+  },
   props: {
     noteData: {},
   },
   emits: ['updateDone'],
   data() {
     return {
-      titlelb: '',
-      buttonlb: '',
-      adminuser: false,
+      titleLabel: '',
+      buttonLabel: '',
       editNote: false,
       updateDoneEmit: null,
+      studentsModal: null,
+      studentsList: [],
       note: {
         id: '',
         section: {
@@ -108,6 +141,7 @@ export default {
           code: '',
           description: '',
         },
+        students: [],
         title: '',
         description: '',
       },
@@ -121,6 +155,9 @@ export default {
       }
     };
   },
+  mounted() {
+    this.studentsModal = new bootstrap.Modal("#parentsModal", {});
+  },
   computed: {
     getSections() {
       return sectionsList;
@@ -132,8 +169,8 @@ export default {
     }
   },
   created() {
-    this.buttonlb = "Agregar observación";
-    this.titlelb = "Agregar una observación";
+    this.buttonLabel = "Agregar observación";
+    this.titleLabel = "Agregar una observación";
   },
   watch: {
     noteData(newValue) {
@@ -141,7 +178,8 @@ export default {
         this.note = { ...newValue };
         this.section = newValue.section;
         this.course = newValue.course;
-        this.buttonlb = "Editar Observación";
+        this.studentsList = newValue.students;
+        this.buttonLabel = "Editar Observación";
         this.editNote = true;
       }
     }
@@ -151,6 +189,13 @@ export default {
       this.note.course = this.course;
       this.note.section = this.section;
       this.send();
+    },
+    openModal() {
+      this.studentsModal.show();
+    },
+    parentEvent(event) {
+      this.note.students = event;
+      this.studentsModal.hide();
     },
     async send() {
       Swal.fire({
@@ -192,6 +237,7 @@ export default {
       this.note.description = '';
       this.note.section = '';
       this.note.course = '';
+      this.studentsList = '';
       this.course = {code: 'ALL', description: 'Todos'};
       this.section = {code: 'ALL', description: 'Todas'};
     }

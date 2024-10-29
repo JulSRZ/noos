@@ -154,65 +154,6 @@
             </div>
           </div>
 
-          <!-- <div class="row mt-3" v-if="!this.editUser">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title card-title-noos">Seguridad</h5>
-                <div class="row">
-                  <div class="col-sm">
-                    <label class="form-label label-title" for="pass">Contraseña</label>
-                    <i class="req">*</i>
-                    <a
-                      id="infoConPop"
-                      tabindex="0"
-                      class="btn btn-sm btn-link infocol"
-                      role="button"
-                      data-toggle="popover"
-                      data-trigger="focus"
-                      style="color: #6c757d"
-                    >
-                      <fa icon="info-circle" />
-                    </a>
-                    <div class="input-group">
-                      <span class="input-group-text">
-                        <fa icon="unlock" />
-                      </span>
-                      <input
-                        type="password"
-                        class="form-control"
-                        id="pass"
-                        autocomplete="off"
-                        minlength="6"
-                        v-model="pass"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="col-sm">
-                    <label class="form-label label-title" for="confpass"
-                      >Confirmar Contraseña</label
-                    >
-                    <i class="req">*</i>
-                    <div class="input-group">
-                      <span class="input-group-text">
-                        <fa icon="lock" />
-                      </span>
-                      <input
-                        type="password"
-                        class="form-control"
-                        id="confpass"
-                        autocomplete="off"
-                        minlength="6"
-                        v-model="confPass"
-                        required
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
-
           <div class="row mt-3">
             <div class="card">
               <div class="card-body">
@@ -376,14 +317,12 @@ export default {
     },
   },
   created() {
-    this.buttonLabel = "Agregar Usuario";
-    this.titleLabel = "Agregar un Usuario";
+    this.buttonLabel = "Agregar usuario";
+    this.titleLabel = "Agregar un usuario";
   },
   mounted() {
     this.parentModal = new bootstrap.Modal("#parentsModal", {});
     this.coursesModal = new bootstrap.Modal("#coursesModal", {});
-
-    //this.updateDoneEmit = defineEmits(["updateDone"]);
 
     new bootstrap.Popover("#infoDirPop", {
       container: "body",
@@ -394,16 +333,6 @@ export default {
       trigger: "focus",
       customClass: "custom-popover",
     });
-
-    // new bootstrap.Popover("#infoConPop", {
-    //   container: "body",
-    //   delay: { show: 200, hide: 200 },
-    //   title: "Parámetros Contraseña",
-    //   content: "Debe tener mínimo 6 caracteres.",
-    //   animation: true,
-    //   trigger: "focus",
-    //   customClass: "custom-popover",
-    // });
   },
   watch: {
     userData(newValue) {
@@ -462,8 +391,6 @@ export default {
     cleanForm() {
       this.user.name = "";
       this.user.email = "";
-      // this.pass = "";
-      // this.confPass = "";
       this.user.doc = "";
       this.user.tdoc = "";
       this.user.phone = "";

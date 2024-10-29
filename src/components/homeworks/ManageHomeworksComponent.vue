@@ -32,7 +32,7 @@
                 <th scope="col">Curso</th>
                 <th scope="col">Título</th>
                 <th scope="col">Descripción</th>
-                <th scope="col" v-if="noosUser?.role?.id === 3">Acción</th>
+                <th scope="col" v-if="noosUser?.role?.id === 3 || noosUser?.role?.id === 1">Acción</th>
               </tr>
             </thead>
             <tbody>
@@ -41,7 +41,7 @@
                 <td>{{ h.course.description ?? 'Todos' }}</td>
                 <td>{{ h.title }}</td>
                 <td>{{ h.description }}</td>
-                <td class="text-center" v-if="noosUser?.role?.id === 3">
+                <td class="text-center" v-if="noosUser?.role?.id === 3 || noosUser?.role?.id === 1">
                   <a class="edit mx-2" title="Editar tareas" @click="openEdit(h)" data-bs-toggle="modal"
                     data-bs-target="#editHomeworkModal">
                     <fa icon="pen-to-square" />

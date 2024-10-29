@@ -6,7 +6,7 @@
           <div class="card-header">
             <h5 class="card-title" style="color: #879f2d">
               <fa icon="notes-medical" />
-              Agregar Observación
+              Agregar observación
             </h5>
           </div>
           <div class="card-body">
@@ -27,11 +27,13 @@
           <div class="card-header">
             <h5 class="card-title" style="color: #879f2d">
               <fa icon="book-open" />
-              Administrar Observaciones
+              {{ getTitleByRole() }} observaciones
             </h5>
           </div>
           <div class="card-body">
-            <p class="card-text">Administrar todas las observaciones de los estudiantes.</p>
+            <p class="card-text">
+              {{ getTitleByRole() }} todas las observaciones de los estudiantes.
+            </p>
             <hr />
             <router-link
               class="btn btn-outline-dark"
@@ -49,11 +51,18 @@
 
 <script>
 import { mapState } from "vuex";
+import store from "../../store/index";
+const noosUser = store.state.noosUser;
 
 export default {
   name: "NotesComponent",
   computed: {
     ...mapState(["noosUser"]),
+  },
+  methods: {
+    getTitleByRole() {
+      return noosUser?.role?.id === 4 ? "Visualizar" : "Administrar";
+    },
   },
 };
 </script>
