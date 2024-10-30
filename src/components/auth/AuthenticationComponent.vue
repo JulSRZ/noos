@@ -34,7 +34,8 @@ export default {
     },
     async createUser(googleUser) {
       const userByUid = await UserServices.getUserByUid(googleUser?.uid);
-      if (userByUid.empty) {
+      const userByEmail = await UserServices.getUserByEmail(googleUser?.email);
+      if (userByUid.empty && userByEmail.empty) {
         const user = {
           uid: googleUser.uid,
           name: googleUser.displayName,
@@ -42,7 +43,21 @@ export default {
           phone: googleUser.phoneNumber,
         };
         await UserServices.create(user);
+      } else {
+        if (!userByEmail.uid) {
+          let us;
+          userByEmail.forEach((user) => {
+            us = user.data();
+          });
+          const updateUser = {
+            ...us,
+            name: googleUser.displayName,
+            uid: googleUser.uid,
+          };
+          await UserServices.update(updateUser);
+        }
       }
+
       this.$router.push({ path: "dashboard" });
     },
   },

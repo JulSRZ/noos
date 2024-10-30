@@ -20,7 +20,6 @@ const store = createStore({
   actions: {
     async fetchSessionUser({ commit }) {
       onAuthStateChanged(auth, async (user) => {
-        console.log(user, "CURRENT USER");
         if (user) {
           await UserServices.getUserByUid(user.uid).then((result) => {
             if (result) {

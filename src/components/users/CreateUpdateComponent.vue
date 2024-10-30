@@ -29,8 +29,8 @@
                         class="form-select"
                         id="docType"
                         v-model="user.tdoc"
+                        :disabled="firstDocType"
                         required
-                        :disabled="editUser == true && !!user?.tdoc"
                       >
                         <option v-for="doc in docTypes" v-bind:key="doc.id" :value="doc">
                           {{ doc.name }}
@@ -51,6 +51,7 @@
                         id="doc"
                         autocomplete="off"
                         v-model="user.doc"
+                        :disabled="firstDoc"
                         required
                       />
                     </div>
@@ -68,7 +69,7 @@
                         id="username"
                         autocomplete="off"
                         v-model="user.name"
-                        :disabled="editUser == true"
+                        :disabled="editUser"
                         required
                       />
                     </div>
@@ -278,6 +279,8 @@ export default {
       buttonLabel: "",
       adminUser: false,
       editUser: false,
+      firstDocType: false,
+      firstDoc: false,
       pass: "",
       confPass: "",
       parentModal: null,
@@ -337,10 +340,15 @@ export default {
   watch: {
     userData(newValue) {
       if (newValue) {
+        console.log(newValue, 'newValue')
         this.user = { ...newValue };
         this.parentsList = newValue?.parents;
         this.editUser = true;
         this.buttonLabel = "Editar usuario";
+        if (newValue?.tdoc?.id) this.firstDocType = true;
+        if (newValue?.doc) this.firstDoc = true;
+        console.log(this.firstDocType, 'this.firstDocType')
+        console.log(this.firstDoc, 'this.firstDoc')
       }
     },
   },

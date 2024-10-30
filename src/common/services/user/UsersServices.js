@@ -14,6 +14,11 @@ class UserServices {
     return await getDocs(q);
   }
 
+  async getUserByEmail(email) {
+    const q = query(userCollection, where('email', '==', email));
+    return await getDocs(q);
+  }
+
   async getStudentByDoc(doc) {
     const q = query(userCollection, where('doc', '==', doc));
     return await getDocs(q);
